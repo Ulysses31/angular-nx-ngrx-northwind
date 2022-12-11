@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {},
+  "extensions": {
+    "recommendations": [
+      "bierner.emojisense",
+      "stevencl.adddoccomments",
+      "angular.ng-template",
+      "cyrilletuzi.angular-schematics",
+      "johnpapa.angular2",
+      "natewallace.angular2-inline",
+      "angulardoc.angulardoc-vscode",
+      "formulahendry.auto-close-tag",
+      "steoates.autoimport",
+      "formulahendry.auto-rename-tag",
+      "teabyii.ayu",
+      "dzannotti.vscode-babel-coloring",
+      "mgmcdermott.vscode-language-babel",
+      "adpyke.codesnap",
+      "andrew-codes.cypress-snippets",
+      "ms-azuretools.vscode-docker",
+      "mikestead.dotenv",
+      "editorconfig.editorconfig",
+      "dbaeumer.vscode-eslint",
+      "amandeepmittal.expressjs",
+      "mhutchie.git-graph",
+      "donjayamanne.githistory",
+      "github.vscode-pull-request-github",
+      "eamodio.gitlens",
+      "gitpod.gitpod-theme",
+      "ecmel.vscode-html-css",
+      "xabikos.javascriptsnippets",
+      "dbaeumer.jshint",
+      "ritwickdey.liveserver",
+      "ms-vsliveshare.vsliveshare",
+      "ms-vsliveshare.vsliveshare-audio",
+      "yzhang.markdown-all-in-one",
+      "pkief.material-icon-theme",
+      "hardikpthv.ngrxsnippets",
+      "piyushvscode.nodejs-snippets",
+      "nrwl.angular-console",
+      "christian-kohler.path-intellisense",
+      "esbenp.prettier-vscode",
+      "2gua.rainbow-brackets",
+      "humao.rest-client",
+      "pkosta2006.rxjs-snippets",
+      "wayou.vscode-todo-highlight",
+      "gruntfuggly.todo-tree",
+      "rbbit.typescript-hero",
+      "gogocrow.webpack-snippets",
+      "dotjoshjohnson.xml"
+    ]
+  }
+}
+
