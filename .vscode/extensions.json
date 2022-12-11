@@ -45,7 +45,7 @@
     "gruntfuggly.todo-tree",
     "rbbit.typescript-hero",
     "gogocrow.webpack-snippets",
-    "dotjoshjohnson.xml"
+    "dotjoshjohnson.xml",
+    "firsttris.vscode-jest-runner"
   ]
 }
-
