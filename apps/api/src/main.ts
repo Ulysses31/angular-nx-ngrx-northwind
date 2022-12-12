@@ -4,25 +4,27 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 
-import * as mysql from 'mysql';
-import sqlConfig from './app/db.config.js';
+import employeeRouter from './app/routes/employee-route.js';
+
+// import * as mysql from 'mysql';
+// import sqlConfig from './app/db.config.js';
 
 const app = express();
 
 // ### MySQL Connection  ##############################
-console.log(sqlConfig);
-
-const connection = mysql.createConnection({
-  host: sqlConfig.host,
-  user: sqlConfig.user,
-  password: sqlConfig.password,
-  database: sqlConfig.db
-});
-
-connection.connect((error) => {
-  if (error) throw error;
-  console.log('Successfully connected to the database.');
-});
+// console.log(sqlConfig);
+//
+// const connection = mysql.createConnection({
+//   host: sqlConfig.host,
+//   user: sqlConfig.user,
+//   password: sqlConfig.password,
+//   database: sqlConfig.db
+// });
+//
+// connection.connect((error) => {
+//   if (error) throw error;
+//   console.log('Successfully connected to the database.');
+// });
 // ### MySQL Connection  ##############################
 
 app.use(cookieParser());
@@ -48,7 +50,6 @@ app.use((req, res, next) => {
     // console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
     // console.log(`Ip: ${JSON.stringify(req.ip)}`);
   }
-
   if (res) {
     //  // console.log(res);
     res.on('finish', () => {
@@ -60,24 +61,26 @@ app.use((req, res, next) => {
      //         headers: res['_header'],
      //         body: res.json
      //       })}`);
-
       console.log({
         statusCode: res.statusCode,
         statusMessage: res.statusMessage,
         headers: res['_header'],
         pid: process.pid,
+        pTitle: process.title,
         memory: process.memoryUsage(),
+        cpuUsage: process.cpuUsage(),
         uptime: process.uptime()
       });
     });
   }
-
   next();
 });
 
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
+
+app.use('/employee', employeeRouter);
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {
