@@ -8,9 +8,9 @@ const connection = mysql.createConnection({
   database: sqlConfig.db
 });
 
-connection.connect((error) => {
+connection.connect(async (error) => {
   if (error) throw error;
-  console.log('Successfully connected to the database.');
+  // console.log('Successfully connected to the database.');
 });
 
 export default connection;

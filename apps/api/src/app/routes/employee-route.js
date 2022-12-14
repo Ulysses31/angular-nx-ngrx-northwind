@@ -51,25 +51,26 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee({
-    EmployeeID: '10',
-    LastName: 'Chris',
-    FirstName: 'Iordanidis',
-    Title: 'Software Engineer',
-    TitleOfCourtesy: 'Mr',
-    BirthDate: '02/08/1978',
-    HireDate: '01/11/2021',
-    Address: 'Kisseos 12',
-    City: 'Thessaloniki',
-    Region: 'Chortiatis',
-    PostalCode: '57010',
-    Country: 'Greece',
-    HomePhone: '2310-902382',
-    Extension: '',
-    Notes: '',
-    ReportsTo: '1',
-    PhotoPath: ''
-  });
+  var employee = new Employee(req.body);
+  // var employee = new Employee({
+  //   EmployeeID: '10',
+  //   LastName: 'Chris',
+  //   FirstName: 'Iordanidis',
+  //   Title: 'Software Engineer',
+  //   TitleOfCourtesy: 'Mr',
+  //   BirthDate: '02/08/1978',
+  //   HireDate: '01/11/2021',
+  //   Address: 'Kisseos 12',
+  //   City: 'Thessaloniki',
+  //   Region: 'Chortiatis',
+  //   PostalCode: '57010',
+  //   Country: 'Greece',
+  //   HomePhone: '2310-902382',
+  //   Extension: '',
+  //   Notes: '',
+  //   ReportsTo: '1',
+  //   PhotoPath: ''
+  // });
 
   if (!req.body) {
     res.status(400).send({

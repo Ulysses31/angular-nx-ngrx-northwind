@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import sql from '../db';
 
 class Employee {
@@ -53,7 +54,7 @@ class Employee {
         result(null, err);
         return;
       }
-      console.log('Employees: ', res);
+      // console.log('Employees: ', res);
       result(null, res);
     });
   }
@@ -87,7 +88,7 @@ class Employee {
         return;
       }
 
-      console.log('Employee: ', res);
+      // console.log('Employee: ', res);
 
       if (res.length === 0) {
         result({ kind: 'not_found' }, null);
@@ -98,21 +99,27 @@ class Employee {
   }
 
   create(employee, result) {
+    employee.BirthDate = moment(employee.BirthDate).format('yyyy-MM-DD');
+    employee.HireDate = moment(employee.HireDate).format('yyyy-MM-DD');
+
     sql.query('insert into employees set ?', employee, (err, res) => {
       if (err) {
         console.log('error: ', err);
         result(err, null);
         return;
       }
-      console.log('created employee: ', {
-        id: res.insertId,
-        ...employee
-      });
+      // console.log('created employee: ', {
+      //   id: res.insertId,
+      //   ...employee
+      // });
       result(null, { id: res.insertId, ...employee });
     });
   }
 
   update(id, employee, result) {
+    employee.BirthDate = moment(employee.BirthDate).format('yyyy-MM-DD');
+    employee.HireDate = moment(employee.HireDate).format('yyyy-MM-DD');
+
     sql.query(
       `update employees
 			 set
@@ -151,7 +158,7 @@ class Employee {
         employee.Notes,
         employee.ReportsTo,
         employee.PhotoPath,
-        employee.UpdatedAt,
+        moment(new Date()).format('yyyy-MM-DD'),
         id
       ],
       (err, res) => {
@@ -165,10 +172,10 @@ class Employee {
           result({ kind: 'not_found' }, null);
           return;
         }
-        console.log('updated employee: ', {
-          id: id,
-          ...employee
-        });
+        // console.log('updated employee: ', {
+        //   id: id,
+        //   ...employee
+        // });
         result(null, { id: id, ...employee });
       }
     );
@@ -189,7 +196,7 @@ class Employee {
           result({ kind: 'not_found' }, null);
           return;
         }
-        console.log('deleted employee with id: ', id);
+        // console.log('deleted employee with id: ', id);
         result(null, res);
       }
     );

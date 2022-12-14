@@ -61,16 +61,17 @@ app.use((req, res, next) => {
      //         headers: res['_header'],
      //         body: res.json
      //       })}`);
-      console.log({
-        statusCode: res.statusCode,
-        statusMessage: res.statusMessage,
-        headers: res['_header'],
-        pid: process.pid,
-        pTitle: process.title,
-        memory: process.memoryUsage(),
-        cpuUsage: process.cpuUsage(),
-        uptime: process.uptime()
-      });
+
+     // console.log({
+     //    statusCode: res.statusCode,
+     //    statusMessage: res.statusMessage,
+     //    headers: res['_header'],
+     //    pid: process.pid,
+     //    pTitle: process.title,
+     //    memory: process.memoryUsage(),
+     //    cpuUsage: process.cpuUsage(),
+     //    uptime: process.uptime()
+     //  });
     });
   }
   next();
@@ -87,3 +88,5 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
+
+module.exports = app;
