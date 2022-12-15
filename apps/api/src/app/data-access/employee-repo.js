@@ -52,7 +52,7 @@ class Employee {
       if (err) {
         console.log('error: ', err);
         result(null, err);
-        return;
+        throw err;
       }
       // console.log('Employees: ', res);
       result(null, res);
@@ -85,7 +85,7 @@ class Employee {
       if (err) {
         console.log('error: ', err);
         result(null, err);
-        return;
+        throw err;
       }
 
       // console.log('Employee: ', res);
@@ -106,7 +106,7 @@ class Employee {
       if (err) {
         console.log('error: ', err);
         result(err, null);
-        return;
+        throw err;
       }
       // console.log('created employee: ', {
       //   id: res.insertId,
@@ -158,14 +158,14 @@ class Employee {
         employee.Notes,
         employee.ReportsTo,
         employee.PhotoPath,
-        moment(new Date()).format('yyyy-MM-DD'),
+        moment(new Date()).format('yyyy-MM-DD HH-mm-ss'),
         id
       ],
       (err, res) => {
         if (err) {
           console.log('error: ', err);
           result(null, err);
-          return;
+          throw err;
         }
         if (res.affectedRows === 0) {
           // not found Employee with the id
@@ -189,7 +189,7 @@ class Employee {
         if (err) {
           console.log('error: ', err);
           result(null, err);
-          return;
+          throw err;
         }
         if (res.affectedRows === 0) {
           // not found Employee with the id

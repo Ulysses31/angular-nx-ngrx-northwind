@@ -1,21 +1,21 @@
-import Employee from '../data-access/employee-repo';
+import Product from '../data-access/product-repo';
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  var employee = new Employee();
-  employee.browse((err, data) => {
+  var product = new Product();
+  product.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        products: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while retrieving employees.'
+          'Some error occurred while retrieving products.'
       });
     }
     return res.send({
-      employees: data,
+      products: data,
       statusCode: res.statusCode,
       error: ''
     });
@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  var employee = new Employee(this);
+  var product = new Product(this);
   var id = req.params.id;
-  employee.load(id, (err, data) => {
+  product.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
+          products: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Product with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
+          products: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          error: `Error retrieving Product with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employees: data,
+        products: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -51,28 +51,28 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee(req.body);
+  var product = new Product(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      product: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.create(employee, (err, data) => {
+  product.create(product, (err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        products: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while inserting new employee.'
+          'Some error occurred while inserting new product.'
       });
     } else {
       return res.send({
-        employee: data,
+        product: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -82,34 +82,34 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var product = new Product(this);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      product: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.update(id, req.body, (err, data) => {
+  product.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
+          product: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Product with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
+          product: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          error: `Error updating Product with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employee: data,
+        product: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -119,29 +119,25 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
-  employee.delete(id, (err, data) => {
+  var product = new Product(this);
+  product.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
-          });
+        res.status(404).send({
+          product: {},
+          statusCode: res.statusCode,
+          error: `Not found Product with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
-          });
+        res.status(500).send({
+          product: {},
+          statusCode: res.statusCode,
+          error: `Could not delete Product with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({
-        employee: data,
+        product: data,
         statusCode: res.statusCode,
         error: ''
       });

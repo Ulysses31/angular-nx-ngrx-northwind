@@ -1,21 +1,21 @@
-import Employee from '../data-access/employee-repo';
+import Order from '../data-access/order-repo';
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  var employee = new Employee();
-  employee.browse((err, data) => {
+  var order = new Order();
+  order.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        orders: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while retrieving employees.'
+          'Some error occurred while retrieving orders.'
       });
     }
     return res.send({
-      employees: data,
+      orders: data,
       statusCode: res.statusCode,
       error: ''
     });
@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  var employee = new Employee(this);
+  var order = new Order(this);
   var id = req.params.id;
-  employee.load(id, (err, data) => {
+  order.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
+          orders: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Order with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
+          orders: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          error: `Error retrieving Order with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employees: data,
+        orders: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -51,28 +51,28 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee(req.body);
+  var order = new Order(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      order: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.create(employee, (err, data) => {
+  order.create(order, (err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        orders: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while inserting new employee.'
+          'Some error occurred while inserting new order.'
       });
     } else {
       return res.send({
-        employee: data,
+        order: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -82,34 +82,34 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var order = new Order(this);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      order: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.update(id, req.body, (err, data) => {
+  order.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
+          order: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Order with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
+          order: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          error: `Error updating Order with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employee: data,
+        order: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -119,29 +119,25 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
-  employee.delete(id, (err, data) => {
+  var order = new Order(this);
+  order.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
-          });
+        res.status(404).send({
+          order: {},
+          statusCode: res.statusCode,
+          error: `Not found Order with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
-          });
+        res.status(500).send({
+          order: {},
+          statusCode: res.statusCode,
+          error: `Could not delete Order with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({
-        employee: data,
+        order: data,
         statusCode: res.statusCode,
         error: ''
       });

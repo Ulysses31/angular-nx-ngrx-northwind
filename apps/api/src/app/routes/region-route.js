@@ -1,21 +1,21 @@
-import Employee from '../data-access/employee-repo';
+import Region from '../data-access/region-repo';
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  var employee = new Employee();
-  employee.browse((err, data) => {
+  var region = new Region();
+  region.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        regions: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while retrieving employees.'
+          'Some error occurred while retrieving regions.'
       });
     }
     return res.send({
-      employees: data,
+      regions: data,
       statusCode: res.statusCode,
       error: ''
     });
@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  var employee = new Employee(this);
+  var region = new Region(this);
   var id = req.params.id;
-  employee.load(id, (err, data) => {
+  region.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
+          regions: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Region with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
+          regions: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          error: `Error retrieving Region with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employees: data,
+        regions: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -51,28 +51,28 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee(req.body);
+  var region = new Region(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      region: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.create(employee, (err, data) => {
+  region.create(region, (err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        regions: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while inserting new employee.'
+          'Some error occurred while inserting new region.'
       });
     } else {
       return res.send({
-        employee: data,
+        region: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -82,34 +82,34 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var region = new Region(this);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      region: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.update(id, req.body, (err, data) => {
+  region.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
+          region: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Region with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
+          region: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          error: `Error updating Region with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employee: data,
+        region: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -119,29 +119,25 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
-  employee.delete(id, (err, data) => {
+  var region = new Region(this);
+  region.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
-          });
+        res.status(404).send({
+          region: {},
+          statusCode: res.statusCode,
+          error: `Not found Region with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
-          });
+        res.status(500).send({
+          region: {},
+          statusCode: res.statusCode,
+          error: `Could not delete Region with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({
-        employee: data,
+        region: data,
         statusCode: res.statusCode,
         error: ''
       });

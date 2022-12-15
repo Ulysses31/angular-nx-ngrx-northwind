@@ -1,21 +1,21 @@
-import Employee from '../data-access/employee-repo';
+import Category from '../data-access/category-repo';
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  var employee = new Employee();
-  employee.browse((err, data) => {
+  var category = new Category();
+  category.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        categories: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while retrieving employees.'
+          'Some error occurred while retrieving categories.'
       });
     }
     return res.send({
-      employees: data,
+      categories: data,
       statusCode: res.statusCode,
       error: ''
     });
@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  var employee = new Employee(this);
+  var category = new Category(this);
   var id = req.params.id;
-  employee.load(id, (err, data) => {
+  category.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
+          categories: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Category with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
+          categories: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          error: `Error retrieving Category with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employees: data,
+        categories: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -51,28 +51,28 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee(req.body);
+  var category = new Category(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      category: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.create(employee, (err, data) => {
+  category.create(category, (err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        categories: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while inserting new employee.'
+          'Some error occurred while inserting new category.'
       });
     } else {
       return res.send({
-        employee: data,
+        category: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -82,34 +82,34 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var category = new Category(this);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      category: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.update(id, req.body, (err, data) => {
+  category.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
+          category: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found Category with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
+          category: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          error: `Error updating Category with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employee: data,
+        category: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -119,29 +119,29 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
-  employee.delete(id, (err, data) => {
+  var category = new Category(this);
+  category.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res
           .status(404)
           .send({
-            employee: {},
+            category: {},
             statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
+            error: `Not found Category with id ${req.params.id}.`
           });
       } else {
         res
           .status(500)
           .send({
-            employee: {},
+            category: {},
             statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
+            error: `Could not delete Category with id ${req.params.id}`
           });
       }
     } else {
       return res.send({
-        employee: data,
+        category: data,
         statusCode: res.statusCode,
         error: ''
       });

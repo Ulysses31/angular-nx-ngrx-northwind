@@ -1,21 +1,21 @@
-import Employee from '../data-access/employee-repo';
+import EmployeeTerritory from '../data-access/employee-territory-repo';
 import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  var employee = new Employee();
-  employee.browse((err, data) => {
+  var employeeTerritory = new EmployeeTerritory();
+  employeeTerritory.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        employeeTerritories: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while retrieving employees.'
+          'Some error occurred while retrieving employeeTerritories.'
       });
     }
     return res.send({
-      employees: data,
+      employeeTerritories: data,
       statusCode: res.statusCode,
       error: ''
     });
@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  var employee = new Employee(this);
+  var employeeTerritory = new EmployeeTerritory(this);
   var id = req.params.id;
-  employee.load(id, (err, data) => {
+  employeeTerritory.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
+          employeeTerritories: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found EmployeeTerritory with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
+          employeeTerritories: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          error: `Error retrieving EmployeeTerritory with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employees: data,
+        employeeTerritories: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -51,28 +51,28 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  var employee = new Employee(req.body);
+  var employeeTerritory = new EmployeeTerritory(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      employeeTerritory: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.create(employee, (err, data) => {
+  employeeTerritory.create(employeeTerritory, (err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
+        employeeTerritories: [],
         statusCode: res.statusCode,
         error:
           err.message ||
-          'Some error occurred while inserting new employee.'
+          'Some error occurred while inserting new employeeTerritory.'
       });
     } else {
       return res.send({
-        employee: data,
+        employeeTerritory: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -82,34 +82,34 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var employeeTerritory = new EmployeeTerritory(this);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
+      employeeTerritory: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
     });
   }
 
-  employee.update(id, req.body, (err, data) => {
+  employeeTerritory.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
+          employeeTerritory: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          error: `Not found EmployeeTerritory with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
+          employeeTerritory: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          error: `Error updating EmployeeTerritory with id ${req.params.id}`
         });
       }
     } else {
       return res.send({
-        employee: data,
+        employeeTerritory: data,
         statusCode: res.statusCode,
         error: ''
       });
@@ -119,29 +119,29 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
-  employee.delete(id, (err, data) => {
+  var employeeTerritory = new EmployeeTerritory(this);
+  employeeTerritory.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res
           .status(404)
           .send({
-            employee: {},
+            employeeTerritory: {},
             statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
+            error: `Not found EmployeeTerritory with id ${req.params.id}.`
           });
       } else {
         res
           .status(500)
           .send({
-            employee: {},
+            employeeTerritory: {},
             statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
+            error: `Could not delete EmployeeTerritory with id ${req.params.id}`
           });
       }
     } else {
       return res.send({
-        employee: data,
+        employeeTerritory: data,
         statusCode: res.statusCode,
         error: ''
       });

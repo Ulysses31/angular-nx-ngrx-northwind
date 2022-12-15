@@ -4,7 +4,18 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 
-import employeeRouter from './app/routes/employee-route.js';
+import employeeRouter from './app/routes/employee-route';
+import categoryRouter from './app/routes/category-route';
+import customerRouter from './app/routes/customer-route';
+import employeeTerritoryRouter from './app/routes/employee-territory-route';
+import orderDetailRouter from './app/routes/order-detail-route';
+import orderRouter from './app/routes/order-route';
+import productRouter from './app/routes/product-route';
+import regionRouter from './app/routes/region-route';
+import shipperRouter from './app/routes/shipper-route';
+import supplierRouter from './app/routes/supplier-route';
+import territoryRouter from './app/routes/territory-route';
+import userRouter from './app/routes/user-route';
 
 // import * as mysql from 'mysql';
 // import sqlConfig from './app/db.config.js';
@@ -53,25 +64,24 @@ app.use((req, res, next) => {
   if (res) {
     //  // console.log(res);
     res.on('finish', () => {
-     // console.log(`
-     // 		  Response:
-     //       ${JSON.stringify({
-     //         statusCode: res.statusCode,
-     //         statusMessage: res.statusMessage,
-     //         headers: res['_header'],
-     //         body: res.json
-     //       })}`);
-
-     // console.log({
-     //    statusCode: res.statusCode,
-     //    statusMessage: res.statusMessage,
-     //    headers: res['_header'],
-     //    pid: process.pid,
-     //    pTitle: process.title,
-     //    memory: process.memoryUsage(),
-     //    cpuUsage: process.cpuUsage(),
-     //    uptime: process.uptime()
-     //  });
+      // console.log(`
+      // 		  Response:
+      //       ${JSON.stringify({
+      //         statusCode: res.statusCode,
+      //         statusMessage: res.statusMessage,
+      //         headers: res['_header'],
+      //         body: res.json
+      //       })}`);
+      // console.log({
+      //    statusCode: res.statusCode,
+      //    statusMessage: res.statusMessage,
+      //    headers: res['_header'],
+      //    pid: process.pid,
+      //    pTitle: process.title,
+      //    memory: process.memoryUsage(),
+      //    cpuUsage: process.cpuUsage(),
+      //    uptime: process.uptime()
+      //  });
     });
   }
   next();
@@ -82,6 +92,17 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/employee', employeeRouter);
+app.use('/category', categoryRouter);
+app.use('/customer', customerRouter);
+app.use('/employee-territory', employeeTerritoryRouter);
+app.use('/order', orderRouter);
+app.use('/order-detail', orderDetailRouter);
+app.use('/product', productRouter);
+app.use('/region', regionRouter);
+app.use('/shipper', shipperRouter);
+app.use('/supplier', supplierRouter);
+app.use('/territory', territoryRouter);
+app.use('/user', userRouter);
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {

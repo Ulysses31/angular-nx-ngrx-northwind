@@ -1,6 +1,5 @@
 const app = require('../../main');
 const request = require('supertest');
-const moment = require('moment');
 import Employee from '../data-access/employee-repo';
 
 describe('Browse Endpoint', () => {
