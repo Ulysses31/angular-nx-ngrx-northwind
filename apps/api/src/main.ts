@@ -90,15 +90,6 @@ app.use((req, res, next) => {
   next();
 });
 
-/**
- * @openapi
- * /:
- *   get:
- *     description: Welcome to swagger-jsdoc!
- *     responses:
- *       200:
- *         description: Returns a mysterious string.
- */
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
@@ -121,7 +112,7 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'Northwind Nx Express API Server',
-      version: '0.1.0',
+      version: 'v1.0',
       description:
         'This is a simple CRUD API application made with Express and documented with Swagger',
       license: {
@@ -215,7 +206,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Category'],
@@ -301,7 +293,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/customer': {
@@ -374,7 +367,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Customer'],
@@ -460,7 +454,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/employee': {
@@ -533,7 +528,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Employee'],
@@ -619,7 +615,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/order-detail': {
@@ -692,7 +689,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Order Detail'],
@@ -778,7 +776,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/order': {
@@ -851,7 +850,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Order'],
@@ -937,7 +937,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/product': {
@@ -1010,7 +1011,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Product'],
@@ -1096,7 +1098,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/region': {
@@ -1169,7 +1172,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Region'],
@@ -1255,7 +1259,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/shipper': {
@@ -1328,7 +1333,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Shipper'],
@@ -1414,7 +1420,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/supplier': {
@@ -1487,7 +1494,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Supplier'],
@@ -1573,7 +1581,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/territory': {
@@ -1646,7 +1655,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['Territory'],
@@ -1732,7 +1742,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/user': {
@@ -1805,7 +1816,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         post: {
           tags: ['User'],
@@ -1891,7 +1903,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/category/{id}': {
@@ -1975,7 +1988,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Category'],
@@ -2072,7 +2086,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Category'],
@@ -2154,7 +2169,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/customer/{id}': {
@@ -2238,7 +2254,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Customer'],
@@ -2335,7 +2352,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Customer'],
@@ -2417,7 +2435,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/employee/{id}': {
@@ -2501,7 +2520,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Employee'],
@@ -2598,7 +2618,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Employee'],
@@ -2680,7 +2701,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/order-detail/{id}': {
@@ -2764,7 +2786,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Order Detail'],
@@ -2861,7 +2884,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Order Detail'],
@@ -2943,7 +2967,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/order/{id}': {
@@ -3027,7 +3052,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Order'],
@@ -3124,7 +3150,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Order'],
@@ -3206,7 +3233,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/product/{id}': {
@@ -3290,7 +3318,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Product'],
@@ -3387,7 +3416,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Product'],
@@ -3469,7 +3499,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/region/{id}': {
@@ -3553,7 +3584,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Region'],
@@ -3650,7 +3682,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Region'],
@@ -3732,7 +3765,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/shipper/{id}': {
@@ -3816,7 +3850,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Shipper'],
@@ -3913,7 +3948,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Shipper'],
@@ -3995,7 +4031,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/supplier/{id}': {
@@ -4079,7 +4116,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Supplier'],
@@ -4176,7 +4214,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Supplier'],
@@ -4258,7 +4297,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/territory/{id}': {
@@ -4342,7 +4382,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['Territory'],
@@ -4439,7 +4480,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['Territory'],
@@ -4521,7 +4563,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       },
       '/user/{id}': {
@@ -4605,7 +4648,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         put: {
           tags: ['User'],
@@ -4702,7 +4746,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         },
         delete: {
           tags: ['User'],
@@ -4784,7 +4829,8 @@ const options = {
                 }
               }
             }
-          }
+          },
+          security: [{ Authorization: [] }]
         }
       }
     },
@@ -5234,6 +5280,15 @@ const options = {
             }
           }
         }
+      },
+      securitySchemes: {
+        JWT: {
+          type: 'apiKey',
+          description:
+            'Type into the textbox: Bearer {your JWT token}.',
+          name: 'Authorization',
+          in: 'header'
+        }
       }
     },
     tags: [
@@ -5324,6 +5379,11 @@ const options = {
           description: 'Find out more',
           url: 'http://swagger.io'
         }
+      }
+    ],
+    security: [
+      {
+        JWT: []
       }
     ]
   },
