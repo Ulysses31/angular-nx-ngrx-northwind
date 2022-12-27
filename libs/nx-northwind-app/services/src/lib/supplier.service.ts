@@ -12,4 +12,3 @@ export class SupplierService extends BaseService<SupplierDto> {
     console.log('SupplierService constructor...');
   }
 }
-

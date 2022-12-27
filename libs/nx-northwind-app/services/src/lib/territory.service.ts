@@ -12,4 +12,3 @@ export class TerritoryService extends BaseService<TerritoryDto> {
     console.log('TerritoryService constructor...');
   }
 }
-

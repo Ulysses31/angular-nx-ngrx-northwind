@@ -9,4 +9,3 @@ export interface IBaseService<TModel> {
   update(id: string, dto: TModel): Observable<TModel>;
   delete(id: string): Observable<void>;
 }
-

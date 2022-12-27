@@ -12,4 +12,3 @@ export interface ProductDto extends BaseDto {
   reorderLevel?: null | string;
   discontinued: boolean;
 }
-

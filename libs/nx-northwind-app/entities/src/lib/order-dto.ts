@@ -16,4 +16,3 @@ export interface OrderDto extends BaseDto {
   shipPostalCode?: null | string;
   shipCountry?: null | string;
 }
-

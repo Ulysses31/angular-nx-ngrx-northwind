@@ -5,4 +5,3 @@ export interface ShipperDto extends BaseDto {
   companyName?: null | string;
   phone?: null | string;
 }
-

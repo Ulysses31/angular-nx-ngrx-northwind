@@ -64,4 +64,3 @@ export class BaseService<TModel> implements IBaseService<TModel> {
     );
   }
 }
-

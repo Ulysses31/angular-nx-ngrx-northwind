@@ -5,4 +5,3 @@ export interface TerritoryDto extends BaseDto {
   territoryDescription?: null | string;
   regionID?: null | string;
 }
-

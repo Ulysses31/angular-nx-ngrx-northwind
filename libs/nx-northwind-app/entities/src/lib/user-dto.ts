@@ -8,4 +8,3 @@ export interface UserDto extends BaseDto {
   sccess_Token?: null | string;
   refresh_Token?: null | string;
 }
-

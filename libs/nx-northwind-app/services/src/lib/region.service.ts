@@ -12,4 +12,3 @@ export class RegionService extends BaseService<RegionDto> {
     console.log('RegionService constructor...');
   }
 }
-

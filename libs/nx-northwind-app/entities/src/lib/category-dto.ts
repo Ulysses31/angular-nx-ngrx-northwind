@@ -5,4 +5,3 @@ export interface CategoryDto extends BaseDto {
   categoryName?: null | string;
   description?: null | string;
 }
-

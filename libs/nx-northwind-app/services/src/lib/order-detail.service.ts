@@ -12,4 +12,3 @@ export class OrderDetailService extends BaseService<OrderDetailDto> {
     console.log('OrderDetailService constructor...');
   }
 }
-

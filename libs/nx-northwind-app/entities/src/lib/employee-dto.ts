@@ -1,4 +1,4 @@
-import { BaseDto } from "./base-dto";
+import { BaseDto } from './base-dto';
 
 export interface EmployeeDto extends BaseDto {
   employeeID?: null | string;
@@ -19,4 +19,3 @@ export interface EmployeeDto extends BaseDto {
   reportsTo?: null | string;
   photoPath?: null | string;
 }
-

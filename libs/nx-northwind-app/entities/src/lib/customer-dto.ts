@@ -13,4 +13,3 @@ export interface CustomerDto extends BaseDto {
   phone?: null | string;
   fax?: null | string;
 }
-

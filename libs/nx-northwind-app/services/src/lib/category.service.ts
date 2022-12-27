@@ -12,4 +12,3 @@ export class CategoryService extends BaseService<CategoryDto> {
     console.log('CategoryService constructor...');
   }
 }
-

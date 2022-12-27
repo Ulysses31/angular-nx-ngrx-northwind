@@ -7,4 +7,3 @@ export interface OrderDetailDto extends BaseDto {
   quantity?: number;
   discount?: number;
 }
-

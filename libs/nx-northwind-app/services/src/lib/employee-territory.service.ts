@@ -12,4 +12,3 @@ export class EmployeeTerritoryService extends BaseService<EmployeeTerritoryDto> 
     console.log('EmployeeTerritoryService constructor...');
   }
 }
-

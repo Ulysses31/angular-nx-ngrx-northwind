@@ -13,4 +13,3 @@ export interface SupplierDto extends BaseDto {
   fax?: null | string;
   homePage?: null | string;
 }
-

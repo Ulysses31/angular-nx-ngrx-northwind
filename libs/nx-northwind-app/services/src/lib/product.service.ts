@@ -12,4 +12,3 @@ export class ProductService extends BaseService<ProductDto> {
     console.log('ProductService constructor...');
   }
 }
-

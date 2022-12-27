@@ -12,4 +12,3 @@ export class UserService extends BaseService<UserDto> {
     console.log('UserService constructor...');
   }
 }
-

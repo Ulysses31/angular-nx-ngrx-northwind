@@ -11,4 +11,3 @@ export class EmployeeService extends BaseService<EmployeeService> {
     console.log('EmployeeService constructor...');
   }
 }
-
