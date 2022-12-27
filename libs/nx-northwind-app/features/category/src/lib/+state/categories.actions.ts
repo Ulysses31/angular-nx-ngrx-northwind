@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createAction, props } from '@ngrx/store';
 import { CategoriesEntity } from './categories.models';
 
