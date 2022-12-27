@@ -18,6 +18,45 @@
       "@nx-northwind/nx-northwind-app/entities": [
         "libs/nx-northwind-app/entities/src/index.ts"
       ],
+      "@nx-northwind/nx-northwind-app/features/category": [
+        "libs/nx-northwind-app/features/category/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/customer": [
+        "libs/nx-northwind-app/features/customer/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/employee": [
+        "libs/nx-northwind-app/features/employee/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/employee-territory": [
+        "libs/nx-northwind-app/features/employee-territory/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/not-found": [
+        "libs/nx-northwind-app/features/not-found/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/order": [
+        "libs/nx-northwind-app/features/order/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/order-detail": [
+        "libs/nx-northwind-app/features/order-detail/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/product": [
+        "libs/nx-northwind-app/features/product/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/region": [
+        "libs/nx-northwind-app/features/region/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/shipper": [
+        "libs/nx-northwind-app/features/shipper/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/supplier": [
+        "libs/nx-northwind-app/features/supplier/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/territory": [
+        "libs/nx-northwind-app/features/territory/src/index.ts"
+      ],
+      "@nx-northwind/nx-northwind-app/features/user": [
+        "libs/nx-northwind-app/features/user/src/index.ts"
+      ],
       "@nx-northwind/nx-northwind-app/services": [
         "libs/nx-northwind-app/services/src/index.ts"
       ]

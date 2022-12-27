@@ -283,7 +283,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
       }
       .button-pill:hover svg,
       .button-pill:hover {
-        color: rgba(255, 255, 255, 1) !important;
+        /* color: rgba(255, 255, 255, 1) !important; */
       }
       #nx-console:hover {
         background-color: rgba(0, 122, 204, 1);
