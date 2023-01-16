@@ -1,7 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface TerritoryDto extends BaseDto {
-  territoryID?: null | string;
+  territoryID: string;
   territoryDescription?: null | string;
   regionID?: null | string;
 }

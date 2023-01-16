@@ -17,7 +17,7 @@ import { OrderDetailsEffects } from './+state/order-details.effects';
 
     StoreModule.forFeature(
       fromOrderDetails.ORDER_DETAILS_FEATURE_KEY,
-      fromOrderDetails.orderDetailsReducer
+      fromOrderDetails.oderDetailsReducer
     ),
 
     EffectsModule.forFeature([OrderDetailsEffects])

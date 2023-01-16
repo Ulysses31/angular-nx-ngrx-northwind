@@ -1,7 +1,5 @@
+import { CustomerDto } from '@nx-northwind/nx-northwind-app/entities';
 /**
  * Interface for the 'Customers' data
  */
-export interface CustomersEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type CustomersEntity = CustomerDto;

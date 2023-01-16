@@ -19,7 +19,7 @@ import { EmployeeTerritoriesEffects } from './+state/employee-territories.effect
 
     StoreModule.forFeature(
       fromEmployeeTerritories.EMPLOYEE_TERRITORIES_FEATURE_KEY,
-      fromEmployeeTerritories.employeeTerritoriesReducer
+      fromEmployeeTerritories.employeesTerritoriesReducer
     ),
 
     EffectsModule.forFeature([EmployeeTerritoriesEffects])

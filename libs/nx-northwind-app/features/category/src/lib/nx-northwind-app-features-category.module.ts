@@ -12,7 +12,6 @@ import { CategoriesEffects } from './+state/categories.effects';
 @NgModule({
   imports: [
     CommonModule,
-
     RouterModule.forChild(nxNorthwindAppFeaturesCategoryRoutes),
 
     StoreModule.forFeature(

@@ -1,30 +1,112 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, inject } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { fetch } from '@nrwl/angular';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { TerritoryService } from '@nx-northwind/nx-northwind-app/services';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as TerritoriesActions from './territories.actions';
-import * as TerritoriesFeature from './territories.reducer';
+import { TerritoriesState } from './territories.reducer';
 
 @Injectable()
 export class TerritoriesEffects {
-  private actions$ = inject(Actions) as any;
+  private actions$: Actions = inject(Actions) as any;
+  private service = inject(TerritoryService);
 
-  init$ = createEffect(() =>
+  // ******** INIT TERRITORIES *************************************//
+  initTerritories$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TerritoriesActions.initTerritories),
-      fetch({
-        run: (action) => {
-          // Your custom service 'load' logic goes here. For now just return a success action...
-          return TerritoriesActions.loadTerritoriesSuccess({
-            territories: []
-          });
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return TerritoriesActions.loadTerritoriesFailure({ error });
-        }
-      })
+      switchMap(() =>
+        this.service.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: TerritoriesState) =>
+            TerritoriesActions.loadTerritoriesSuccess({
+              territories: data.territories
+            })
+          ),
+          catchError((error) =>
+            of(TerritoriesActions.loadTerritoriesFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT TERRITORY *************************************//
+  initTerritory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TerritoriesActions.initTerritory),
+      switchMap((action) =>
+        this.service.load(action.selectedId).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: TerritoriesState) =>
+            TerritoriesActions.loadTerritorySuccess({
+              territory: data.territory
+            })
+          ),
+          catchError((error) =>
+            of(TerritoriesActions.loadTerritoryFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** POST TERRITORY *************************************//
+  postTerritory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TerritoriesActions.postTerritory),
+      switchMap((action) =>
+        this.service.create(action.newTerritory).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: TerritoriesState) =>
+            TerritoriesActions.postTerritorySuccess({
+              territory: data.territory
+            })
+          ),
+          catchError((error) =>
+            of(TerritoriesActions.postTerritoryFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** PUT TERRITORY *************************************//
+  putTerritory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TerritoriesActions.putTerritory),
+      switchMap((action) =>
+        this.service
+          .update(action.selectedId, action.putTerritory)
+          .pipe(
+            tap((data: any) => console.log(data)),
+            map((data: TerritoriesState) =>
+              TerritoriesActions.putTerritorySuccess({
+                territory: data.territory
+              })
+            ),
+            catchError((error) =>
+              of(TerritoriesActions.putTerritoryFailure({ error }))
+            )
+          )
+      )
+    )
+  );
+
+  // ******** DELETE TERRITORY **********************************//
+  deleteTerritory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TerritoriesActions.deleteTerritory),
+      switchMap((action) =>
+        this.service.delete(action.delTerritory.territoryID).pipe(
+          tap((data: any) => console.log(data)),
+          map(() => TerritoriesActions.deleteTerritorySuccess()),
+          catchError((error) =>
+            of(TerritoriesActions.deleteTerritoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

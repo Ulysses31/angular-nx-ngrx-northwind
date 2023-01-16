@@ -1,45 +1,45 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  PRODUCTS_FEATURE_KEY,
   ProductsState,
-  productsAdapter
+  PRODUCTS_FEATURE_KEY
 } from './products.reducer';
 
-// Lookup the 'Products' feature state managed by NgRx
-export const getProductsState = createFeatureSelector<ProductsState>(
-  PRODUCTS_FEATURE_KEY
+export const selectProductsState =
+  createFeatureSelector<ProductsState>(PRODUCTS_FEATURE_KEY);
+
+export const selectProductsLoaded = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.loaded;
+  }
 );
 
-const { selectAll, selectEntities } = productsAdapter.getSelectors();
-
-export const getProductsLoaded = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.loaded
+export const selectProductsError = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.error;
+  }
 );
 
-export const getProductsError = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.error
+export const selectAllProducts = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.products;
+  }
 );
 
-export const getAllProducts = createSelector(
-  getProductsState,
-  (state: ProductsState) => selectAll(state)
+export const selectProduct = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.product;
+  }
 );
 
-export const getProductsEntities = createSelector(
-  getProductsState,
-  (state: ProductsState) => selectEntities(state)
-);
-
-export const getSelectedId = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.selectedId
-);
-
-export const getSelected = createSelector(
-  getProductsEntities,
-  getSelectedId,
-  (entities, selectedId) =>
-    selectedId ? entities[selectedId] : undefined
-);
+// export const selectSelectedProduct = createSelector(
+//   selectAllProducts,
+//   selectSelectedId,
+//   (products, selectedId) =>
+//     selectedId
+//       ? products.find((item) => item.id === selectedId)
+//       : undefined
+// );

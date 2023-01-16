@@ -1,46 +1,117 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { OrderDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as OrdersActions from './orders.actions';
-import { OrdersEntity } from './orders.models';
 
 export const ORDERS_FEATURE_KEY = 'orders';
 
-export interface OrdersState extends EntityState<OrdersEntity> {
-  selectedId?: string | number; // which Orders record has been selected
-  loaded: boolean; // has the Orders list been loaded
-  error?: string | null; // last known error (if any)
+export interface OrdersState {
+  orders: OrderDto[];
+  order: OrderDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface OrdersPartialState {
-  readonly [ORDERS_FEATURE_KEY]: OrdersState;
-}
-
-export const ordersAdapter: EntityAdapter<OrdersEntity> =
-  createEntityAdapter<OrdersEntity>();
-
-export const initialOrdersState: OrdersState =
-  ordersAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialOrdersState: OrdersState = {
+  orders: [],
+  order: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialOrdersState,
+  // *********** INIT CATEGORIES ******************************//
   on(OrdersActions.initOrders, (state) => ({
+    ...state,
+    order: {},
+    loaded: false,
+    error: null
+  })),
+  on(OrdersActions.loadOrdersSuccess, (state, { orders }) => ({
+    ...state,
+    orders,
+    order: {},
+    loaded: true,
+    error: null
+  })),
+  on(OrdersActions.loadOrdersFailure, (state, { error }) => ({
+    ...state,
+    orders: [],
+    order: {},
+    loaded: true,
+    error
+  })),
+  // *********** SELECTED CATEGORY ****************************//
+  on(OrdersActions.initOrder, (state) => ({
     ...state,
     loaded: false,
     error: null
   })),
-  on(OrdersActions.loadOrdersSuccess, (state, { orders }) =>
-    ordersAdapter.setAll(orders, { ...state, loaded: true })
-  ),
-  on(OrdersActions.loadOrdersFailure, (state, { error }) => ({
+  on(OrdersActions.loadOrderSuccess, (state, { order }) => ({
     ...state,
+    order,
+    loaded: true,
+    error: null
+  })),
+  on(OrdersActions.loadOrderFailure, (state, { error }) => ({
+    ...state,
+    order: {},
+    loaded: true,
+    error
+  })),
+  // *********** POST CATEGORY *******************************//
+  on(OrdersActions.postOrder, (state, { newOrder }) => ({
+    ...state,
+    order: newOrder,
+    loaded: false,
+    error: null
+  })),
+  on(OrdersActions.postOrderSuccess, (state, { order }) => ({
+    ...state,
+    order,
+    loaded: true,
+    error: null
+  })),
+  on(OrdersActions.postOrderFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** PUT CATEGORY *******************************//
+  on(OrdersActions.putOrder, (state, { putOrder }) => ({
+    ...state,
+    order: putOrder,
+    loaded: false,
+    error: null
+  })),
+  on(OrdersActions.putOrderSuccess, (state, { order }) => ({
+    ...state,
+    order,
+    loaded: true,
+    error: null
+  })),
+  on(OrdersActions.putOrderFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** DELETE CATEGORY ****************************//
+  on(OrdersActions.deleteOrder, (state, { delOrder }) => ({
+    ...state,
+    order: delOrder,
+    loaded: false,
+    error: null
+  })),
+  on(OrdersActions.deleteOrderSuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(OrdersActions.deleteOrderFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
     error
   }))
 );

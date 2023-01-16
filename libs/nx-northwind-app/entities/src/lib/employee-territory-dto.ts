@@ -1,6 +1,6 @@
 import { BaseDto } from './base-dto';
 
 export interface EmployeeTerritoryDto extends BaseDto {
-  employeeID?: null | string;
+  employeeID: string;
   territoryID?: null | string;
 }

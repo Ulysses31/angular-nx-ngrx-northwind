@@ -1,53 +1,154 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { OrderDetailDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as OrderDetailsActions from './order-details.actions';
-import { OrderDetailsEntity } from './order-details.models';
 
 export const ORDER_DETAILS_FEATURE_KEY = 'orderDetails';
 
-export interface OrderDetailsState
-  extends EntityState<OrderDetailsEntity> {
-  selectedId?: string | number; // which OrderDetails record has been selected
-  loaded: boolean; // has the OrderDetails list been loaded
-  error?: string | null; // last known error (if any)
+export interface OrderDetailsState {
+  orderDetails: OrderDetailDto[];
+  orderDetail: OrderDetailDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface OrderDetailsPartialState {
-  readonly [ORDER_DETAILS_FEATURE_KEY]: OrderDetailsState;
-}
-
-export const orderDetailsAdapter: EntityAdapter<OrderDetailsEntity> =
-  createEntityAdapter<OrderDetailsEntity>();
-
-export const initialOrderDetailsState: OrderDetailsState =
-  orderDetailsAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialOrderDetailsState: OrderDetailsState = {
+  orderDetails: [],
+  orderDetail: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialOrderDetailsState,
+  // *********** INIT ORDER DETAILS ******************************//
   on(OrderDetailsActions.initOrderDetails, (state) => ({
     ...state,
+    orderDetail: {},
     loaded: false,
     error: null
   })),
   on(
     OrderDetailsActions.loadOrderDetailsSuccess,
-    (state, { orderDetails }) =>
-      orderDetailsAdapter.setAll(orderDetails, {
-        ...state,
-        loaded: true
-      })
+    (state, { orderDetails }) => ({
+      ...state,
+      orderDetails,
+      orderDetail: {},
+      loaded: true,
+      error: null
+    })
   ),
   on(
     OrderDetailsActions.loadOrderDetailsFailure,
-    (state, { error }) => ({ ...state, error })
+    (state, { error }) => ({
+      ...state,
+      orderDetails: [],
+      orderDetail: {},
+      loaded: true,
+      error
+    })
+  ),
+  // *********** SELECTED ORDER DETAIL ****************************//
+  on(OrderDetailsActions.initOrderDetail, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrderDetailsActions.loadOrderDetailSuccess,
+    (state, { orderDetail }) => ({
+      ...state,
+      orderDetail,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrderDetailsActions.loadOrderDetailFailure,
+    (state, { error }) => ({
+      ...state,
+      orderDetail: {},
+      loaded: true,
+      error
+    })
+  ),
+  // *********** POST ORDER DETAIL *******************************//
+  on(
+    OrderDetailsActions.postOrderDetail,
+    (state, { newOrderDetail }) => ({
+      ...state,
+      orderDetail: newOrderDetail,
+      loaded: false,
+      error: null
+    })
+  ),
+  on(
+    OrderDetailsActions.postOrderDetailSuccess,
+    (state, { orderDetail }) => ({
+      ...state,
+      orderDetail,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrderDetailsActions.postOrderDetailFailure,
+    (state, { error }) => ({
+      ...state,
+      loaded: true,
+      error
+    })
+  ),
+  // *********** PUT ORDER DETAIL *******************************//
+  on(
+    OrderDetailsActions.putOrderDetail,
+    (state, { putOrderDetail }) => ({
+      ...state,
+      orderDetail: putOrderDetail,
+      loaded: false,
+      error: null
+    })
+  ),
+  on(
+    OrderDetailsActions.putOrderDetailSuccess,
+    (state, { orderDetail }) => ({
+      ...state,
+      orderDetail,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrderDetailsActions.putOrderDetailFailure,
+    (state, { error }) => ({
+      ...state,
+      loaded: true,
+      error
+    })
+  ),
+  // *********** DELETE ORDER DETAIL ****************************//
+  on(
+    OrderDetailsActions.deleteOrderDetail,
+    (state, { delOrderDetail }) => ({
+      ...state,
+      orderDetail: delOrderDetail,
+      loaded: false,
+      error: null
+    })
+  ),
+  on(OrderDetailsActions.deleteOrderDetailSuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(
+    OrderDetailsActions.deleteOrderDetailFailure,
+    (state, { error }) => ({
+      ...state,
+      loaded: true,
+      error
+    })
   )
 );
 

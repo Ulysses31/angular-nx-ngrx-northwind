@@ -1,46 +1,117 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as RegionsActions from './regions.actions';
-import { RegionsEntity } from './regions.models';
 
 export const REGIONS_FEATURE_KEY = 'regions';
 
-export interface RegionsState extends EntityState<RegionsEntity> {
-  selectedId?: string | number; // which Regions record has been selected
-  loaded: boolean; // has the Regions list been loaded
-  error?: string | null; // last known error (if any)
+export interface RegionsState {
+  regions: RegionDto[];
+  region: RegionDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface RegionsPartialState {
-  readonly [REGIONS_FEATURE_KEY]: RegionsState;
-}
-
-export const regionsAdapter: EntityAdapter<RegionsEntity> =
-  createEntityAdapter<RegionsEntity>();
-
-export const initialRegionsState: RegionsState =
-  regionsAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialRegionsState: RegionsState = {
+  regions: [],
+  region: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialRegionsState,
+  // *********** INIT CATEGORIES ******************************//
   on(RegionsActions.initRegions, (state) => ({
+    ...state,
+    region: {},
+    loaded: false,
+    error: null
+  })),
+  on(RegionsActions.loadRegionsSuccess, (state, { regions }) => ({
+    ...state,
+    regions,
+    region: {},
+    loaded: true,
+    error: null
+  })),
+  on(RegionsActions.loadRegionsFailure, (state, { error }) => ({
+    ...state,
+    regions: [],
+    region: {},
+    loaded: true,
+    error
+  })),
+  // *********** SELECTED CATEGORY ****************************//
+  on(RegionsActions.initRegion, (state) => ({
     ...state,
     loaded: false,
     error: null
   })),
-  on(RegionsActions.loadRegionsSuccess, (state, { regions }) =>
-    regionsAdapter.setAll(regions, { ...state, loaded: true })
-  ),
-  on(RegionsActions.loadRegionsFailure, (state, { error }) => ({
+  on(RegionsActions.loadRegionSuccess, (state, { region }) => ({
     ...state,
+    region,
+    loaded: true,
+    error: null
+  })),
+  on(RegionsActions.loadRegionFailure, (state, { error }) => ({
+    ...state,
+    region: {},
+    loaded: true,
+    error
+  })),
+  // *********** POST CATEGORY *******************************//
+  on(RegionsActions.postRegion, (state, { newRegion }) => ({
+    ...state,
+    region: newRegion,
+    loaded: false,
+    error: null
+  })),
+  on(RegionsActions.postRegionSuccess, (state, { region }) => ({
+    ...state,
+    region,
+    loaded: true,
+    error: null
+  })),
+  on(RegionsActions.postRegionFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** PUT CATEGORY *******************************//
+  on(RegionsActions.putRegion, (state, { putRegion }) => ({
+    ...state,
+    region: putRegion,
+    loaded: false,
+    error: null
+  })),
+  on(RegionsActions.putRegionSuccess, (state, { region }) => ({
+    ...state,
+    region,
+    loaded: true,
+    error: null
+  })),
+  on(RegionsActions.putRegionFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** DELETE CATEGORY ****************************//
+  on(RegionsActions.deleteRegion, (state, { delRegion }) => ({
+    ...state,
+    region: delRegion,
+    loaded: false,
+    error: null
+  })),
+  on(RegionsActions.deleteRegionSuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(RegionsActions.deleteRegionFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
     error
   }))
 );

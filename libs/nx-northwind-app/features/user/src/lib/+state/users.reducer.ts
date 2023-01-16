@@ -1,46 +1,117 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { UserDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as UsersActions from './users.actions';
-import { UsersEntity } from './users.models';
 
 export const USERS_FEATURE_KEY = 'users';
 
-export interface UsersState extends EntityState<UsersEntity> {
-  selectedId?: string | number; // which Users record has been selected
-  loaded: boolean; // has the Users list been loaded
-  error?: string | null; // last known error (if any)
+export interface UsersState {
+  users: UserDto[];
+  user: UserDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface UsersPartialState {
-  readonly [USERS_FEATURE_KEY]: UsersState;
-}
-
-export const usersAdapter: EntityAdapter<UsersEntity> =
-  createEntityAdapter<UsersEntity>();
-
-export const initialUsersState: UsersState =
-  usersAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialUsersState: UsersState = {
+  users: [],
+  user: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialUsersState,
+  // *********** INIT USERS ******************************//
   on(UsersActions.initUsers, (state) => ({
+    ...state,
+    user: {},
+    loaded: false,
+    error: null
+  })),
+  on(UsersActions.loadUsersSuccess, (state, { users }) => ({
+    ...state,
+    users,
+    user: {},
+    loaded: true,
+    error: null
+  })),
+  on(UsersActions.loadUsersFailure, (state, { error }) => ({
+    ...state,
+    users: [],
+    user: {},
+    loaded: true,
+    error
+  })),
+  // *********** SELECTED USER ****************************//
+  on(UsersActions.initUser, (state) => ({
     ...state,
     loaded: false,
     error: null
   })),
-  on(UsersActions.loadUsersSuccess, (state, { users }) =>
-    usersAdapter.setAll(users, { ...state, loaded: true })
-  ),
-  on(UsersActions.loadUsersFailure, (state, { error }) => ({
+  on(UsersActions.loadUserSuccess, (state, { user }) => ({
     ...state,
+    user,
+    loaded: true,
+    error: null
+  })),
+  on(UsersActions.loadUserFailure, (state, { error }) => ({
+    ...state,
+    user: {},
+    loaded: true,
+    error
+  })),
+  // *********** POST USER *******************************//
+  on(UsersActions.postUser, (state, { newUser }) => ({
+    ...state,
+    user: newUser,
+    loaded: false,
+    error: null
+  })),
+  on(UsersActions.postUserSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    loaded: true,
+    error: null
+  })),
+  on(UsersActions.postUserFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** PUT USER *******************************//
+  on(UsersActions.putUser, (state, { putUser }) => ({
+    ...state,
+    user: putUser,
+    loaded: false,
+    error: null
+  })),
+  on(UsersActions.putUserSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    loaded: true,
+    error: null
+  })),
+  on(UsersActions.putUserFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** DELETE USER ****************************//
+  on(UsersActions.deleteUser, (state, { delUser }) => ({
+    ...state,
+    user: delUser,
+    loaded: false,
+    error: null
+  })),
+  on(UsersActions.deleteUserSuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(UsersActions.deleteUserFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
     error
   }))
 );

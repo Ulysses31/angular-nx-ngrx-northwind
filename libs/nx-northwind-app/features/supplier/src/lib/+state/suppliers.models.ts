@@ -1,7 +1,6 @@
+import { SupplierDto } from '@nx-northwind/nx-northwind-app/entities';
+
 /**
  * Interface for the 'Suppliers' data
  */
-export interface SuppliersEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type SuppliersEntity = SupplierDto;

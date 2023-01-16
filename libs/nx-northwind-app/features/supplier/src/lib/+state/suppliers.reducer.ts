@@ -1,46 +1,120 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { SupplierDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as SuppliersActions from './suppliers.actions';
-import { SuppliersEntity } from './suppliers.models';
 
 export const SUPPLIERS_FEATURE_KEY = 'suppliers';
 
-export interface SuppliersState extends EntityState<SuppliersEntity> {
-  selectedId?: string | number; // which Suppliers record has been selected
-  loaded: boolean; // has the Suppliers list been loaded
-  error?: string | null; // last known error (if any)
+export interface SuppliersState {
+  suppliers: SupplierDto[];
+  supplier: SupplierDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface SuppliersPartialState {
-  readonly [SUPPLIERS_FEATURE_KEY]: SuppliersState;
-}
-
-export const suppliersAdapter: EntityAdapter<SuppliersEntity> =
-  createEntityAdapter<SuppliersEntity>();
-
-export const initialSuppliersState: SuppliersState =
-  suppliersAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialSuppliersState: SuppliersState = {
+  suppliers: [],
+  supplier: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialSuppliersState,
+  // *********** INIT SUPPLIERS ******************************//
   on(SuppliersActions.initSuppliers, (state) => ({
+    ...state,
+    supplier: {},
+    loaded: false,
+    error: null
+  })),
+  on(
+    SuppliersActions.loadSuppliersSuccess,
+    (state, { suppliers }) => ({
+      ...state,
+      suppliers,
+      supplier: {},
+      loaded: true,
+      error: null
+    })
+  ),
+  on(SuppliersActions.loadSuppliersFailure, (state, { error }) => ({
+    ...state,
+    suppliers: [],
+    supplier: {},
+    loaded: true,
+    error
+  })),
+  // *********** SELECTED SUPPLIER ****************************//
+  on(SuppliersActions.initSupplier, (state) => ({
     ...state,
     loaded: false,
     error: null
   })),
-  on(SuppliersActions.loadSuppliersSuccess, (state, { suppliers }) =>
-    suppliersAdapter.setAll(suppliers, { ...state, loaded: true })
-  ),
-  on(SuppliersActions.loadSuppliersFailure, (state, { error }) => ({
+  on(SuppliersActions.loadSupplierSuccess, (state, { supplier }) => ({
     ...state,
+    supplier,
+    loaded: true,
+    error: null
+  })),
+  on(SuppliersActions.loadSupplierFailure, (state, { error }) => ({
+    ...state,
+    supplier: {},
+    loaded: true,
+    error
+  })),
+  // *********** POST SUPPLIER *******************************//
+  on(SuppliersActions.postSupplier, (state, { newSupplier }) => ({
+    ...state,
+    supplier: newSupplier,
+    loaded: false,
+    error: null
+  })),
+  on(SuppliersActions.postSupplierSuccess, (state, { supplier }) => ({
+    ...state,
+    supplier,
+    loaded: true,
+    error: null
+  })),
+  on(SuppliersActions.postSupplierFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** PUT SUPPLIER *******************************//
+  on(SuppliersActions.putSupplier, (state, { putSupplier }) => ({
+    ...state,
+    supplier: putSupplier,
+    loaded: false,
+    error: null
+  })),
+  on(SuppliersActions.putSupplierSuccess, (state, { supplier }) => ({
+    ...state,
+    supplier,
+    loaded: true,
+    error: null
+  })),
+  on(SuppliersActions.putSupplierFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** DELETE SUPPLIER ****************************//
+  on(SuppliersActions.deleteSupplier, (state, { delSupplier }) => ({
+    ...state,
+    supplier: delSupplier,
+    loaded: false,
+    error: null
+  })),
+  on(SuppliersActions.deleteSupplierSuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(SuppliersActions.deleteSupplierFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
     error
   }))
 );

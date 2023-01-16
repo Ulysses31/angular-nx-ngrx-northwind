@@ -8,7 +8,6 @@
   "extensions": {
     "recommendations": [
       "bierner.emojisense",
-      "stevencl.adddoccomments",
       "angular.ng-template",
       "cyrilletuzi.angular-schematics",
       "johnpapa.angular2",

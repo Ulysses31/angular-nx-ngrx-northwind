@@ -1,67 +1,61 @@
 import { ShippersEntity } from './shippers.models';
-import {
-  shippersAdapter,
-  ShippersPartialState,
-  initialShippersState
-} from './shippers.reducer';
 import * as ShippersSelectors from './shippers.selectors';
 
 describe('Shippers Selectors', () => {
   const ERROR_MSG = 'No Error Available';
   const getShippersId = (it: ShippersEntity) => it.id;
-  const createShippersEntity = (id: string, name = '') =>
-    ({
-      id,
-      name: name || `name-${id}`
-    } as ShippersEntity);
-
-  let state: ShippersPartialState;
-
-  beforeEach(() => {
-    state = {
-      shippers: shippersAdapter.setAll(
-        [
-          createShippersEntity('PRODUCT-AAA'),
-          createShippersEntity('PRODUCT-BBB'),
-          createShippersEntity('PRODUCT-CCC')
-        ],
-        {
-          ...initialShippersState,
-          selectedId: 'PRODUCT-BBB',
-          error: ERROR_MSG,
-          loaded: true
-        }
-      )
-    };
+  const createShippersEntity = (
+    id: string,
+    companyName: string,
+    phone: string
+  ): ShippersEntity => ({
+    id,
+    shipperID: id,
+    companyName: companyName || `name-${id}`,
+    phone
   });
+
+  const createShippersState = {
+    shippers: [
+      createShippersEntity('100', 'Test A', 'Test A'),
+      createShippersEntity('101', 'Test B', 'Test B...')
+    ],
+    shipper: createShippersEntity('103', 'Test C', 'Test C...'),
+    loaded: true,
+    error: ERROR_MSG
+  };
 
   describe('Shippers Selectors', () => {
     it('getAllShippers() should return the list of Shippers', () => {
-      const results = ShippersSelectors.getAllShippers(state);
+      const results = ShippersSelectors.selectAllShippers({
+        shippers: createShippersState
+      });
       const selId = getShippersId(results[1]);
 
-      expect(results.length).toBe(3);
-      expect(selId).toBe('PRODUCT-BBB');
+      expect(results.length).toBe(2);
+      expect(selId).toBe('101');
     });
 
-    it('getSelected() should return the selected Entity', () => {
-      const result = ShippersSelectors.getSelected(
-        state
-      ) as ShippersEntity;
+    it('getSelected() should return the selected Shipper', () => {
+      const result = ShippersSelectors.selectShipper({
+        shippers: createShippersState
+      });
       const selId = getShippersId(result);
-
-      expect(selId).toBe('PRODUCT-BBB');
+      expect(selId).toBe('103');
     });
 
     it('getShippersLoaded() should return the current "loaded" status', () => {
-      const result = ShippersSelectors.getShippersLoaded(state);
+      const result = ShippersSelectors.selectShippersLoaded({
+        shippers: createShippersState
+      });
 
       expect(result).toBe(true);
     });
 
     it('getShippersError() should return the current "error" state', () => {
-      const result = ShippersSelectors.getShippersError(state);
-
+      const result = ShippersSelectors.selectShippersError({
+        shippers: createShippersState
+      });
       expect(result).toBe(ERROR_MSG);
     });
   });

@@ -1,6 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface UserDto extends BaseDto {
+  id: string;
   username?: null | string;
   password?: null | string;
   email?: null | string;

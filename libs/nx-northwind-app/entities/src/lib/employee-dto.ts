@@ -1,7 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface EmployeeDto extends BaseDto {
-  employeeID?: null | string;
+  employeeID: string;
   lastName?: null | string;
   firstName?: null | string;
   title?: null | string;

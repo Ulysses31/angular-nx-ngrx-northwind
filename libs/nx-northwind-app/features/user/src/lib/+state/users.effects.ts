@@ -1,28 +1,110 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, inject } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { fetch } from '@nrwl/angular';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { UserService } from '@nx-northwind/nx-northwind-app/services';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as UsersActions from './users.actions';
-import * as UsersFeature from './users.reducer';
+import { UsersState } from './users.reducer';
 
 @Injectable()
 export class UsersEffects {
-  private actions$ = inject(Actions) as any;
+  private actions$: Actions = inject(Actions) as any;
+  private service = inject(UserService);
 
-  init$ = createEffect(() =>
+  // ******** INIT USERS *************************************//
+  initUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.initUsers),
-      fetch({
-        run: (action) => {
-          // Your custom service 'load' logic goes here. For now just return a success action...
-          return UsersActions.loadUsersSuccess({ users: [] });
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return UsersActions.loadUsersFailure({ error });
-        }
-      })
+      switchMap(() =>
+        this.service.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: UsersState) =>
+            UsersActions.loadUsersSuccess({
+              users: data.users
+            })
+          ),
+          catchError((error) =>
+            of(UsersActions.loadUsersFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT USER *************************************//
+  initUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.initUser),
+      switchMap((action) =>
+        this.service.load(action.selectedId).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: UsersState) =>
+            UsersActions.loadUserSuccess({
+              user: data.user
+            })
+          ),
+          catchError((error) =>
+            of(UsersActions.loadUserFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** POST USER *************************************//
+  postUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.postUser),
+      switchMap((action) =>
+        this.service.create(action.newUser).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: UsersState) =>
+            UsersActions.postUserSuccess({
+              user: data.user
+            })
+          ),
+          catchError((error) =>
+            of(UsersActions.postUserFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** PUT USER *************************************//
+  putUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.putUser),
+      switchMap((action) =>
+        this.service.update(action.selectedId, action.putUser).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: UsersState) =>
+            UsersActions.putUserSuccess({
+              user: data.user
+            })
+          ),
+          catchError((error) =>
+            of(UsersActions.putUserFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** DELETE USER **********************************//
+  deleteUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.deleteUser),
+      switchMap((action) =>
+        this.service.delete(action.delUser.id).pipe(
+          tap((data: any) => console.log(data)),
+          map(() => UsersActions.deleteUserSuccess()),
+          catchError((error) =>
+            of(UsersActions.deleteUserFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

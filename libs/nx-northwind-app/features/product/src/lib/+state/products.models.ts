@@ -1,7 +1,6 @@
+import { ProductDto } from '@nx-northwind/nx-northwind-app/entities';
+
 /**
  * Interface for the 'Products' data
  */
-export interface ProductsEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type ProductsEntity = ProductDto;

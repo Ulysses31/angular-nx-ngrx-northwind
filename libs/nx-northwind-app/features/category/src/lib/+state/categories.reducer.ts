@@ -1,49 +1,126 @@
-import {
-  EntityState,
-  EntityAdapter,
-  createEntityAdapter
-} from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Action, createReducer, on } from '@ngrx/store';
+import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as CategoriesActions from './categories.actions';
-import { CategoriesEntity } from './categories.models';
 
 export const CATEGORIES_FEATURE_KEY = 'categories';
 
-export interface CategoriesState
-  extends EntityState<CategoriesEntity> {
-  selectedId?: string | number; // which Categories record has been selected
-  loaded: boolean; // has the Categories list been loaded
-  error?: string | null; // last known error (if any)
+export interface CategoriesState {
+  categories: CategoryDto[];
+  category: CategoryDto | any;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export interface CategoriesPartialState {
-  readonly [CATEGORIES_FEATURE_KEY]: CategoriesState;
-}
-
-export const categoriesAdapter: EntityAdapter<CategoriesEntity> =
-  createEntityAdapter<CategoriesEntity>();
-
-export const initialCategoriesState: CategoriesState =
-  categoriesAdapter.getInitialState({
-    // set initial required properties
-    loaded: false
-  });
+export const initialCategoriesState: CategoriesState = {
+  categories: [],
+  category: {},
+  loaded: false,
+  error: null
+};
 
 const reducer = createReducer(
   initialCategoriesState,
+  // *********** INIT CATEGORIES ******************************//
   on(CategoriesActions.initCategories, (state) => ({
     ...state,
+    category: {},
     loaded: false,
     error: null
   })),
   on(
     CategoriesActions.loadCategoriesSuccess,
-    (state, { categories }) =>
-      categoriesAdapter.setAll(categories, { ...state, loaded: true })
+    (state, { categories }) => ({
+      ...state,
+      categories,
+      category: {},
+      loaded: true,
+      error: null
+    })
   ),
   on(CategoriesActions.loadCategoriesFailure, (state, { error }) => ({
     ...state,
+    categories: [],
+    category: {},
+    loaded: true,
+    error
+  })),
+  // *********** SELECTED CATEGORY ****************************//
+  on(CategoriesActions.initCategory, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    CategoriesActions.loadCategorySuccess,
+    (state, { category }) => ({
+      ...state,
+      category,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(CategoriesActions.loadCategoryFailure, (state, { error }) => ({
+    ...state,
+    category: {},
+    loaded: true,
+    error
+  })),
+  // *********** POST CATEGORY *******************************//
+  on(CategoriesActions.postCategory, (state, { newCategory }) => ({
+    ...state,
+    category: newCategory,
+    loaded: false,
+    error: null
+  })),
+  on(
+    CategoriesActions.postCategorySuccess,
+    (state, { category }) => ({
+      ...state,
+      category,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(CategoriesActions.postCategoryFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** PUT CATEGORY *******************************//
+  on(CategoriesActions.putCategory, (state, { putCategory }) => ({
+    ...state,
+    category: putCategory,
+    loaded: false,
+    error: null
+  })),
+  on(CategoriesActions.putCategorySuccess, (state, { category }) => ({
+    ...state,
+    category,
+    loaded: true,
+    error: null
+  })),
+  on(CategoriesActions.putCategoryFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
+  // *********** DELETE CATEGORY ****************************//
+  on(CategoriesActions.deleteCategory, (state, { delCategory }) => ({
+    ...state,
+    category: delCategory,
+    loaded: false,
+    error: null
+  })),
+  on(CategoriesActions.deleteCategorySuccess, (state) => ({
+    ...state,
+    loaded: true,
+    error: null
+  })),
+  on(CategoriesActions.deleteCategoryFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
     error
   }))
 );

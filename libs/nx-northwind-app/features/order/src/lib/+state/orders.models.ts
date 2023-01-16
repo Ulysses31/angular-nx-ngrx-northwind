@@ -1,7 +1,6 @@
+import { OrderDto } from '@nx-northwind/nx-northwind-app/entities';
+
 /**
  * Interface for the 'Orders' data
  */
-export interface OrdersEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type OrdersEntity = OrderDto;

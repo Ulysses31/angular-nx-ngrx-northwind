@@ -19,6 +19,7 @@ import shipperRouter from './app/routes/shipper-route';
 import supplierRouter from './app/routes/supplier-route';
 import territoryRouter from './app/routes/territory-route';
 import userRouter from './app/routes/user-route';
+import * as cors from 'cors';
 
 // import * as mysql from 'mysql';
 // import sqlConfig from './app/db.config.js';
@@ -45,6 +46,7 @@ app.use(cookieParser());
 app.use(logger('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
@@ -88,6 +90,10 @@ app.use((req, res, next) => {
     });
   }
   next();
+});
+
+app.get('/', (req, res) => {
+  res.redirect(302, '/api-docs');
 });
 
 app.get('/api', (req, res) => {

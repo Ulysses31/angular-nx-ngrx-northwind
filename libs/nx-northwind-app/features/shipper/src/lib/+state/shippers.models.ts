@@ -1,7 +1,5 @@
+import { ShipperDto } from '@nx-northwind/nx-northwind-app/entities';
 /**
  * Interface for the 'Shippers' data
  */
-export interface ShippersEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type ShippersEntity = ShipperDto;

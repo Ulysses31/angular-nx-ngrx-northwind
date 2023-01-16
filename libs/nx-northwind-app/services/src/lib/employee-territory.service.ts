@@ -1,4 +1,4 @@
-import { EmployeeTerritoryDto } from './../../../entities/src/lib/employee-territory-dto';
+import { EmployeeTerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
 import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

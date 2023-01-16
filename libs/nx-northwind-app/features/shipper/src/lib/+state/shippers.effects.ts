@@ -1,30 +1,112 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, inject } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { fetch } from '@nrwl/angular';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ShipperService } from '@nx-northwind/nx-northwind-app/services';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as ShippersActions from './shippers.actions';
-import * as ShippersFeature from './shippers.reducer';
+import { ShippersState } from './shippers.reducer';
 
 @Injectable()
 export class ShippersEffects {
-  private actions$ = inject(Actions) as any;
+  private actions$: Actions = inject(Actions) as any;
+  private service = inject(ShipperService);
 
-  init$ = createEffect(() =>
+  // ******** INIT SHIPPERS *************************************//
+  initShippers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ShippersActions.initShippers),
-      fetch({
-        run: (action) => {
-          // Your custom service 'load' logic goes here. For now just return a success action...
-          return ShippersActions.loadShippersSuccess({
-            shippers: []
-          });
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return ShippersActions.loadShippersFailure({ error });
-        }
-      })
+      switchMap(() =>
+        this.service.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: ShippersState) =>
+            ShippersActions.loadShippersSuccess({
+              shippers: data.shippers
+            })
+          ),
+          catchError((error) =>
+            of(ShippersActions.loadShippersFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT SHIPPER *************************************//
+  initShipper$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShippersActions.initShipper),
+      switchMap((action) =>
+        this.service.load(action.selectedId).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: ShippersState) =>
+            ShippersActions.loadShipperSuccess({
+              shipper: data.shipper
+            })
+          ),
+          catchError((error) =>
+            of(ShippersActions.loadShipperFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** POST SHIPPER *************************************//
+  postShipper$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShippersActions.postShipper),
+      switchMap((action) =>
+        this.service.create(action.newShipper).pipe(
+          tap((data: any) => console.log(data)),
+          map((data: ShippersState) =>
+            ShippersActions.postShipperSuccess({
+              shipper: data.shipper
+            })
+          ),
+          catchError((error) =>
+            of(ShippersActions.postShipperFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** PUT SHIPPER *************************************//
+  putShipper$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShippersActions.putShipper),
+      switchMap((action) =>
+        this.service
+          .update(action.selectedId, action.putShipper)
+          .pipe(
+            tap((data: any) => console.log(data)),
+            map((data: ShippersState) =>
+              ShippersActions.putShipperSuccess({
+                shipper: data.shipper
+              })
+            ),
+            catchError((error) =>
+              of(ShippersActions.putShipperFailure({ error }))
+            )
+          )
+      )
+    )
+  );
+
+  // ******** DELETE SHIPPER **********************************//
+  deleteShipper$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ShippersActions.deleteShipper),
+      switchMap((action) =>
+        this.service.delete(action.delShipper.shipperID).pipe(
+          tap((data: any) => console.log(data)),
+          map(() => ShippersActions.deleteShipperSuccess()),
+          catchError((error) =>
+            of(ShippersActions.deleteShipperFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

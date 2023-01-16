@@ -1,7 +1,6 @@
+import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
+
 /**
  * Interface for the 'Categories' data
  */
-export interface CategoriesEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type CategoriesEntity = CategoryDto;

@@ -1,7 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface ProductDto extends BaseDto {
-  productID?: null | string;
+  productID: string;
   productName?: null | string;
   supplierID?: null | string;
   categoryID?: null | string;

@@ -1,45 +1,45 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  ORDER_DETAILS_FEATURE_KEY,
   OrderDetailsState,
-  orderDetailsAdapter
+  ORDER_DETAILS_FEATURE_KEY
 } from './order-details.reducer';
 
-// Lookup the 'OrderDetails' feature state managed by NgRx
-export const getOrderDetailsState =
+export const selectOrderDetailsState =
   createFeatureSelector<OrderDetailsState>(ORDER_DETAILS_FEATURE_KEY);
 
-const { selectAll, selectEntities } =
-  orderDetailsAdapter.getSelectors();
-
-export const getOrderDetailsLoaded = createSelector(
-  getOrderDetailsState,
-  (state: OrderDetailsState) => state.loaded
+export const selectOrderDetailsLoaded = createSelector(
+  selectOrderDetailsState,
+  (state: OrderDetailsState) => {
+    return state.loaded;
+  }
 );
 
-export const getOrderDetailsError = createSelector(
-  getOrderDetailsState,
-  (state: OrderDetailsState) => state.error
+export const selectOrderDetailsError = createSelector(
+  selectOrderDetailsState,
+  (state: OrderDetailsState) => {
+    return state.error;
+  }
 );
 
-export const getAllOrderDetails = createSelector(
-  getOrderDetailsState,
-  (state: OrderDetailsState) => selectAll(state)
+export const selectAllOrderDetails = createSelector(
+  selectOrderDetailsState,
+  (state: OrderDetailsState) => {
+    return state.orderDetails;
+  }
 );
 
-export const getOrderDetailsEntities = createSelector(
-  getOrderDetailsState,
-  (state: OrderDetailsState) => selectEntities(state)
+export const selectOrderDetail = createSelector(
+  selectOrderDetailsState,
+  (state: OrderDetailsState) => {
+    return state.orderDetail;
+  }
 );
 
-export const getSelectedId = createSelector(
-  getOrderDetailsState,
-  (state: OrderDetailsState) => state.selectedId
-);
-
-export const getSelected = createSelector(
-  getOrderDetailsEntities,
-  getSelectedId,
-  (entities, selectedId) =>
-    selectedId ? entities[selectedId] : undefined
-);
+// export const selectSelectedOrderDetail = createSelector(
+//   selectAllOrderDetails,
+//   selectSelectedId,
+//   (orderDetails, selectedId) =>
+//     selectedId
+//       ? orderDetails.find((item) => item.id === selectedId)
+//       : undefined
+// );

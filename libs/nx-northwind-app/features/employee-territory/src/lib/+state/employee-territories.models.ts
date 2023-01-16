@@ -1,7 +1,6 @@
+import { EmployeeTerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+
 /**
  * Interface for the 'EmployeeTerritories' data
  */
-export interface EmployeeTerritoriesEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type EmployeeTerritoriesEntity = EmployeeTerritoryDto;

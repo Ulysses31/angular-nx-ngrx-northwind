@@ -1,44 +1,45 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  SUPPLIERS_FEATURE_KEY,
   SuppliersState,
-  suppliersAdapter
+  SUPPLIERS_FEATURE_KEY
 } from './suppliers.reducer';
 
-// Lookup the 'Suppliers' feature state managed by NgRx
-export const getSuppliersState =
+export const selectSuppliersState =
   createFeatureSelector<SuppliersState>(SUPPLIERS_FEATURE_KEY);
 
-const { selectAll, selectEntities } = suppliersAdapter.getSelectors();
-
-export const getSuppliersLoaded = createSelector(
-  getSuppliersState,
-  (state: SuppliersState) => state.loaded
+export const selectSuppliersLoaded = createSelector(
+  selectSuppliersState,
+  (state: SuppliersState) => {
+    return state.loaded;
+  }
 );
 
-export const getSuppliersError = createSelector(
-  getSuppliersState,
-  (state: SuppliersState) => state.error
+export const selectSuppliersError = createSelector(
+  selectSuppliersState,
+  (state: SuppliersState) => {
+    return state.error;
+  }
 );
 
-export const getAllSuppliers = createSelector(
-  getSuppliersState,
-  (state: SuppliersState) => selectAll(state)
+export const selectAllSuppliers = createSelector(
+  selectSuppliersState,
+  (state: SuppliersState) => {
+    return state.suppliers;
+  }
 );
 
-export const getSuppliersEntities = createSelector(
-  getSuppliersState,
-  (state: SuppliersState) => selectEntities(state)
+export const selectSupplier = createSelector(
+  selectSuppliersState,
+  (state: SuppliersState) => {
+    return state.supplier;
+  }
 );
 
-export const getSelectedId = createSelector(
-  getSuppliersState,
-  (state: SuppliersState) => state.selectedId
-);
-
-export const getSelected = createSelector(
-  getSuppliersEntities,
-  getSelectedId,
-  (entities, selectedId) =>
-    selectedId ? entities[selectedId] : undefined
-);
+// export const selectSelectedSupplier = createSelector(
+//   selectAllSuppliers,
+//   selectSelectedId,
+//   (suppliers, selectedId) =>
+//     selectedId
+//       ? suppliers.find((item) => item.id === selectedId)
+//       : undefined
+// );

@@ -1,7 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface OrderDto extends BaseDto {
-  orderID?: null | string;
+  orderID: string;
   customerID?: null | string;
   employeeID?: null | string;
   orderDate?: Date;

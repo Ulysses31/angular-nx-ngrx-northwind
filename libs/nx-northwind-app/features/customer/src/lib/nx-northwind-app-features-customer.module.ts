@@ -12,7 +12,6 @@ import { CustomersEffects } from './+state/customers.effects';
 @NgModule({
   imports: [
     CommonModule,
-
     RouterModule.forChild(nxNorthwindAppFeaturesCustomerRoutes),
 
     StoreModule.forFeature(

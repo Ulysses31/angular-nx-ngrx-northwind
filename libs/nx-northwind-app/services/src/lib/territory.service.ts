@@ -1,4 +1,4 @@
-import { TerritoryDto } from './../../../entities/src/lib/territory-dto';
+import { TerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
 import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

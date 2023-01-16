@@ -1,7 +1,5 @@
+import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
 /**
  * Interface for the 'Regions' data
  */
-export interface RegionsEntity {
-  id: string | number; // Primary ID
-  name: string;
-}
+export type RegionsEntity = RegionDto;

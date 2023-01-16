@@ -28,6 +28,7 @@ export class BaseService<TModel> implements IBaseService<TModel> {
   }
 
   browse(): Observable<TModel[]> {
+    console.log('Browsing...');
     return this.http.get<TModel[]>(
       this.apiServiceUrl,
       this.httpOptions
