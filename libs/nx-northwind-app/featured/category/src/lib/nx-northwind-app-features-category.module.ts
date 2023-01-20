@@ -8,10 +8,14 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromCategories from './+state/categories.reducer';
 import { CategoriesEffects } from './+state/categories.effects';
+import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    NxNorthwindAppFeaturedSharedModule,
     RouterModule.forChild(nxNorthwindAppFeaturesCategoryRoutes),
 
     StoreModule.forFeature(

@@ -7,6 +7,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as EmployeeTerritoriesActions from './employee-territories.actions';
 import { EmployeeTerritoriesState } from './employee-territories.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class EmployeeTerritoriesEffects {
@@ -20,6 +21,13 @@ export class EmployeeTerritoriesEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: EmployeeTerritoriesState) => {
+            data.employeeTerritories.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: EmployeeTerritoriesState) =>
             EmployeeTerritoriesActions.loadEmployeeTerritoriesSuccess(
               {
@@ -48,7 +56,7 @@ export class EmployeeTerritoriesEffects {
           tap((data: any) => console.log(data)),
           map((data: EmployeeTerritoriesState) =>
             EmployeeTerritoriesActions.loadEmployeeTerritorySuccess({
-              employeeTerritory: data.employeeTerritory
+              employeeTerritory: data.employeeTerritories[0]
             })
           ),
           catchError((error) =>
@@ -98,7 +106,7 @@ export class EmployeeTerritoriesEffects {
             tap((data: any) => console.log(data)),
             map((data: EmployeeTerritoriesState) =>
               EmployeeTerritoriesActions.putEmployeeTerritorySuccess({
-                employeeTerritory: data.employeeTerritory
+                employeeTerritory: data.employeeTerritory.body
               })
             ),
             catchError((error) =>
@@ -119,7 +127,7 @@ export class EmployeeTerritoriesEffects {
       ofType(EmployeeTerritoriesActions.deleteEmployeeTerritory),
       switchMap((action) =>
         this.service
-          .delete(action.delEmployeeTerritory.employeeID)
+          .delete(action.delEmployeeTerritory.EmployeeID)
           .pipe(
             tap((data: any) => console.log(data)),
             map(() =>

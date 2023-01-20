@@ -1,0 +1,41 @@
+<ng-container>
+  <h1>{{ title }}</h1>
+  <hr />
+
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="function-buttons">
+    <button
+      *ngFor="let btn of fnButtons"
+      (click)="btn.command()"
+      [disabled]="btn.disabled">
+      {{ btn.label }}
+    </button>
+  </div>
+
+  <pre *ngIf="isModelVisible">{{ model$ | json }}</pre>
+
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let header of headers">
+          {{ header }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of model$ | async">
+        <td *ngFor="let header of headers; let idx = index">
+          <span *ngIf="idx === 0"
+            ><input
+              type="checkbox"
+              id="{{ item[header] }}"
+              name="{{ item[header] }}"
+              (change)="checkBoxChange()"
+          /></span>
+          {{ item[header] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

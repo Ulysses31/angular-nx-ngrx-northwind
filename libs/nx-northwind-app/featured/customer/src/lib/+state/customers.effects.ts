@@ -6,6 +6,7 @@ import { CustomerService } from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as CustomersActions from './customers.actions';
+import * as moment from 'moment';
 
 @Injectable()
 export class CustomersEffects {
@@ -19,6 +20,13 @@ export class CustomersEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: CustomersState) => {
+            data.customers.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: CustomersState) =>
             CustomersActions.loadCustomersSuccess({
               customers: data.customers
@@ -41,7 +49,7 @@ export class CustomersEffects {
           tap((data: any) => console.log(data)),
           map((data: CustomersState) =>
             CustomersActions.loadCustomerSuccess({
-              customer: data.customer
+              customer: data.customers[0]
             })
           ),
           catchError((error) =>
@@ -83,7 +91,7 @@ export class CustomersEffects {
             tap((data: any) => console.log(data)),
             map((data: CustomersState) =>
               CustomersActions.putCustomerSuccess({
-                customer: data.customer
+                customer: data.customer.body
               })
             ),
             catchError((error) =>
@@ -99,7 +107,7 @@ export class CustomersEffects {
     this.actions$.pipe(
       ofType(CustomersActions.deleteCustomer),
       switchMap((action) =>
-        this.service.delete(action.delCustomer.customerID).pipe(
+        this.service.delete(action.delCustomer.CustomerID).pipe(
           tap((data: any) => console.log(data)),
           map(() => CustomersActions.deleteCustomerSuccess()),
           catchError((error) =>

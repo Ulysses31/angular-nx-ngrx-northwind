@@ -1,21 +1,21 @@
 import { BaseDto } from './base-dto';
 
 export interface EmployeeDto extends BaseDto {
-  employeeID: string;
-  lastName?: null | string;
-  firstName?: null | string;
-  title?: null | string;
-  titleOfCourtesy?: null | string;
-  birthDate?: Date;
-  hireDate?: Date;
-  address?: null | string;
-  city?: null | string;
-  region?: null | string;
-  postalCode?: null | string;
-  country?: null | string;
-  homePhone?: null | string;
-  extension?: null | string;
-  notes?: null | string;
-  reportsTo?: null | string;
-  photoPath?: null | string;
+  EmployeeID: string;
+  LastName?: null | string;
+  FirstName?: null | string;
+  Title?: null | string;
+  TitleOfCourtesy?: null | string;
+  BirthDate?: Date;
+  HireDate?: Date;
+  Address?: null | string;
+  City?: null | string;
+  Region?: null | string;
+  PostalCode?: null | string;
+  Country?: null | string;
+  HomePhone?: null | string;
+  Extension?: null | string;
+  Notes?: null | string;
+  ReportsTo?: null | string;
+  PhotoPath?: null | string;
 }

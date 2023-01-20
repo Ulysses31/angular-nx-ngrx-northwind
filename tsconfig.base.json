@@ -45,6 +45,9 @@
       "@nx-northwind/nx-northwind-app/featured/region": [
         "libs/nx-northwind-app/featured/region/src/index.ts"
       ],
+      "@nx-northwind/nx-northwind-app/featured/shared": [
+        "libs/nx-northwind-app/featured/shared/src/index.ts"
+      ],
       "@nx-northwind/nx-northwind-app/featured/shipper": [
         "libs/nx-northwind-app/featured/shipper/src/index.ts"
       ],

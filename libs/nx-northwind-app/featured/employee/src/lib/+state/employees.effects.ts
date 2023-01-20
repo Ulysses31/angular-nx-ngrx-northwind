@@ -7,6 +7,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as EmployeesActions from './employees.actions';
 import { EmployeesState } from './employees.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class EmployeesEffects {
@@ -20,6 +21,13 @@ export class EmployeesEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: EmployeesState) => {
+            data.employees.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: EmployeesState) =>
             EmployeesActions.loadEmployeesSuccess({
               employees: data.employees
@@ -42,7 +50,7 @@ export class EmployeesEffects {
           tap((data: any) => console.log(data)),
           map((data: EmployeesState) =>
             EmployeesActions.loadEmployeeSuccess({
-              employee: data.employee
+              employee: data.employees[0]
             })
           ),
           catchError((error) =>
@@ -84,7 +92,7 @@ export class EmployeesEffects {
             tap((data: any) => console.log(data)),
             map((data: EmployeesState) =>
               EmployeesActions.putEmployeeSuccess({
-                employee: data.employee
+                employee: data.employee.body
               })
             ),
             catchError((error) =>
@@ -100,7 +108,7 @@ export class EmployeesEffects {
     this.actions$.pipe(
       ofType(EmployeesActions.deleteEmployee),
       switchMap((action) =>
-        this.service.delete(action.delEmployee.employeeID).pipe(
+        this.service.delete(action.delEmployee.EmployeeID).pipe(
           tap((data: any) => console.log(data)),
           map(() => EmployeesActions.deleteEmployeeSuccess()),
           catchError((error) =>

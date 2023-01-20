@@ -6,6 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as OrdersActions from './orders.actions';
 import { OrdersState } from './orders.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class OrdersEffects {
@@ -19,6 +20,13 @@ export class OrdersEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: OrdersState) => {
+            data.orders.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: OrdersState) =>
             OrdersActions.loadOrdersSuccess({
               orders: data.orders
@@ -41,7 +49,7 @@ export class OrdersEffects {
           tap((data: any) => console.log(data)),
           map((data: OrdersState) =>
             OrdersActions.loadOrderSuccess({
-              order: data.order
+              order: data.orders[0]
             })
           ),
           catchError((error) =>
@@ -81,7 +89,7 @@ export class OrdersEffects {
           tap((data: any) => console.log(data)),
           map((data: OrdersState) =>
             OrdersActions.putOrderSuccess({
-              order: data.order
+              order: data.order.body
             })
           ),
           catchError((error) =>
@@ -97,7 +105,7 @@ export class OrdersEffects {
     this.actions$.pipe(
       ofType(OrdersActions.deleteOrder),
       switchMap((action) =>
-        this.service.delete(action.delOrder.orderID).pipe(
+        this.service.delete(action.delOrder.OrderID).pipe(
           tap((data: any) => console.log(data)),
           map(() => OrdersActions.deleteOrderSuccess()),
           catchError((error) =>

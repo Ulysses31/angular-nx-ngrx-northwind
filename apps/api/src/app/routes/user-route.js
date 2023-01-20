@@ -60,10 +60,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  user.create(user, (err, data) => {
+  user.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        users: [],
+        user: {},
         statusCode: res.statusCode,
         error:
           err.message ||

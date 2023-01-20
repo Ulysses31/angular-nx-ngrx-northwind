@@ -6,6 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as OrderDetailsActions from './order-details.actions';
 import { OrderDetailsState } from './order-details.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class OrderDetailsEffects {
@@ -19,6 +20,13 @@ export class OrderDetailsEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: OrderDetailsState) => {
+            data.orderDetails.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: OrderDetailsState) =>
             OrderDetailsActions.loadOrderDetailsSuccess({
               orderDetails: data.orderDetails
@@ -41,7 +49,7 @@ export class OrderDetailsEffects {
           tap((data: any) => console.log(data)),
           map((data: OrderDetailsState) =>
             OrderDetailsActions.loadOrderDetailSuccess({
-              orderDetail: data.orderDetail
+              orderDetail: data.orderDetails[0]
             })
           ),
           catchError((error) =>
@@ -83,7 +91,7 @@ export class OrderDetailsEffects {
             tap((data: any) => console.log(data)),
             map((data: OrderDetailsState) =>
               OrderDetailsActions.putOrderDetailSuccess({
-                orderDetail: data.orderDetail
+                orderDetail: data.orderDetail.body
               })
             ),
             catchError((error) =>
@@ -99,7 +107,7 @@ export class OrderDetailsEffects {
     this.actions$.pipe(
       ofType(OrderDetailsActions.deleteOrderDetail),
       switchMap((action) =>
-        this.service.delete(action.delOrderDetail.orderID).pipe(
+        this.service.delete(action.delOrderDetail.OrderID).pipe(
           tap((data: any) => console.log(data)),
           map(() => OrderDetailsActions.deleteOrderDetailSuccess()),
           catchError((error) =>

@@ -17,7 +17,10 @@ class Shipper {
 		select
       ShipperID,
       CompanyName,
-      Phone
+      Phone,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from shippers
 	`;
     sql.query(query, (err, res) => {
@@ -36,7 +39,10 @@ class Shipper {
 		select
       ShipperID,
       CompanyName,
-      Phone
+      Phone,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from shippers where ShipperID = ${id}
 	`;
     sql.query(query, (err, res) => {

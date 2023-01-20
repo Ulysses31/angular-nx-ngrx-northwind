@@ -6,11 +6,10 @@ router.get('/', async (req, res) => {
   var category = new Category();
   category.browse((err, data) => {
     if (err) {
-      res.status(500).send({
-        categories: [],
+      return res.status(500).send({
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving categories.'
       });
     }
@@ -28,16 +27,16 @@ router.get('/:id', async (req, res) => {
   category.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({
-          categories: [],
+        return res.status(404).send({
           statusCode: res.statusCode,
-          error: `Not found Category with id ${req.params.id}.`
+          message: `Not found Category with id ${req.params.id}.`
         });
       } else {
-        res.status(500).send({
-          categories: [],
+        return res.status(500).send({
           statusCode: res.statusCode,
-          error: `Error retrieving Category with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Category with id ${req.params.id}`
         });
       }
     } else {
@@ -54,23 +53,28 @@ router.post('/', async (req, res) => {
   var category = new Category(req.body);
 
   if (!req.body) {
-    res.status(400).send({
-      category: {},
+    return res.status(400).send({
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
     });
   }
 
-  category.create(category, (err, data) => {
+  if (category.CategoryName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CategoryName is required!'
+    });
+  }
+
+  category.create(req.body, (err, data) => {
     if (err) {
-      res.status(500).send({
-        categories: [],
+      return res.status(500).send({
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while inserting new category.'
       });
-    } else {
+    } else if (data) {
       return res.send({
         category: data,
         statusCode: res.statusCode,
@@ -82,29 +86,35 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var category = new Category(this);
+  var category = new Category(req.body);
 
   if (!req.body) {
-    res.status(400).send({
-      category: {},
+    return res.status(400).send({
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (category.CategoryName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CategoryName is required!'
     });
   }
 
   category.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({
-          category: {},
+        return res.status(404).send({
           statusCode: res.statusCode,
-          error: `Not found Category with id ${req.params.id}.`
+          message: `Not found Category with id ${req.params.id}.`
         });
       } else {
-        res.status(500).send({
-          category: {},
+        return res.status(500).send({
           statusCode: res.statusCode,
-          error: `Error updating Category with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Category with id ${req.params.id}`
         });
       }
     } else {
@@ -120,24 +130,21 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
   var category = new Category(this);
+
   category.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            category: {},
-            statusCode: res.statusCode,
-            error: `Not found Category with id ${req.params.id}.`
-          });
+        return res.status(404).send({
+          statusCode: res.statusCode,
+          message: `Not found Category with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            category: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Category with id ${req.params.id}`
-          });
+        return res.status(500).send({
+          statusCode: res.statusCode,
+          message:
+            err.sqlMessage ||
+            `Could not delete Category with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({

@@ -35,7 +35,10 @@ class Supplier {
       Country,
       Phone,
       Fax,
-      HomePage
+      HomePage,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from suppliers
 	`;
     sql.query(query, (err, res) => {
@@ -63,7 +66,10 @@ class Supplier {
       Country,
       Phone,
       Fax,
-      HomePage
+      HomePage,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from suppliers where Id = ${id}
 	`;
     sql.query(query, (err, res) => {

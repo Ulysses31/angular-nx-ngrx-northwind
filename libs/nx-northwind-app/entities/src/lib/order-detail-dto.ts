@@ -1,9 +1,9 @@
 import { BaseDto } from './base-dto';
 
 export interface OrderDetailDto extends BaseDto {
-  orderID: string;
-  productID?: null | string;
-  unitPrice?: number;
-  quantity?: number;
-  discount?: number;
+  OrderID: string;
+  ProductID?: null | string;
+  UnitPrice?: number;
+  Quantity?: number;
+  Discount?: number;
 }

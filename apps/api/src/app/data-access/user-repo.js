@@ -25,7 +25,10 @@ class User {
       Email,
       Is_Active,
       Access_Token,
-      Refresh_Token
+      Refresh_Token,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from users
 	`;
     sql.query(query, (err, res) => {
@@ -48,7 +51,10 @@ class User {
       Email,
       Is_Active,
       Access_Token,
-      Refresh_Token
+      Refresh_Token,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from users where Id = ${id}
 	`;
     sql.query(query, (err, res) => {

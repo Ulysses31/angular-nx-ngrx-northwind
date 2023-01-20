@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  employeeTerritory.create(employeeTerritory, (err, data) => {
+  employeeTerritory.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        employeeTerritories: [],
+        employeeTerritory: {},
         statusCode: res.statusCode,
         error:
           err.message ||

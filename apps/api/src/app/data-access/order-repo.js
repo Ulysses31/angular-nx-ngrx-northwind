@@ -39,7 +39,10 @@ class Order {
       ShipCity,
       ShipRegion,
       ShipPostalCode,
-      ShipCountry
+      ShipCountry,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from orders
 	`;
     sql.query(query, (err, res) => {
@@ -69,7 +72,10 @@ class Order {
       ShipCity,
       ShipRegion,
       ShipPostalCode,
-      ShipCountry
+      ShipCountry,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from orders where OrderID = ${id}
 	`;
     sql.query(query, (err, res) => {

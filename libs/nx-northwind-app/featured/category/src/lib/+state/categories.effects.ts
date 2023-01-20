@@ -3,9 +3,11 @@ import { CategoriesState } from './categories.reducer';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CategoryService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, switchMap, tap, of } from 'rxjs';
+import { catchError, map, switchMap, tap, of, pipe } from 'rxjs';
 
 import * as CategoriesActions from './categories.actions';
+import * as moment from 'moment';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // for read operations switchMa
 // for write operations concatMap, exhaustMap
@@ -15,6 +17,9 @@ export class CategoriesEffects {
   private actions$: Actions = inject(Actions);
   private service = inject(CategoryService);
 
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   // ******** INIT CATEGORIES *************************************//
   initCategories$ = createEffect(() =>
     this.actions$.pipe(
@@ -22,6 +27,17 @@ export class CategoriesEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: CategoriesState) => {
+            data.categories.map((item) => {
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM')
+                : '';
+            });
+            return data;
+          }),
           map((data: CategoriesState) =>
             CategoriesActions.loadCategoriesSuccess({
               categories: data.categories
@@ -42,9 +58,24 @@ export class CategoriesEffects {
       switchMap((action) =>
         this.service.load(action.selectedId).pipe(
           tap((data: any) => console.log(data)),
+          map((data: CategoriesState) => {
+            data.categories[0].CreatedAt = data.categories[0]
+              .CreatedAt
+              ? moment(data.categories[0].CreatedAt).format(
+                  'YYYY-MM-DD'
+                )
+              : '';
+            data.categories[0].UpdatedAt = data.categories[0]
+              .UpdatedAt
+              ? moment(data.categories[0].UpdatedAt).format(
+                  'YYYY-MM-DD'
+                )
+              : '';
+            return data;
+          }),
           map((data: CategoriesState) =>
             CategoriesActions.loadCategorySuccess({
-              category: data.category
+              category: data.categories[0]
             })
           ),
           catchError((error) =>
@@ -75,6 +106,23 @@ export class CategoriesEffects {
     )
   );
 
+  successPostCategory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoriesActions.postCategorySuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT CATEGORY *************************************//
   putCategory$ = createEffect(() =>
     this.actions$.pipe(
@@ -97,12 +145,29 @@ export class CategoriesEffects {
     )
   );
 
+  successPutCategory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoriesActions.putCategorySuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** DELETE CATEGORY **********************************//
   deleteCategory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CategoriesActions.deleteCategory),
       switchMap((action) =>
-        this.service.delete(action.delCategory.categoryID).pipe(
+        this.service.delete(action.delCategory.CategoryID).pipe(
           tap((data: any) => console.log(data)),
           map(() => CategoriesActions.deleteCategorySuccess()),
           catchError((error) =>
@@ -111,5 +176,22 @@ export class CategoriesEffects {
         )
       )
     )
+  );
+
+  successDeleteCategory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CategoriesActions.deleteCategorySuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

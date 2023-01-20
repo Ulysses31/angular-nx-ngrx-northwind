@@ -6,6 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as RegionsActions from './regions.actions';
 import { RegionsState } from './regions.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class RegionsEffects {
@@ -19,6 +20,13 @@ export class RegionsEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: RegionsState) => {
+            data.regions.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: RegionsState) =>
             RegionsActions.loadRegionsSuccess({
               regions: data.regions
@@ -41,7 +49,7 @@ export class RegionsEffects {
           tap((data: any) => console.log(data)),
           map((data: RegionsState) =>
             RegionsActions.loadRegionSuccess({
-              region: data.region
+              region: data.regions[0]
             })
           ),
           catchError((error) =>
@@ -81,7 +89,7 @@ export class RegionsEffects {
           tap((data: any) => console.log(data)),
           map((data: RegionsState) =>
             RegionsActions.putRegionSuccess({
-              region: data.region
+              region: data.region.body
             })
           ),
           catchError((error) =>
@@ -97,7 +105,7 @@ export class RegionsEffects {
     this.actions$.pipe(
       ofType(RegionsActions.deleteRegion),
       switchMap((action) =>
-        this.service.delete(action.delRegion.regionID).pipe(
+        this.service.delete(action.delRegion.RegionID).pipe(
           tap((data: any) => console.log(data)),
           map(() => RegionsActions.deleteRegionSuccess()),
           catchError((error) =>

@@ -31,7 +31,10 @@ class Product {
       UnitsInStock,
       UnitsOnOrder,
       ReorderLevel,
-      Discontinued
+      Discontinued,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from products
 	`;
     sql.query(query, (err, res) => {
@@ -57,7 +60,10 @@ class Product {
       UnitsInStock,
       UnitsOnOrder,
       ReorderLevel,
-      Discontinued
+      Discontinued,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from products where ProductID = ${id}
 	`;
     sql.query(query, (err, res) => {

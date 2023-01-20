@@ -17,17 +17,20 @@ class Category {
 		select
       CategoryID,
       CategoryName,
-      Description
+      Description,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from categories
 	`;
     sql.query(query, (err, res) => {
       if (err) {
-        console.log('error: ', err);
-        result(null, err);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-      // console.log('Categories: ', res);
+
       result(null, res);
+      return res;
     });
   }
 
@@ -36,56 +39,55 @@ class Category {
 		select
       CategoryID,
       CategoryName,
-      Description
+      Description,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from categories where CategoryID = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(null, err);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-
-      // console.log('Category: ', res);
 
       if (res.length === 0) {
         result({ kind: 'not_found' }, null);
+        return { kind: 'not_found' };
       } else {
         result(null, res);
+        return res;
       }
     });
   }
 
   create(category, result) {
-    sql.query(
-      'insert into categories set ?',
-      category,
-      (err, res) => {
-        if (err) {
-          console.log('error: ', err);
-          result(err, null);
-          throw err;
-        }
-        // console.log('created category: ', {
-        //   id: res.insertId,
-        //   ...category
-        // });
-        result(null, { id: res.insertId, ...category });
+    category.CreatedBy = 'admin';
+    sql.query('insert into categories set ?', category, (err) => {
+      if (err) {
+        result({ ...err }, null);
+        return { ...err };
       }
-    );
+      // console.log('created category: ', {
+      //   id: res.insertId,
+      //   ...category
+      // });
+
+      result(null, { ...category });
+      return { ...category };
+    });
   }
 
   update(id, category, result) {
     sql.query(
       `update categories
 			 set
-        CategoryID = ?,
         CategoryName = ?,
         Description = ?,
         UpdatedAt = ?
 			 where CategoryID = ?`,
       [
-        category.CategoryID,
         category.CategoryName,
         category.Description,
         moment(new Date()).format('yyyy-MM-DD HH-mm-ss'),
@@ -93,20 +95,20 @@ class Category {
       ],
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
           // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
         // console.log('updated category: ', {
         //   id: id,
         //   ...category
         // });
-        result(null, { id: id, ...category });
+        result(null, { ...category });
+        return { ...category };
       }
     );
   }
@@ -117,17 +119,17 @@ class Category {
       id,
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
           // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
         // console.log('deleted category with id: ', id);
         result(null, res);
+        return res;
       }
     );
   }

@@ -1,18 +1,18 @@
 import { BaseDto } from './base-dto';
 
 export interface OrderDto extends BaseDto {
-  orderID: string;
-  customerID?: null | string;
-  employeeID?: null | string;
-  orderDate?: Date;
-  requiredDate?: Date;
-  shippedDate?: Date;
-  shipVia?: null | string;
-  freight?: null | string;
-  shipName?: null | string;
-  shipAddress?: null | string;
-  shipCity?: null | string;
-  shipRegion?: null | string;
-  shipPostalCode?: null | string;
-  shipCountry?: null | string;
+  OrderID: string;
+  CustomerID?: null | string;
+  EmployeeID?: null | string;
+  OrderDate?: Date;
+  RequiredDate?: Date;
+  ShippedDate?: Date;
+  ShipVia?: null | string;
+  Freight?: null | string;
+  ShipName?: null | string;
+  ShipAddress?: null | string;
+  ShipCity?: null | string;
+  ShipRegion?: null | string;
+  ShipPostalCode?: null | string;
+  ShipCountry?: null | string;
 }

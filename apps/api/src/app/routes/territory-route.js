@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  territory.create(territory, (err, data) => {
+  territory.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        territories: [],
+        territory: {},
         statusCode: res.statusCode,
         error:
           err.message ||

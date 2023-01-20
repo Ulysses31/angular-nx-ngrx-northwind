@@ -33,7 +33,10 @@ class Customer {
       PostalCode,
       Country,
       Phone,
-      Fax
+      Fax,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from customers
 	`;
     sql.query(query, (err, res) => {
@@ -60,7 +63,10 @@ class Customer {
       PostalCode,
       Country,
       Phone,
-      Fax
+      Fax,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from customers where CustomerID = '${id}'
 	`;
     sql.query(query, (err, res) => {

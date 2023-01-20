@@ -45,7 +45,7 @@ export class BaseService<TModel> implements IBaseService<TModel> {
   create(dto: TModel): Observable<TModel> {
     return this.http.post<TModel>(
       this.apiServiceUrl,
-      { body: dto },
+      dto,
       this.httpOptions
     );
   }
@@ -53,7 +53,7 @@ export class BaseService<TModel> implements IBaseService<TModel> {
   update(id: string, dto: TModel): Observable<TModel> {
     return this.http.put<TModel>(
       `${this.apiServiceUrl}/${id}`,
-      { body: dto },
+      dto,
       this.httpOptions
     );
   }

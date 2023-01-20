@@ -15,7 +15,7 @@ export interface CategoriesState {
 
 export const initialCategoriesState: CategoriesState = {
   categories: [],
-  category: {},
+  category: null,
   loaded: false,
   error: null
 };
@@ -25,7 +25,7 @@ const reducer = createReducer(
   // *********** INIT CATEGORIES ******************************//
   on(CategoriesActions.initCategories, (state) => ({
     ...state,
-    category: {},
+    category: null,
     loaded: false,
     error: null
   })),
@@ -34,7 +34,7 @@ const reducer = createReducer(
     (state, { categories }) => ({
       ...state,
       categories,
-      category: {},
+      category: null,
       loaded: true,
       error: null
     })
@@ -42,7 +42,7 @@ const reducer = createReducer(
   on(CategoriesActions.loadCategoriesFailure, (state, { error }) => ({
     ...state,
     categories: [],
-    category: {},
+    category: null,
     loaded: true,
     error
   })),
@@ -63,7 +63,7 @@ const reducer = createReducer(
   ),
   on(CategoriesActions.loadCategoryFailure, (state, { error }) => ({
     ...state,
-    category: {},
+    category: null,
     loaded: true,
     error
   })),
@@ -115,6 +115,7 @@ const reducer = createReducer(
   })),
   on(CategoriesActions.deleteCategorySuccess, (state) => ({
     ...state,
+    category: null,
     loaded: true,
     error: null
   })),

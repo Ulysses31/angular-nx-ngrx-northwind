@@ -23,7 +23,10 @@ class OrderDetail {
       ProductID,
       UnitPrice,
       Quantity,
-      Discount
+      Discount,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from \`order details\`
 	`;
     sql.query(query, (err, res) => {
@@ -45,7 +48,10 @@ class OrderDetail {
       ProductID,
       UnitPrice,
       Quantity,
-      Discount
+      Discount,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from \`order details\` where Id = ${id}
 	`;
     sql.query(query, (err, res) => {

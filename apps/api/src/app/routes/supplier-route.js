@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  supplier.create(supplier, (err, data) => {
+  supplier.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        suppliers: [],
+        supplier: {},
         statusCode: res.statusCode,
         error:
           err.message ||

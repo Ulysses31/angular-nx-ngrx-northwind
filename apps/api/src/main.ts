@@ -50,47 +50,47 @@ app.use(cors());
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-app.use((req, res, next) => {
-  if (req) {
-    // console.log(req);
-    // console.log(req.headers);
-    // console.log(`Protocol: ${req.protocol}`);
-    // console.log(`Host: ${req.hostname}`);
-    // console.log(`Url: ${req.url}`);
-    // console.log(`Method: ${req.method}`);
-    // console.log(`Status Code: ${req.statusCode}`);
-    // console.log(`Status Message: ${req.statusMessage}`);
-    // console.log(`Params: ${JSON.stringify(req.params)}`);
-    // console.log(`Query: ${JSON.stringify(req.query)}`);
-    // console.log(`Body: ${JSON.stringify(req.body)}`);
-    // console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
-    // console.log(`Ip: ${JSON.stringify(req.ip)}`);
-  }
-  if (res) {
-    //  // console.log(res);
-    res.on('finish', () => {
-      // console.log(`
-      // 		  Response:
-      //       ${JSON.stringify({
-      //         statusCode: res.statusCode,
-      //         statusMessage: res.statusMessage,
-      //         headers: res['_header'],
-      //         body: res.json
-      //       })}`);
-      // console.log({
-      //    statusCode: res.statusCode,
-      //    statusMessage: res.statusMessage,
-      //    headers: res['_header'],
-      //    pid: process.pid,
-      //    pTitle: process.title,
-      //    memory: process.memoryUsage(),
-      //    cpuUsage: process.cpuUsage(),
-      //    uptime: process.uptime()
-      //  });
-    });
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req) {
+//     // console.log(req);
+//     // console.log(req.headers);
+//     // console.log(`Protocol: ${req.protocol}`);
+//     // console.log(`Host: ${req.hostname}`);
+//     // console.log(`Url: ${req.url}`);
+//     // console.log(`Method: ${req.method}`);
+//     // console.log(`Status Code: ${req.statusCode}`);
+//     // console.log(`Status Message: ${req.statusMessage}`);
+//     // console.log(`Params: ${JSON.stringify(req.params)}`);
+//     // console.log(`Query: ${JSON.stringify(req.query)}`);
+//     // console.log(`Body: ${JSON.stringify(req.body)}`);
+//     // console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
+//     // console.log(`Ip: ${JSON.stringify(req.ip)}`);
+//   }
+//   if (res) {
+//     //  // console.log(res);
+//     res.on('finish', () => {
+//       // console.log(`
+//       // 		  Response:
+//       //       ${JSON.stringify({
+//       //         statusCode: res.statusCode,
+//       //         statusMessage: res.statusMessage,
+//       //         headers: res['_header'],
+//       //         body: res.json
+//       //       })}`);
+//       // console.log({
+//       //    statusCode: res.statusCode,
+//       //    statusMessage: res.statusMessage,
+//       //    headers: res['_header'],
+//       //    pid: process.pid,
+//       //    pTitle: process.title,
+//       //    memory: process.memoryUsage(),
+//       //    cpuUsage: process.cpuUsage(),
+//       //    uptime: process.uptime()
+//       //  });
+//     });
+//   }
+//   next();
+// });
 
 app.get('/', (req, res) => {
   res.redirect(302, '/api-docs');

@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  shipper.create(shipper, (err, data) => {
+  shipper.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        shippers: [],
+        shipper: {},
         statusCode: res.statusCode,
         error:
           err.message ||

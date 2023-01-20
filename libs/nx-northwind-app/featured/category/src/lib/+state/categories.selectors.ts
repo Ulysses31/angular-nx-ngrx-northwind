@@ -16,7 +16,7 @@ export const selectCategoriesLoaded = createSelector(
 export const selectCategoriesError = createSelector(
   selectCategoriesState,
   (state: CategoriesState) => {
-    return state.error;
+    return state.error
   }
 );
 

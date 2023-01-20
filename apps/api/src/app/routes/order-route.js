@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  order.create(order, (err, data) => {
+  order.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        orders: [],
+        order: {},
         statusCode: res.statusCode,
         error:
           err.message ||

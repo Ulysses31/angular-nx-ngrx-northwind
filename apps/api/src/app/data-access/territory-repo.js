@@ -17,7 +17,10 @@ class Territory {
 		select
       TerritoryID,
       TerritoryDescription,
-      RegionID
+      RegionID,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from territories
 	`;
     sql.query(query, (err, res) => {
@@ -36,7 +39,10 @@ class Territory {
 		select
       TerritoryID,
       TerritoryDescription,
-      RegionID
+      RegionID,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from territories where TerritoryID = ${id}
 	`;
     sql.query(query, (err, res) => {

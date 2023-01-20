@@ -6,6 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as TerritoriesActions from './territories.actions';
 import { TerritoriesState } from './territories.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class TerritoriesEffects {
@@ -19,6 +20,13 @@ export class TerritoriesEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: TerritoriesState) => {
+            data.territories.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: TerritoriesState) =>
             TerritoriesActions.loadTerritoriesSuccess({
               territories: data.territories
@@ -41,7 +49,7 @@ export class TerritoriesEffects {
           tap((data: any) => console.log(data)),
           map((data: TerritoriesState) =>
             TerritoriesActions.loadTerritorySuccess({
-              territory: data.territory
+              territory: data.territories[0]
             })
           ),
           catchError((error) =>
@@ -83,7 +91,7 @@ export class TerritoriesEffects {
             tap((data: any) => console.log(data)),
             map((data: TerritoriesState) =>
               TerritoriesActions.putTerritorySuccess({
-                territory: data.territory
+                territory: data.territory.body
               })
             ),
             catchError((error) =>
@@ -99,7 +107,7 @@ export class TerritoriesEffects {
     this.actions$.pipe(
       ofType(TerritoriesActions.deleteTerritory),
       switchMap((action) =>
-        this.service.delete(action.delTerritory.territoryID).pipe(
+        this.service.delete(action.delTerritory.TerritoryID).pipe(
           tap((data: any) => console.log(data)),
           map(() => TerritoriesActions.deleteTerritorySuccess()),
           catchError((error) =>

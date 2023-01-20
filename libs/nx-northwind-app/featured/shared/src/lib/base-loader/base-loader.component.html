@@ -1,0 +1,19 @@
+<ng-container>
+  <h1>{{ title }}</h1>
+  <hr />
+
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="function-buttons">
+    <button
+      *ngFor="let btn of fnButtons"
+      (click)="btn.command()"
+      [disabled]="btn.disabled">
+      {{ btn.label }}
+    </button>
+  </div>
+
+  <pre *ngIf="isModelVisible">{{ model$ | json }}</pre>
+
+  <ng-content></ng-content>
+</ng-container>

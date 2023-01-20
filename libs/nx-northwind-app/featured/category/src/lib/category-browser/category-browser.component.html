@@ -1,3 +1,7 @@
-<h1>category-browser works!</h1>
-
-<pre>{{ categories$ | async | json }}</pre>
+<nx-northwind-base-browser
+  title="Categories"
+  [model$]="categories$"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+>
+</nx-northwind-base-browser>

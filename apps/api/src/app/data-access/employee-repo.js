@@ -45,7 +45,10 @@ class Employee {
 			Extension,
 			Notes,
 			ReportsTo,
-			PhotoPath
+			PhotoPath,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from employees
 	`;
     sql.query(query, (err, res) => {
@@ -78,7 +81,10 @@ class Employee {
 			Extension,
 			Notes,
 			ReportsTo,
-			PhotoPath
+			PhotoPath,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from employees where EmployeeID = ${id}
 	`;
     sql.query(query, (err, res) => {

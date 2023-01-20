@@ -61,10 +61,10 @@ router.post('/', async (req, res) => {
     });
   }
 
-  region.create(region, (err, data) => {
+  region.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        regions: [],
+        region: {},
         statusCode: res.statusCode,
         error:
           err.message ||

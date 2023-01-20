@@ -1,11 +1,11 @@
 import { BaseDto } from './base-dto';
 
 export interface UserDto extends BaseDto {
-  id: string;
-  username?: null | string;
-  password?: null | string;
-  email?: null | string;
-  is_Active?: boolean;
-  sccess_Token?: null | string;
-  refresh_Token?: null | string;
+  Id: string;
+  Username?: null | string;
+  Password?: null | string;
+  Email?: null | string;
+  Is_Active?: boolean;
+  Success_Token?: null | string;
+  Refresh_Token?: null | string;
 }

@@ -17,7 +17,10 @@ class EmployeeTerritory {
 		select
       Id,
       EmployeeID,
-      TerritoryID
+      TerritoryID,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from employeeTerritories
 	`;
     sql.query(query, (err, res) => {
@@ -36,7 +39,10 @@ class EmployeeTerritory {
 		select
       Id,
       EmployeeID,
-      TerritoryID
+      TerritoryID,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
 		from employeeTerritories where Id = ${id}
 	`;
     sql.query(query, (err, res) => {

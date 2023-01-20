@@ -1,7 +1,7 @@
 import { BaseDto } from './base-dto';
 
 export interface ShipperDto extends BaseDto {
-  shipperID: string;
-  companyName?: null | string;
-  phone?: null | string;
+  ShipperID: string;
+  CompanyName?: null | string;
+  Phone?: null | string;
 }

@@ -6,6 +6,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as UsersActions from './users.actions';
 import { UsersState } from './users.reducer';
+import * as moment from 'moment';
 
 @Injectable()
 export class UsersEffects {
@@ -19,6 +20,13 @@ export class UsersEffects {
       switchMap(() =>
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
+          map((data: UsersState) => {
+            data.users.map((item) => {
+              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            });
+            return data;
+          }),
           map((data: UsersState) =>
             UsersActions.loadUsersSuccess({
               users: data.users
@@ -41,7 +49,7 @@ export class UsersEffects {
           tap((data: any) => console.log(data)),
           map((data: UsersState) =>
             UsersActions.loadUserSuccess({
-              user: data.user
+              user: data.users[0]
             })
           ),
           catchError((error) =>
@@ -81,7 +89,7 @@ export class UsersEffects {
           tap((data: any) => console.log(data)),
           map((data: UsersState) =>
             UsersActions.putUserSuccess({
-              user: data.user
+              user: data.user.body
             })
           ),
           catchError((error) =>
@@ -97,7 +105,7 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(UsersActions.deleteUser),
       switchMap((action) =>
-        this.service.delete(action.delUser.id).pipe(
+        this.service.delete(action.delUser.Id).pipe(
           tap((data: any) => console.log(data)),
           map(() => UsersActions.deleteUserSuccess()),
           catchError((error) =>
