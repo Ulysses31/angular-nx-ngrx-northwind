@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nx-northwind/nx-material-ui": [
+        "libs/nx-material-ui/src/index.ts"
+      ],
       "@nx-northwind/nx-northwind-app/entities": [
         "libs/nx-northwind-app/entities/src/index.ts"
       ],
