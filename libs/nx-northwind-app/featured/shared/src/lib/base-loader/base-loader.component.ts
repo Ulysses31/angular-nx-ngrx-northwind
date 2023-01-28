@@ -8,6 +8,7 @@ import {
   OnInit
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 @Component({
@@ -54,14 +55,20 @@ export class BaseLoaderComponent
     this.fnButtons.push({
       id: 'model',
       label: 'Model',
+      toolTipMessage: 'Toggle view model state',
       disabled: false,
+      icon: '',
+      color: MaterialColor.Basic,
       command: () => (this.isModelVisible = !this.isModelVisible)
     });
 
     this.fnButtons.unshift({
       id: 'back',
       label: 'Back',
+      toolTipMessage: 'Navigate back',
       disabled: false,
+      icon: '',
+      color: MaterialColor.Basic,
       command: () => history.back()
     });
   }

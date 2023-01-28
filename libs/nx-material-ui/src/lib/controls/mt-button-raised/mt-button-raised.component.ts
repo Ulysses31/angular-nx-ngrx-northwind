@@ -15,7 +15,7 @@ import { MaterialColor } from '../enums/enums';
       [matTooltipPosition]="tipPosition"
       [matTooltipShowDelay]="1000"
       (click)="command()">
-      <mat-icon>{{ icon }}</mat-icon> {{ label }}
+      <mat-icon *ngIf="icon">{{ icon }}</mat-icon> {{ label }}
     </button>
   `,
   styleUrls: ['./mt-button-raised.component.scss']

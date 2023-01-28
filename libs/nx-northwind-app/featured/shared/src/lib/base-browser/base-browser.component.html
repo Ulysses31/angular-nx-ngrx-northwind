@@ -1,44 +1,35 @@
 <ng-container>
-  <h1>{{ title }}</h1>
-  <hr />
-
   <p *ngIf="errorMessage">{{ errorMessage }}</p>
 
-  <div class="function-buttons">
-    <button
-      *ngFor="let btn of fnButtons"
-      (click)="btn.command()"
-      [disabled]="btn.disabled">
-      {{ btn.label }}
-    </button>
+  <br />
+  <br />
+
+  <nx-northwind-mt-toolbar-btnfunctions [title]="title">
+    <div class="function-buttons">
+      <nx-northwind-mt-button-icon
+        class="btns"
+        *ngFor="let btn of fnButtons"
+        [toolTipMessage]="btn.toolTipMessage"
+        [color]="btn.color"
+        [icon]="btn.icon"
+        [disabled]="btn.disabled"
+        [command]="btn.command">
+      </nx-northwind-mt-button-icon>
+    </div>
+  </nx-northwind-mt-toolbar-btnfunctions>
+
+  <div *ngIf="isModelVisible">
+    <br />
+    <pre>{{ model$ | async | json }}</pre>
   </div>
 
-  <pre *ngIf="isModelVisible">{{ model$ | json }}</pre>
+  <br />
 
-  <table>
-    <thead>
-      <tr>
-        <th *ngFor="let header of headers">
-          {{ header }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of model$ | async">
-        <td *ngFor="let header of headers; let idx = index">
-          <span *ngIf="idx === 0"
-            ><input
-              type="checkbox"
-              id="{{ item[header] }}"
-              name="{{ item[header] }}"
-              (change)="checkBoxChange()"
-          /></span>
-          {{ item[header] }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
- <nx-northwind-mt-button></nx-northwind-mt-button>
-
+  <nx-northwind-mt-table
+    class="datatable"
+    [displayedColumns]="this.headers"
+    [dataSource]="modelData"
+    [length]="modelData.length"
+    [isSelectable]="isSelectable">
+  </nx-northwind-mt-table>
 </ng-container>

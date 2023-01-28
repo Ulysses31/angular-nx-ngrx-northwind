@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import {
   BaseBrowserComponent,
   FunctionButtons
@@ -25,16 +26,21 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
     {
       id: 'refresh',
       label: 'Refresh',
+      color: MaterialColor.Basic,
+      icon: 'sync',
       disabled: false,
+      toolTipMessage: 'Refresh browser data',
       command: () => this.browseData()
     }
   ];
 
   constructor(private store: Store<CategoriesState>) {
     super();
+    console.log('constructor Category Browser...');
   }
 
   override ngOnInit(): void {
+    console.log('ngOnInit Category Browser...');
     this.browseData();
   }
 

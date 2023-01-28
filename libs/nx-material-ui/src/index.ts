@@ -1,3 +1,4 @@
+export * from './lib/controls/interfaces/sidebar-menu-items.interface';
 export * from './lib/controls/interfaces/select-items.interface';
 export * from './lib/controls/interfaces/accordion-content.interdace';
 export * from './lib/controls/interfaces/radio-items.interface';
@@ -82,5 +83,10 @@ export * from './lib/controls/mt-spinner/mt-spinner.component';
 export * from './lib/controls/mt-table/mt-table.component';
 
 export * from './lib/controls/mt-toolbar/mt-toolbar.component';
+export * from './lib/controls/mt-toolbar/mt-toolbar-themes';
 
 export * from './lib/controls/mt-tree/mt-tree.component';
+
+export * from './lib/controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.component';
+
+export * from './lib/controls/mt-drawer/mt-drawer.component';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AfterViewInit,
@@ -6,9 +7,14 @@ import {
   inject,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  MaterialColor,
+  MtTableComponent
+} from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 
@@ -25,7 +31,13 @@ export class BaseBrowserComponent
   @Input() headers: string[] = [];
   @Input() error!: Observable<any>;
   @Input() fnButtons: FunctionButtons[] = [];
-  errorMessage!: string;
+  // @Input() color: MaterialColor = MaterialColor.Primary;
+  public isSelectable: boolean = true;
+  public modelData: any[] = [];
+  public errorMessage!: string;
+
+  @ViewChild(MtTableComponent, { static: true })
+  tableComp!: MtTableComponent;
 
   private router = inject(Router);
   private elRef = inject(ElementRef);
@@ -50,6 +62,13 @@ export class BaseBrowserComponent
 
   ngAfterViewInit(): void {
     console.log('BaseBrowserComponent AfterViewInit...');
+    this.model$.subscribe(() => {
+      if (this.modelData) {
+        this.tableComp.dataSource = [...this.modelData];
+        this.tableComp.ngOnInit();
+        this.tableComp.ngAfterViewInit();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -58,7 +77,10 @@ export class BaseBrowserComponent
 
   private generateHeaders(): void {
     this.model$.subscribe((items: any[]) => {
-      if (items.length > 0) this.headers = Object.getOwnPropertyNames(items[0]);
+      if (items.length > 0) {
+        this.modelData = [...items];
+        this.headers = Object.getOwnPropertyNames(items[0]);
+      }
     });
   }
 
@@ -67,7 +89,10 @@ export class BaseBrowserComponent
       {
         id: 'new',
         label: 'New',
+        toolTipMessage: 'Insert new record',
         disabled: false,
+        icon: 'add',
+        color: MaterialColor.Basic,
         command: () =>
           this.router.navigate([this.router.url, 0], {
             queryParams: { backUrl: this.router.url }
@@ -76,42 +101,34 @@ export class BaseBrowserComponent
       {
         id: 'edit',
         label: 'Edit',
-        disabled: true,
-        command: () =>
-          this.router.navigate([this.router.url, this.selectedId], {
-            queryParams: { backUrl: this.router.url }
-          })
+        toolTipMessage: 'Edit selected record',
+        disabled: false,
+        icon: 'edit',
+        color: MaterialColor.Basic,
+        command: () => this.editSelectedItem()
       }
     );
 
     this.fnButtons.push({
       id: 'model',
       label: 'Model',
+      toolTipMessage: 'Toggle view model state',
+      color: MaterialColor.Basic,
+      icon: 'build',
       disabled: false,
       command: () => (this.isModelVisible = !this.isModelVisible)
     });
   }
 
-  checkBoxChange(): void {
-    const bb = this.fnButtons.find((btn) => btn.id === 'edit');
-    if (bb) bb.disabled = this.countCheckedItems() != 1;
-  }
-
-  private countCheckedItems(): number {
-    this.selectedId = '';
-    const chkList: string[] = [];
-
-    const chks = this.elRef.nativeElement.querySelectorAll(
-      'input[type=checkbox]'
-    );
-
-    chks.forEach((item: never) => {
-      if (item['checked']) chkList.push(item['id']);
-    });
-
-    if (chkList.length == 1) this.selectedId = chkList[0];
-
-    return chkList.length;
+  private editSelectedItem(): void {
+    if (!this.tableComp.selectedRecord) {
+      alert('Select a record...');
+    } else {
+      const id = this.tableComp.selectedRecord[this.headers[0]];
+      this.router.navigate([this.router.url, id], {
+        queryParams: { backUrl: this.router.url }
+      });
+    }
   }
 
   private getTypes(data: any) {

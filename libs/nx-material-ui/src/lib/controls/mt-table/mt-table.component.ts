@@ -9,14 +9,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'nx-northwind-mt-table',
   template: `
-    <div class="mat-elevation-z8">
+    <div class="mat-elevation-z4">
       <table
         mat-table
         [dataSource]="matTableDs"
@@ -37,7 +37,9 @@ import { MatTableDataSource } from '@angular/material/table';
             mat-cell
             *matCellDef="let element"
             [ngStyle]="{
-              'background-color': element.checked ? '#f3f3f3' : ''
+              'background-color': element.checked
+                ? 'rgb(216, 216, 216, 0.1)'
+                : ''
             }">
             <mat-checkbox
               #mtCheck
@@ -52,8 +54,8 @@ import { MatTableDataSource } from '@angular/material/table';
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr
           mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          (click)="command()"></tr>
+          matRipple
+          *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <mat-paginator
         #paginator
@@ -80,6 +82,8 @@ export class MtTableComponent implements OnInit, AfterViewInit {
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   @Input() hasPagination: boolean = true;
   @Input() isSelectable: boolean = true;
+  dataSourceTmp: any[] = [];
+  selectedRecord: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {
     pageSize: this.pageSize,
@@ -106,10 +110,16 @@ export class MtTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     console.log('nx-northwind-mt-table OnInit...');
+
+    // state is immutable so make a copy of the datasource
+    this.dataSourceTmp = this.dataSource.map((items) => ({
+      ...items
+    }));
+
     !this.isSelectable
       ? this.displayedColumns?.shift()
       : this.displayedColumns;
-    this.matTableDs = new MatTableDataSource(this.dataSource);
+    this.matTableDs = new MatTableDataSource(this.dataSourceTmp);
     this.selection = new SelectionModel<any>(
       this.allowMultiSelect,
       this.initialSelection
@@ -118,20 +128,17 @@ export class MtTableComponent implements OnInit, AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public getSelected(sl: any, element: any) {
+    this.selection.clear();
     this.matTableDs.data.forEach((row: any) => {
-      if (row.id === element.id && sl.checked) {
-        this.selection.select(row);
-        this.selectedRows = this.selection.selected;
+      if (row !== element) {
+        row.checked = false;
       }
-      if (row.id === element.id && !sl.checked) {
-        this.selectedRows = this.selection.selected.filter(
-          (item: any) => {
-            return item.id !== element.id;
-          }
-        );
+      if (element.checked) {
+        this.selection.select(element);
       }
     });
-    // console.log(this.selectedRows);
+
+    this.selectedRecord = this.selection.selected[0];
   }
 
   public announceSortChange(sortState: any) {
@@ -140,10 +147,12 @@ export class MtTableComponent implements OnInit, AfterViewInit {
     // Furthermore, you can customize the message to add additional
     // details about the values being sorted.
     if (sortState.direction) {
+      console.log(`Sorted ${sortState.direction}ending`);
       this._liveAnnouncer.announce(
         `Sorted ${sortState.direction}ending`
       );
     } else {
+      console.log('Sorting cleared');
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }

@@ -9,25 +9,25 @@ import { MatChipInputEvent } from '@angular/material/chips';
   template: `
     <mat-form-field class="mat-chip-list" appearance="fill">
       <mat-label>{{ label }}</mat-label>
-      <mat-chip-list
+      <mat-chip-grid
         #chipList
         aria-label="Selection"
         [disabled]="disabled">
-        <mat-chip
+        <mat-chip-row
           *ngFor="let item of chipContent"
           (removed)="remove(item)">
           {{ item[chipValue] }}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip>
+        </mat-chip-row>
         <input
           [placeholder]="placeHolderInput"
           [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           [matChipInputAddOnBlur]="addOnBlur"
           (matChipInputTokenEnd)="add($event)" />
-      </mat-chip-list>
+      </mat-chip-grid>
     </mat-form-field>
   `,
   styleUrls: ['./mt-chips.component.scss']

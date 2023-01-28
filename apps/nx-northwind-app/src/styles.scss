@@ -7,3 +7,45 @@
 * {
   font-family: Roboto;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-content {
+  padding: 10px;
+  margin: 0;
+}
+
+.sidenav-container {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  /* border: 1px solid #555; */
+}
+
+.sidenav {
+  width: 300px;
+  padding: 10px;
+  margin: 0;
+  box-shadow: 0 0 5px #cdcdcd;
+}
+
+.sidenav ul {
+  margin-left: -39px;
+}
+
+.sidenav ul li {
+  /* background-color: #fafafa; */
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 3px;
+}
+
+.sidenav ul li:hover {
+  background-color: #e4e4e4;
+  transition: all 0.5s;
+}

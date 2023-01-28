@@ -63,6 +63,8 @@ import { MtSpinnerComponent } from './controls/mt-spinner/mt-spinner.component';
 import { MtTableComponent } from './controls/mt-table/mt-table.component';
 import { MtToolbarComponent } from './controls/mt-toolbar/mt-toolbar.component';
 import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
+import { MtToolbarBtnfunctionsComponent } from './controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.component';
+import { MtDrawerComponent } from './controls/mt-drawer/mt-drawer.component';
 
 @NgModule({
   imports: [
@@ -131,7 +133,9 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
     MtSpinnerComponent,
     MtTableComponent,
     MtToolbarComponent,
-    MtTreeComponent
+    MtTreeComponent,
+    MtToolbarBtnfunctionsComponent,
+    MtDrawerComponent
   ],
   exports: [
     MtButtonComponent,
@@ -169,7 +173,9 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
     MtSpinnerComponent,
     MtTableComponent,
     MtToolbarComponent,
-    MtTreeComponent
+    MtTreeComponent,
+    MtToolbarBtnfunctionsComponent,
+    MtDrawerComponent
   ]
 })
 export class NxMaterialUiModule {}

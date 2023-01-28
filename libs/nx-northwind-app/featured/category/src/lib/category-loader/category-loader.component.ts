@@ -3,6 +3,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
@@ -35,7 +36,10 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
     {
       id: 'new',
       label: 'New',
+      toolTipMessage: 'Insert new record',
       disabled: false,
+      icon: '',
+      color: MaterialColor.Basic,
       command: () => {
         const path =
           this.route.snapshot.pathFromRoot[0].queryParams['backUrl'];
@@ -49,18 +53,27 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
     {
       id: 'delete',
       label: 'Delete',
+      toolTipMessage: 'Delete current record',
+      color: MaterialColor.Basic,
+      icon: '',
       disabled: false,
       command: () => this.deleteData()
     },
     {
       id: 'save',
       label: 'Save',
+      toolTipMessage: 'Save current record',
+      color: MaterialColor.Basic,
+      icon: '',
       disabled: false,
       command: () => this.saveData()
     },
     {
       id: 'refresh',
       label: 'Refresh',
+      toolTipMessage: 'Refresh record data',
+      color: MaterialColor.Basic,
+      icon: '',
       disabled: false,
       command: () => this.loadData()
     }

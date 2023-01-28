@@ -9,6 +9,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NxMaterialUiModule,
     StoreModule.forRoot(
       {},
       {
