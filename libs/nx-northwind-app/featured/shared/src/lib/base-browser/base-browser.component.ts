@@ -10,6 +10,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   MaterialColor,
@@ -17,6 +18,8 @@ import {
 } from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MtDialogComponent } from 'libs/nx-material-ui/src/lib/controls/mt-dialog/mt-dialog.component';
 
 @Component({
   selector: 'nx-northwind-base-browser',
@@ -35,6 +38,7 @@ export class BaseBrowserComponent
   public isSelectable: boolean = true;
   public modelData: any[] = [];
   public errorMessage!: string;
+  private snackDuration: number = 3000; //ms -> 3sec
 
   @ViewChild(MtTableComponent, { static: true })
   tableComp!: MtTableComponent;
@@ -44,7 +48,10 @@ export class BaseBrowserComponent
   private selectedId!: string;
   public isModelVisible?: boolean = false;
 
-  constructor() {
+  constructor(
+    public _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
     console.log('BaseBrowserComponent constructor...');
   }
 
@@ -57,6 +64,11 @@ export class BaseBrowserComponent
 
     this.error.subscribe((data) => {
       this.errorMessage = data ? data.error.message : '';
+      if (this.errorMessage.length > 0) {
+        this._snackBar.open(this.errorMessage, 'Close', {
+          duration: this.snackDuration
+        });
+      }
     });
   }
 
@@ -122,13 +134,36 @@ export class BaseBrowserComponent
 
   private editSelectedItem(): void {
     if (!this.tableComp.selectedRecord) {
-      alert('Select a record...');
+      this._snackBar.open('Select a record...', 'Close', {
+        duration: 3000
+      });
     } else {
       const id = this.tableComp.selectedRecord[this.headers[0]];
       this.router.navigate([this.router.url, id], {
         queryParams: { backUrl: this.router.url }
       });
     }
+  }
+
+  public confirmDialog(
+    title: string,
+    content: string
+  ): Observable<boolean> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: title,
+      content: content,
+      choice: [true, false]
+    };
+
+    const dialogRef = this.dialog.open(
+      MtDialogComponent,
+      dialogConfig
+    );
+
+    return dialogRef.afterClosed();
   }
 
   private getTypes(data: any) {

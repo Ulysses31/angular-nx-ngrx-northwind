@@ -1,5 +1,7 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import {
@@ -34,8 +36,12 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
     }
   ];
 
-  constructor(private store: Store<CategoriesState>) {
-    super();
+  constructor(
+    public override _snackBar: MatSnackBar,
+    public override dialog: MatDialog,
+    private store: Store<CategoriesState>
+  ) {
+    super(_snackBar, dialog);
     console.log('constructor Category Browser...');
   }
 

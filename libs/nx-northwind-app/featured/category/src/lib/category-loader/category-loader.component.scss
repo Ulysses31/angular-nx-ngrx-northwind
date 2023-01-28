@@ -1,42 +1,27 @@
-pre {
-  background-color: rgb(243, 243, 243);
-  padding: 5px;
-  margin-top: 55px;
-  height: 200px;
-  overflow: auto;
+
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
-.function-buttons {
-  float: right;
-  margin: 5px;
+.formContainer .mat-form-field {
+  width: 100%;
+  margin-left: 8px;
 }
 
-.function-buttons button {
-  font-family: arial, sans-serif;
-  padding: 3px;
-  margin: 1px;
+form {
+  padding: 10px;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 50%;
-}
+@media only screen and (max-width: 1024px) {
+  /* For mobile phones: */
+  .formContainer {
+    flex-direction: column;
+  }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
-th {
-  background-color: #bdbdbd;
-  text-align: right;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  padding: 8px;
-}
-
-textarea {
-  resize: none;
-}
+  .formContainer .mat-form-field {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  }

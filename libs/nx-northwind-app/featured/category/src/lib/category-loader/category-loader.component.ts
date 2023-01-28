@@ -2,6 +2,8 @@
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
@@ -38,7 +40,7 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
       label: 'New',
       toolTipMessage: 'Insert new record',
       disabled: false,
-      icon: '',
+      icon: 'add',
       color: MaterialColor.Basic,
       command: () => {
         const path =
@@ -55,7 +57,7 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
       label: 'Delete',
       toolTipMessage: 'Delete current record',
       color: MaterialColor.Basic,
-      icon: '',
+      icon: 'delete',
       disabled: false,
       command: () => this.deleteData()
     },
@@ -64,7 +66,7 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
       label: 'Save',
       toolTipMessage: 'Save current record',
       color: MaterialColor.Basic,
-      icon: '',
+      icon: 'save',
       disabled: false,
       command: () => this.saveData()
     },
@@ -73,14 +75,18 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
       label: 'Refresh',
       toolTipMessage: 'Refresh record data',
       color: MaterialColor.Basic,
-      icon: '',
+      icon: 'sync',
       disabled: false,
       command: () => this.loadData()
     }
   ];
 
-  constructor(private store: Store<CategoriesState>) {
-    super();
+  constructor(
+    public override _snackBar: MatSnackBar,
+    public override dialog: MatDialog,
+    private store: Store<CategoriesState>
+  ) {
+    super(_snackBar, dialog);
   }
 
   override ngOnInit(): void {
@@ -125,11 +131,16 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
   }
 
   private deleteData(): void {
-    if (confirm('Are you sure you want to delete it?')) {
-      this.store.dispatch(
-        deleteCategory({ delCategory: this.categoryModel })
-      );
-    }
+    this.confirmDialog(
+      'Delete',
+      'Are you sure you want to delete it?'
+    ).subscribe((result: boolean) => {
+      if (result) {
+        this.store.dispatch(
+          deleteCategory({ delCategory: this.categoryModel })
+        );
+      }
+    });
   }
 
   private saveData(): void {
@@ -153,6 +164,6 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
   }
 
   public formStatus(frm: NgForm): void {
-    console.log(frm);
+    console.log('Form is valid: ' + frm.valid);
   }
 }

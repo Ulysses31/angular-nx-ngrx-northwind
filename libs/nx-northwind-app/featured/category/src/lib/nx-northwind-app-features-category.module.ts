@@ -10,12 +10,14 @@ import * as fromCategories from './+state/categories.reducer';
 import { CategoriesEffects } from './+state/categories.effects';
 import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
 import { FormsModule } from '@angular/forms';
+import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     NxNorthwindAppFeaturedSharedModule,
+    NxMaterialUiModule,
     RouterModule.forChild(nxNorthwindAppFeaturesCategoryRoutes),
 
     StoreModule.forFeature(

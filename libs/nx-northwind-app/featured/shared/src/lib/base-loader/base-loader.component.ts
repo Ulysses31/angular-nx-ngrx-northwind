@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AfterViewInit,
@@ -7,8 +8,11 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
+import { MtDialogComponent } from 'libs/nx-material-ui/src/lib/controls/mt-dialog/mt-dialog.component';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 @Component({
@@ -28,8 +32,12 @@ export class BaseLoaderComponent
   public router = inject(Router);
   public route = inject(ActivatedRoute);
   public isModelVisible?: boolean = false;
+  private snackDuration: number = 3000; //ms -> 3sec
 
-  constructor() {
+  constructor(
+    public _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
     console.log('BaseLoaderComponent constructor...');
   }
 
@@ -40,6 +48,11 @@ export class BaseLoaderComponent
 
     this.error.subscribe((data) => {
       this.errorMessage = data ? data.error.message : '';
+      if (this.errorMessage.length > 0) {
+        this._snackBar.open(this.errorMessage, 'Close', {
+          duration: this.snackDuration
+        });
+      }
     });
   }
 
@@ -57,7 +70,7 @@ export class BaseLoaderComponent
       label: 'Model',
       toolTipMessage: 'Toggle view model state',
       disabled: false,
-      icon: '',
+      icon: 'build',
       color: MaterialColor.Basic,
       command: () => (this.isModelVisible = !this.isModelVisible)
     });
@@ -67,9 +80,30 @@ export class BaseLoaderComponent
       label: 'Back',
       toolTipMessage: 'Navigate back',
       disabled: false,
-      icon: '',
+      icon: 'arrow_back',
       color: MaterialColor.Basic,
       command: () => history.back()
     });
+  }
+
+  public confirmDialog(
+    title: string,
+    content: string
+  ): Observable<boolean> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: title,
+      content: content,
+      choice: [true, false]
+    };
+
+    const dialogRef = this.dialog.open(
+      MtDialogComponent,
+      dialogConfig
+    );
+
+    return dialogRef.afterClosed();
   }
 }

@@ -1,79 +1,81 @@
 <nx-northwind-base-loader
-  title="Categories"
+  [title]="'Category'"
   [model$]="categoryModel"
   [error]="error$"
   [fnButtons]="fnButtons$">
-  <form #frm="ngForm" (change)="formStatus(frm)">
-    <table *ngIf="categoryModel">
-      <tbody>
-        <tr>
-          <th nowrap>Category ID</th>
-          <td>
-            <input
-              type="text"
-              id="categoryID"
-              name="categoryID"
-              [(ngModel)]="categoryModel.CategoryID"
-              disabled />
-          </td>
-        </tr>
-        <tr>
-          <th nowrap>Category Name *</th>
-          <td>
-            <input
-              type="text"
-              id="categoryName"
-              name="categoryName"
-              [(ngModel)]="categoryModel.CategoryName"
-              required
-              maxlength="15" />
-          </td>
-        </tr>
-        <tr>
-          <th nowrap>Description</th>
-          <td>
-            <textarea
-              rows="10"
-              cols="50"
-              id="description"
-              name="description"
-              [(ngModel)]="categoryModel.Description"></textarea>
-          </td>
-        </tr>
-        <tr *ngIf="categoryModel.CategoryID !== '0'">
-          <th nowrap>Created By</th>
-          <td>
-            <input
-              type="text"
-              id="createdBy"
-              name="createdBy"
-              [(ngModel)]="categoryModel.CreatedBy"
-              disabled />
-          </td>
-        </tr>
-        <tr *ngIf="categoryModel.CategoryID !== '0'">
-          <th nowrap>Created At</th>
-          <td>
-            <input
-              type="date"
-              id="createdAt"
-              name="createdAt"
-              [(ngModel)]="categoryModel.CreatedAt"
-              disabled />
-          </td>
-        </tr>
-        <tr *ngIf="categoryModel.CategoryID !== '0'">
-          <th nowrap>Updated At</th>
-          <td>
-            <input
-              type="date"
-              id="updatedAt"
-              name="updatedAt"
-              [(ngModel)]="categoryModel.UpdatedAt"
-              disabled />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <form #frm="ngForm" (change)="formStatus(frm)" class="mat-elevation-z4">
+    <div class="formContainer" *ngIf="categoryModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="categoryID"
+        name="categoryID"
+        [isClosable]="false"
+        [label]="'Category ID'"
+        [placeHolder]="'Enter the category id'"
+        [(ngModel)]="categoryModel.CategoryID"
+        [disabled]="true"
+        >
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="categoryName"
+        name="categoryName"
+        [label]="'Category Name'"
+        [placeHolder]="'Enter the category name'"
+        [(ngModel)]="categoryModel.CategoryName"
+        [disabled]="false"
+        maxlength="15"
+        [required]="true"
+        >
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-textarea
+        class="mat-form-field"
+        id="description"
+        name="description"
+        [label]="'Description'"
+        [placeHolder]="'Enter the description'"
+        [(ngModel)]="categoryModel.Description"
+        [disabled]="false">
+      </nx-northwind-mt-input-textarea>
+    </div>
+
+    <div
+      class="formContainer"
+      *ngIf="categoryModel.CategoryID !== '0'">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="createdBy"
+        name="createdBy"
+        [isClosable]="false"
+        [label]="'Created By'"
+        [placeHolder]="'Created By'"
+        [(ngModel)]="categoryModel.CreatedBy"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="createdAt"
+        name="createdAt"
+        [isClosable]="false"
+        [label]="'Created At'"
+        [placeHolder]="'Created At'"
+        [(ngModel)]="categoryModel.CreatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="updatedAt"
+        name="updatedAt"
+        [isClosable]="false"
+        [label]="'Updated At'"
+        [placeHolder]="'Updated At'"
+        [(ngModel)]="categoryModel.UpdatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+    </div>
   </form>
 </nx-northwind-base-loader>

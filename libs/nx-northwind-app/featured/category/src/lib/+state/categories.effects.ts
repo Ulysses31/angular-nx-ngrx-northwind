@@ -8,6 +8,7 @@ import { catchError, map, switchMap, tap, of, pipe } from 'rxjs';
 import * as CategoriesActions from './categories.actions';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // for read operations switchMa
 // for write operations concatMap, exhaustMap
@@ -19,6 +20,7 @@ export class CategoriesEffects {
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT CATEGORIES *************************************//
   initCategories$ = createEffect(() =>
@@ -112,11 +114,14 @@ export class CategoriesEffects {
         ofType(CategoriesActions.postCategorySuccess),
         pipe(
           tap(() => {
-            const path =
-              this.route.snapshot.pathFromRoot[0].queryParams[
-                'backUrl'
-              ];
-            this.router.navigate([path]);
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
           })
         )
       ),
@@ -151,11 +156,14 @@ export class CategoriesEffects {
         ofType(CategoriesActions.putCategorySuccess),
         pipe(
           tap(() => {
-            const path =
-              this.route.snapshot.pathFromRoot[0].queryParams[
-                'backUrl'
-              ];
-            this.router.navigate([path]);
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
           })
         )
       ),
@@ -189,6 +197,9 @@ export class CategoriesEffects {
                 'backUrl'
               ];
             this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
           })
         )
       ),

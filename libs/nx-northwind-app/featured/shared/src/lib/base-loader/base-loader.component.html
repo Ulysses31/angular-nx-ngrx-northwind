@@ -1,19 +1,27 @@
 <ng-container>
-  <h1>{{ title }}</h1>
-  <hr />
+  <br />
+  <br />
 
-  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+  <nx-northwind-mt-toolbar-btnfunctions [title]="title">
+    <div class="function-buttons">
+      <nx-northwind-mt-button-icon
+        class="btns"
+        *ngFor="let btn of fnButtons"
+        [toolTipMessage]="btn.toolTipMessage"
+        [color]="btn.color"
+        [icon]="btn.icon"
+        [disabled]="btn.disabled"
+        [command]="btn.command">
+      </nx-northwind-mt-button-icon>
+    </div>
+  </nx-northwind-mt-toolbar-btnfunctions>
 
-  <div class="function-buttons">
-    <button
-      *ngFor="let btn of fnButtons"
-      (click)="btn.command()"
-      [disabled]="btn.disabled">
-      {{ btn.label }}
-    </button>
+  <div *ngIf="isModelVisible">
+    <br />
+    <pre>{{ model$ | json }}</pre>
   </div>
 
-  <pre *ngIf="isModelVisible">{{ model$ | json }}</pre>
+  <br />
 
   <ng-content></ng-content>
 </ng-container>

@@ -21,6 +21,7 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
   opened!: boolean;
   @Output() isOn: EventEmitter<boolean> = new EventEmitter<boolean>();
+  menuTimeOut: number = 500;
   sidebarMenuItems: MtSidebarMenuItem[] = [
     {
       text: 'Dashboard',
@@ -33,70 +34,90 @@ export class AppComponent implements OnInit, OnDestroy {
       text: 'Category',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/category');
+        setTimeout(() => {
+          this.router.navigateByUrl('/category');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Customer',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/customer');
+        setTimeout(() => {
+          this.router.navigateByUrl('/customer');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Employee',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/employee');
+        setTimeout(() => {
+          this.router.navigateByUrl('/employee');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Employee-Territory',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/employee-territory');
+        setTimeout(() => {
+          this.router.navigateByUrl('/employee-territory');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Order',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/order');
+        setTimeout(() => {
+          this.router.navigateByUrl('/order');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Order-Detail',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/order-detail');
+        setTimeout(() => {
+          this.router.navigateByUrl('/order-detail');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Product',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/product');
+        setTimeout(() => {
+          this.router.navigateByUrl('/product');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Region',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/region');
+        setTimeout(() => {
+          this.router.navigateByUrl('/region');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Shipper',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/shipper');
+        setTimeout(() => {
+          this.router.navigateByUrl('/shipper');
+        }, this.menuTimeOut);
       }
     },
     {
       text: 'Territory',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/territory');
+        setTimeout(() => {
+          this.router.navigateByUrl('/territory');
+        }, this.menuTimeOut);
       }
     }
   ];

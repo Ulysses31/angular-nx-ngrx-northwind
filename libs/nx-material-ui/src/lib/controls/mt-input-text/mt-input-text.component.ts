@@ -19,12 +19,15 @@ import { MtInputAppearance } from '../enums/enums';
       <input
         type="text"
         matInput
+        [disabled]="disabled"
         [placeholder]="placeHolder"
         [readonly]="readonly"
         [(ngModel)]="value"
-        (blur)="onBlur()" />
+        (blur)="onBlur()"
+        [required]="required"
+        #input="ngModel" />
       <button
-        *ngIf="value"
+        *ngIf="value && isClosable"
         matSuffix
         mat-icon-button
         aria-label="Clear"
@@ -45,9 +48,12 @@ import { MtInputAppearance } from '../enums/enums';
 export class MtInputTextComponent
   implements OnInit, ControlValueAccessor
 {
+  @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
   @Input() label: string = 'Material Text Input';
   @Input() placeHolder: string = 'Material Text Input';
   @Input() readonly: boolean = false;
+  @Input() isClosable: boolean = true;
   @Input() appearance: MatFormFieldAppearance =
     MtInputAppearance.Fill;
 
