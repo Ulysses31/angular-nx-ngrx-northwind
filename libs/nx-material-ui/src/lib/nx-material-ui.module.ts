@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MtButtonFabComponent } from './controls/mt-button-fab/mt-button-fab.component';
 import { MtButtonFlatComponent } from './controls/mt-button-flat/mt-button-flat.component';
@@ -67,6 +68,7 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
 import { MtToolbarBtnfunctionsComponent } from './controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.component';
 import { MtDrawerComponent } from './controls/mt-drawer/mt-drawer.component';
 import { MtDialogComponent } from './controls/mt-dialog/mt-dialog.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -77,6 +79,8 @@ import { MtDialogComponent } from './controls/mt-dialog/mt-dialog.component';
     MatButtonToggleModule,
     MatIconModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatTooltipModule,
     MatCardModule,
     MatProgressBarModule,

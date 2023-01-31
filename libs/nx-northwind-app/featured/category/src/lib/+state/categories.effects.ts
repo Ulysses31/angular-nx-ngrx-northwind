@@ -32,10 +32,10 @@ export class CategoriesEffects {
           map((data: CategoriesState) => {
             data.categories.map((item) => {
               item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM')
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
                 : '';
               item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM')
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
                 : '';
             });
             return data;
@@ -61,18 +61,18 @@ export class CategoriesEffects {
         this.service.load(action.selectedId).pipe(
           tap((data: any) => console.log(data)),
           map((data: CategoriesState) => {
-            data.categories[0].CreatedAt = data.categories[0]
-              .CreatedAt
-              ? moment(data.categories[0].CreatedAt).format(
-                  'YYYY-MM-DD'
-                )
-              : '';
-            data.categories[0].UpdatedAt = data.categories[0]
-              .UpdatedAt
-              ? moment(data.categories[0].UpdatedAt).format(
-                  'YYYY-MM-DD'
-                )
-              : '';
+            // data.categories[0].CreatedAt = data.categories[0]
+            //   .CreatedAt
+            //   ? moment(data.categories[0].CreatedAt).format(
+            //       'MM/DD/YYYY'
+            //     )
+            //   : '';
+            // data.categories[0].UpdatedAt = data.categories[0]
+            //   .UpdatedAt
+            //   ? moment(data.categories[0].UpdatedAt).format(
+            //       'MM/DD/YYYY'
+            //     )
+            //   : '';
             return data;
           }),
           map((data: CategoriesState) =>
@@ -117,11 +117,11 @@ export class CategoriesEffects {
             this.snackBar.open('Record saved...', 'Close', {
               duration: 3000
             });
-            // const path =
-            //   this.route.snapshot.pathFromRoot[0].queryParams[
-            //     'backUrl'
-            //   ];
-            // this.router.navigate([path]);
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
           })
         )
       ),

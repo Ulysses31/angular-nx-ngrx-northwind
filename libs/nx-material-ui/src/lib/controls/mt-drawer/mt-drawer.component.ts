@@ -44,6 +44,12 @@ import { MtSidebarMenuItem } from '../interfaces/sidebar-menu-items.interface';
             {{ menuItem.text }}
           </li>
         </ul>
+        <p
+          style="position: absolute; bottom: -10px; width: 93%; color: #a1a1a1">
+          <span style="display: flex; justify-content: center"
+            >Northwind &copy; {{ curDate }}</span
+          >
+        </p>
       </mat-drawer>
       <mat-drawer-content class="main-content">
         <!-- #### Main ### -->
@@ -68,6 +74,7 @@ export class MtDrawerComponent implements OnInit, OnDestroy {
   @Output() openedChange: EventEmitter<boolean> =
     new EventEmitter<boolean>();
   @Input() sidebarMenuItems: MtSidebarMenuItem[] = [];
+  curDate: number = new Date().getFullYear();
 
   constructor(private router: Router) {}
 

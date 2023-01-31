@@ -3,7 +3,10 @@
   [model$]="categoryModel"
   [error]="error$"
   [fnButtons]="fnButtons$">
-  <form #frm="ngForm" (change)="formStatus(frm)" class="mat-elevation-z4">
+  <form
+    #frm="ngForm"
+    (change)="formStatus(frm)"
+    class="mat-elevation-z4">
     <div class="formContainer" *ngIf="categoryModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
@@ -13,8 +16,7 @@
         [label]="'Category ID'"
         [placeHolder]="'Enter the category id'"
         [(ngModel)]="categoryModel.CategoryID"
-        [disabled]="true"
-        >
+        [disabled]="true">
       </nx-northwind-mt-input-text>
 
       <nx-northwind-mt-input-text
@@ -26,8 +28,7 @@
         [(ngModel)]="categoryModel.CategoryName"
         [disabled]="false"
         maxlength="15"
-        [required]="true"
-        >
+        [required]="true">
       </nx-northwind-mt-input-text>
 
       <nx-northwind-mt-input-textarea
@@ -55,27 +56,24 @@
         [disabled]="true">
       </nx-northwind-mt-input-text>
 
-      <nx-northwind-mt-input-text
+      <nx-northwind-mt-input-date
         class="mat-form-field"
         id="createdAt"
         name="createdAt"
-        [isClosable]="false"
         [label]="'Created At'"
         [placeHolder]="'Created At'"
         [(ngModel)]="categoryModel.CreatedAt"
-        [disabled]="true">
-      </nx-northwind-mt-input-text>
+        [disabled]="true"></nx-northwind-mt-input-date>
 
-      <nx-northwind-mt-input-text
+      <nx-northwind-mt-input-date
         class="mat-form-field"
         id="updatedAt"
         name="updatedAt"
-        [isClosable]="false"
         [label]="'Updated At'"
         [placeHolder]="'Updated At'"
         [(ngModel)]="categoryModel.UpdatedAt"
         [disabled]="true">
-      </nx-northwind-mt-input-text>
+      </nx-northwind-mt-input-date>
     </div>
   </form>
 </nx-northwind-base-loader>
