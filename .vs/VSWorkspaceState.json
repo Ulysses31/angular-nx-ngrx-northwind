@@ -1,0 +1,19 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\apps",
+    "\\apps\\api",
+    "\\apps\\api\\src",
+    "\\apps\\api\\src\\app",
+    "\\apps\\api\\src\\app\\routes",
+    "\\libs",
+    "\\libs\\nx-northwind-app",
+    "\\libs\\nx-northwind-app\\featured",
+    "\\libs\\nx-northwind-app\\featured\\category",
+    "\\libs\\nx-northwind-app\\featured\\category\\src",
+    "\\libs\\nx-northwind-app\\featured\\category\\src\\lib",
+    "\\libs\\nx-northwind-app\\featured\\category\\src\\lib\\category-browser"
+  ],
+  "SelectedNode": "\\libs\\nx-northwind-app\\featured\\category\\src\\lib\\category-loader\\category-loader.component.scss",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,18 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
+import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { ProductsEffects } from './+state/products.effects';
+import * as fromProducts from './+state/products.reducer';
 import { nxNorthwindAppFeaturesProductRoutes } from './lib.routes';
 import { ProductBrowserComponent } from './product-browser/product-browser.component';
 import { ProductLoaderComponent } from './product-loader/product-loader.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromProducts from './+state/products.reducer';
-import { ProductsEffects } from './+state/products.effects';
 
 @NgModule({
   imports: [
     CommonModule,
-
+    FormsModule,
+    NxNorthwindAppFeaturedSharedModule,
+    NxMaterialUiModule,
     RouterModule.forChild(nxNorthwindAppFeaturesProductRoutes),
 
     StoreModule.forFeature(

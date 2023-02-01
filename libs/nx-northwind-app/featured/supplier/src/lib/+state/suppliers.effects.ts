@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SupplierService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as SuppliersActions from './suppliers.actions';
 import { SuppliersState } from './suppliers.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class SuppliersEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(SupplierService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT SUPPLIERS *************************************//
   initSuppliers$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class SuppliersEffects {
           tap((data: any) => console.log(data)),
           map((data: SuppliersState) => {
             data.suppliers.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class SuppliersEffects {
     )
   );
 
+  successPostSupplier$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SuppliersActions.postSupplierSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT SUPPLIER *************************************//
   putSupplier$ = createEffect(() =>
     this.actions$.pipe(
@@ -91,7 +121,7 @@ export class SuppliersEffects {
             tap((data: any) => console.log(data)),
             map((data: SuppliersState) =>
               SuppliersActions.putSupplierSuccess({
-                supplier: data.supplier.body
+                supplier: data.supplier
               })
             ),
             catchError((error) =>
@@ -100,6 +130,26 @@ export class SuppliersEffects {
           )
       )
     )
+  );
+
+  successPutSupplier$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SuppliersActions.putSupplierSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE SUPPLIER **********************************//
@@ -116,5 +166,25 @@ export class SuppliersEffects {
         )
       )
     )
+  );
+
+  successDeleteSupplier$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SuppliersActions.deleteSupplierSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

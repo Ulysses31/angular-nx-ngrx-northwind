@@ -112,6 +112,15 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     },
     {
+      text: 'Supplier',
+      active: false,
+      command: () => {
+        setTimeout(() => {
+          this.router.navigateByUrl('/supplier');
+        }, this.menuTimeOut);
+      }
+    },
+    {
       text: 'Territory',
       active: false,
       command: () => {

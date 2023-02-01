@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { RegionService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as RegionsActions from './regions.actions';
 import { RegionsState } from './regions.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class RegionsEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(RegionService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT REGIONS *************************************//
   initRegions$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class RegionsEffects {
           tap((data: any) => console.log(data)),
           map((data: RegionsState) => {
             data.regions.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class RegionsEffects {
     )
   );
 
+  successPostRegion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RegionsActions.postRegionSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT REGION *************************************//
   putRegion$ = createEffect(() =>
     this.actions$.pipe(
@@ -89,7 +119,7 @@ export class RegionsEffects {
           tap((data: any) => console.log(data)),
           map((data: RegionsState) =>
             RegionsActions.putRegionSuccess({
-              region: data.region.body
+              region: data.region
             })
           ),
           catchError((error) =>
@@ -98,6 +128,26 @@ export class RegionsEffects {
         )
       )
     )
+  );
+
+  successPutRegion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RegionsActions.putRegionSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE REGION **********************************//
@@ -114,5 +164,25 @@ export class RegionsEffects {
         )
       )
     )
+  );
+
+  successDeleteRegion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RegionsActions.deleteRegionSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

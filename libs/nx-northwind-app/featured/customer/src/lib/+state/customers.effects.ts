@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CustomersState } from './customers.reducer';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
+import { CustomersState } from './customers.reducer';
 
-import * as CustomersActions from './customers.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import * as CustomersActions from './customers.actions';
 
 @Injectable()
 export class CustomersEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(CustomerService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT CUSTOMERS *************************************//
   initCustomers$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class CustomersEffects {
           tap((data: any) => console.log(data)),
           map((data: CustomersState) => {
             data.customers.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class CustomersEffects {
     )
   );
 
+  successPostCustomer$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CustomersActions.postCustomerSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT CUSTOMER *************************************//
   putCustomer$ = createEffect(() =>
     this.actions$.pipe(
@@ -91,7 +121,7 @@ export class CustomersEffects {
             tap((data: any) => console.log(data)),
             map((data: CustomersState) =>
               CustomersActions.putCustomerSuccess({
-                customer: data.customer.body
+                customer: data.customer
               })
             ),
             catchError((error) =>
@@ -100,6 +130,26 @@ export class CustomersEffects {
           )
       )
     )
+  );
+
+  successPutCustomer$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CustomersActions.putCustomerSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE CUSTOMER **********************************//
@@ -116,5 +166,25 @@ export class CustomersEffects {
         )
       )
     )
+  );
+
+  successDeleteCustomer$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CustomersActions.deleteCustomerSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

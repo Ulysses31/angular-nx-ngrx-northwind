@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import(
+        '@nx-northwind/nx-northwind-app/featured/dashboard'
+      ).then((m) => m.NxNorthwindAppFeaturedDashboardModule)
+  },
+  {
     path: 'category',
     loadChildren: () =>
       import('@nx-northwind/nx-northwind-app/featured/category').then(

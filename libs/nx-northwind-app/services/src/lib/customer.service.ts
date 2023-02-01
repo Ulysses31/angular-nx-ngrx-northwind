@@ -9,8 +9,9 @@ import { CustomerDto } from '@nx-northwind/nx-northwind-app/entities';
 export class CustomerService extends BaseService<CustomerDto> {
   constructor(public override http: HttpClient) {
     super(http);
-    console.log('CustomerService constructor...');
-    this.setApiUrl('http://localhost:3333/category');
-    console.log(this.getApiUrl());
+    console.log(
+      'CustomerService constructor... [http://localhost:3333/customer]'
+    );
+    this.setApiUrl('http://localhost:3333/customer');
   }
 }

@@ -7,10 +7,9 @@ router.get('/', async (req, res) => {
   employee.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        employees: [],
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving employees.'
       });
     }
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employees: [],
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          message: `Not found Employee with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employees: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Employee with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Employee with id ${req.params.id}`
         });
       }
     } else {
@@ -55,19 +54,31 @@ router.post('/', async (req, res) => {
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (employee.LastName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Lastname is required!'
+    });
+  }
+
+  if (employee.FirstName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Firstname is required!'
     });
   }
 
   employee.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        employee: {},
         statusCode: res.statusCode,
         error:
-          err.message ||
+          err.sqlMessage ||
           'Some error occurred while inserting new employee.'
       });
     } else {
@@ -82,13 +93,26 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var employee = new Employee(this);
+  var employee = new Employee(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      employee: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (employee.LastName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Lastname is required!'
+    });
+  }
+
+  if (employee.FirstName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Firstname is required!'
     });
   }
 
@@ -96,15 +120,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          employee: {},
           statusCode: res.statusCode,
-          error: `Not found Employee with id ${req.params.id}.`
+          message: `Not found Employee with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          employee: {},
           statusCode: res.statusCode,
-          error: `Error updating Employee with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Employee with id ${req.params.id}`
         });
       }
     } else {
@@ -123,21 +147,17 @@ router.delete('/:id', async (req, res) => {
   employee.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Not found Employee with id ${req.params.id}.`
-          });
+        res.status(404).send({
+          statusCode: res.statusCode,
+          message: `Not found Employee with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            employee: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Employee with id ${req.params.id}`
-          });
+        res.status(500).send({
+          statusCode: res.statusCode,
+          message:
+            err.sqlMessage ||
+            `Could not delete Employee with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({

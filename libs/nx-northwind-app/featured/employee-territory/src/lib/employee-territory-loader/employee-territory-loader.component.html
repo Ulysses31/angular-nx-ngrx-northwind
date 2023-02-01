@@ -1,1 +1,82 @@
-<h1>employee-territory-loader works!</h1>
+<nx-northwind-base-loader
+  [title]="'Employee Territory'"
+  [model$]="employeeTerritoryModel"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+  <form
+    #frm="ngForm"
+    (change)="formStatus(frm)"
+    class="mat-elevation-z4">
+    <div class="formContainer" *ngIf="employeeTerritoryModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="id"
+        name="id"
+        [isClosable]="false"
+        [label]="'ID'"
+        [placeHolder]="'Enter the employeeTerritory id'"
+        [(ngModel)]="employeeTerritoryModel.Id"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="employeeId"
+        name="employeeId"
+        [isClosable]="false"
+        [label]="'Employee ID'"
+        [placeHolder]="'Enter the employee id'"
+        [(ngModel)]="employeeTerritoryModel.EmployeeID"
+        [disabled]="false"
+        [required]="true"
+        >
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="territoryId"
+        name="territoryId"
+        [isClosable]="false"
+        [label]="'Territory ID'"
+        [placeHolder]="'Enter the employee territory id'"
+        [(ngModel)]="employeeTerritoryModel.TerritoryID"
+        [disabled]="false"
+        [required]="true"
+        >
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div
+      class="formContainer"
+      *ngIf="employeeTerritoryModel.Id !== '0'">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="createdBy"
+        name="createdBy"
+        [isClosable]="false"
+        [label]="'Created By'"
+        [placeHolder]="'Created By'"
+        [(ngModel)]="employeeTerritoryModel.CreatedBy"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="createdAt"
+        name="createdAt"
+        [label]="'Created At'"
+        [placeHolder]="'Created At'"
+        [(ngModel)]="employeeTerritoryModel.CreatedAt"
+        [disabled]="true"></nx-northwind-mt-input-date>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="updatedAt"
+        name="updatedAt"
+        [label]="'Updated At'"
+        [placeHolder]="'Updated At'"
+        [(ngModel)]="employeeTerritoryModel.UpdatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
+    </div>
+  </form>
+</nx-northwind-base-loader>

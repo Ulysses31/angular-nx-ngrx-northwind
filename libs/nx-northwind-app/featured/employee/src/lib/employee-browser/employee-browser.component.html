@@ -1,1 +1,7 @@
-<h1>employee-browser works!</h1>
+<nx-northwind-base-browser
+  [title]="'Employees'"
+  [model$]="employees$"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+</nx-northwind-base-browser>

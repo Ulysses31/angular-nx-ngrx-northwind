@@ -90,6 +90,7 @@ class Supplier {
   }
 
   create(supplier, result) {
+    supplier.CreatedBy = 'admin';
     sql.query('insert into suppliers set ?', supplier, (err, res) => {
       if (err) {
         console.log('error: ', err);

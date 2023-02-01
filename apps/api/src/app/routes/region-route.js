@@ -1,5 +1,5 @@
-import Region from '../data-access/region-repo';
 import { Router } from 'express';
+import Region from '../data-access/region-repo';
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -7,9 +7,8 @@ router.get('/', async (req, res) => {
   region.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        regions: [],
         statusCode: res.statusCode,
-        error:
+        message:
           err.message ||
           'Some error occurred while retrieving regions.'
       });
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          regions: [],
           statusCode: res.statusCode,
-          error: `Not found Region with id ${req.params.id}.`
+          message: `Not found Region with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          regions: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Region with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Region with id ${req.params.id}`
         });
       }
     } else {
@@ -61,13 +60,19 @@ router.post('/', async (req, res) => {
     });
   }
 
+  if (region.RegionDescription.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'RegionDescription is required!'
+    });
+  }
+
   region.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        region: {},
         statusCode: res.statusCode,
         error:
-          err.message ||
+          err.sqlMessage ||
           'Some error occurred while inserting new region.'
       });
     } else {
@@ -82,13 +87,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var region = new Region(this);
+  var region = new Region(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      region: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (region.RegionDescription.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'RegionDescription is required!'
     });
   }
 
@@ -96,15 +107,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          region: {},
           statusCode: res.statusCode,
-          error: `Not found Region with id ${req.params.id}.`
+          message: `Not found Region with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          region: {},
           statusCode: res.statusCode,
-          error: `Error updating Region with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Region with id ${req.params.id}`
         });
       }
     } else {
@@ -124,15 +135,15 @@ router.delete('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          region: {},
           statusCode: res.statusCode,
-          error: `Not found Region with id ${req.params.id}.`
+          message: `Not found Region with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          region: {},
           statusCode: res.statusCode,
-          error: `Could not delete Region with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Could not delete Region with id ${req.params.id}`
         });
       }
     } else {

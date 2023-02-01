@@ -7,10 +7,9 @@ router.get('/', async (req, res) => {
   customer.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        customers: [],
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving customers.'
       });
     }
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          customers: [],
           statusCode: res.statusCode,
-          error: `Not found Customer with id ${req.params.id}.`
+          message: `Not found Customer with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          customers: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Customer with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Customer with id ${req.params.id}`
         });
       }
     } else {
@@ -52,22 +51,26 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   var customer = new Customer(req.body);
-
   if (!req.body) {
     res.status(400).send({
-      customer: {},
       statusCode: res.statusCode,
       error: 'Content can not be empty!'
+    });
+  }
+
+  if (customer.CompanyName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CompanyName is required!'
     });
   }
 
   customer.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        customer: {},
         statusCode: res.statusCode,
         error:
-          err.message ||
+          err.sqlMessage ||
           'Some error occurred while inserting new customer.'
       });
     } else {
@@ -82,13 +85,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var customer = new Customer(this);
+  var customer = new Customer(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      customer: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (customer.CompanyName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CompanyName is required!'
     });
   }
 
@@ -96,15 +105,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          customer: {},
           statusCode: res.statusCode,
-          error: `Not found Customer with id ${req.params.id}.`
+          message: `Not found Customer with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          customer: {},
           statusCode: res.statusCode,
-          error: `Error updating Customer with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Customer with id ${req.params.id}`
         });
       }
     } else {
@@ -123,21 +132,17 @@ router.delete('/:id', async (req, res) => {
   customer.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res
-          .status(404)
-          .send({
-            customer: {},
-            statusCode: res.statusCode,
-            error: `Not found Customer with id ${req.params.id}.`
-          });
+        res.status(404).send({
+          statusCode: res.statusCode,
+          message: `Not found Customer with id ${req.params.id}.`
+        });
       } else {
-        res
-          .status(500)
-          .send({
-            customer: {},
-            statusCode: res.statusCode,
-            error: `Could not delete Customer with id ${req.params.id}`
-          });
+        res.status(500).send({
+          statusCode: res.statusCode,
+          message:
+            err.sqlMessage ||
+            `Could not delete Customer with id ${req.params.id}`
+        });
       }
     } else {
       return res.send({

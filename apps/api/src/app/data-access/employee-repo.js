@@ -105,6 +105,7 @@ class Employee {
   }
 
   create(employee, result) {
+    employee.CreatedBy = 'admin';
     employee.BirthDate = moment(employee.BirthDate).format('yyyy-MM-DD');
     employee.HireDate = moment(employee.HireDate).format('yyyy-MM-DD');
 

@@ -96,6 +96,7 @@ class Order {
   }
 
   create(order, result) {
+    order.CreatedBy = 'admin';
     order.OrderDate = moment(order.OrderDate).format('yyyy-MM-DD');
     order.RequiredDate = moment(order.RequiredDate).format('yyyy-MM-DD');
     order.ShippedDate = moment(order.ShippedDate).format('yyyy-MM-DD');

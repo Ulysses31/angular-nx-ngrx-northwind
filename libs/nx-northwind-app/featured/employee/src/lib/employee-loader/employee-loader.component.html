@@ -1,1 +1,246 @@
-<h1>employee-loader works!</h1>
+<nx-northwind-base-loader
+  [title]="'Employee'"
+  [model$]="employeeModel"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+  <form
+    #frm="ngForm"
+    (change)="formStatus(frm)"
+    class="mat-elevation-z4">
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="employeeID"
+        name="employeeID"
+        [isClosable]="false"
+        [label]="'Employee ID'"
+        [placeHolder]="'Enter the employee id'"
+        [(ngModel)]="employeeModel.EmployeeID"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="lastName"
+        name="lastName"
+        [isClosable]="false"
+        [label]="'LastName'"
+        [placeHolder]="'Enter the last name'"
+        [(ngModel)]="employeeModel.LastName"
+        [disabled]="false"
+        [required]="true"
+        maxlength="20">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="firstName"
+        name="firstName"
+        [isClosable]="false"
+        [label]="'FirstName'"
+        [placeHolder]="'Enter the first name'"
+        [(ngModel)]="employeeModel.FirstName"
+        [disabled]="false"
+        [required]="true"
+        maxlength="10">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="title"
+        name="title"
+        [isClosable]="false"
+        [label]="'Title'"
+        [placeHolder]="'Enter the title'"
+        [(ngModel)]="employeeModel.Title"
+        [disabled]="false"
+        maxlength="30">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="titleOfCourtesy"
+        name="titleOfCourtesy"
+        [isClosable]="false"
+        [label]="'TitleOfCourtesy'"
+        [placeHolder]="'Enter the title of courtesy'"
+        [(ngModel)]="employeeModel.TitleOfCourtesy"
+        [disabled]="false"
+        maxlength="25">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="birthDate"
+        name="birthDate"
+        [label]="'Birth Date'"
+        [placeHolder]="'Birth Date'"
+        [(ngModel)]="employeeModel.BirthDate"
+        [disabled]="false">
+      </nx-northwind-mt-input-date>
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="hireDate"
+        name="hireDate"
+        [label]="'Hire Date'"
+        [placeHolder]="'Hire Date'"
+        [(ngModel)]="employeeModel.HireDate"
+        [disabled]="false">
+      </nx-northwind-mt-input-date>
+    </div>
+
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="address"
+        name="address"
+        [isClosable]="false"
+        [label]="'Address'"
+        [placeHolder]="'Enter the address'"
+        [(ngModel)]="employeeModel.Address"
+        [disabled]="false"
+        maxlength="60">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="city"
+        name="city"
+        [isClosable]="false"
+        [label]="'City'"
+        [placeHolder]="'Enter the city'"
+        [(ngModel)]="employeeModel.City"
+        [disabled]="false"
+        maxlength="15">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="region"
+        name="region"
+        [isClosable]="false"
+        [label]="'Region'"
+        [placeHolder]="'Enter the region'"
+        [(ngModel)]="employeeModel.Region"
+        [disabled]="false"
+        maxlength="15">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="postalCode"
+        name="postalCode"
+        [isClosable]="false"
+        [label]="'PostalCode'"
+        [placeHolder]="'Enter the postalCode'"
+        [(ngModel)]="employeeModel.PostalCode"
+        [disabled]="false"
+        maxlength="10">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="country"
+        name="country"
+        [isClosable]="false"
+        [label]="'Country'"
+        [placeHolder]="'Enter the country'"
+        [(ngModel)]="employeeModel.Country"
+        [disabled]="false"
+        maxlength="15">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="homePhone"
+        name="homePhone"
+        [isClosable]="false"
+        [label]="'HomePhone'"
+        [placeHolder]="'Enter the homePhone'"
+        [(ngModel)]="employeeModel.HomePhone"
+        [disabled]="false"
+        maxlength="24">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="extension"
+        name="extension"
+        [isClosable]="false"
+        [label]="'Extension'"
+        [placeHolder]="'Enter the extension'"
+        [(ngModel)]="employeeModel.Extension"
+        [disabled]="false"
+        maxlength="4">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="photoPath"
+        name="photoPath"
+        [isClosable]="false"
+        [label]="'PhotoPath'"
+        [placeHolder]="'Enter the photoPath'"
+        [(ngModel)]="employeeModel.PhotoPath"
+        [disabled]="false"
+        maxlength="255">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="reportsTo"
+        name="reportsTo"
+        [isClosable]="false"
+        [label]="'ReportsTo'"
+        [placeHolder]="'Enter the reportsTo'"
+        [(ngModel)]="employeeModel.ReportsTo"
+        [disabled]="false"
+        maxlength="11">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="employeeModel">
+      <nx-northwind-mt-input-textarea
+        class="mat-form-field"
+        id="notes"
+        name="notes"
+        [label]="'Notes'"
+        [placeHolder]="'Enter the notes'"
+        [(ngModel)]="employeeModel.Notes"
+        [disabled]="false">
+      </nx-northwind-mt-input-textarea>
+    </div>
+
+    <div
+      class="formContainer"
+      *ngIf="employeeModel.EmployeeID !== '0'">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="createdBy"
+        name="createdBy"
+        [isClosable]="false"
+        [label]="'Created By'"
+        [placeHolder]="'Created By'"
+        [(ngModel)]="employeeModel.CreatedBy"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="createdAt"
+        name="createdAt"
+        [label]="'Created At'"
+        [placeHolder]="'Created At'"
+        [(ngModel)]="employeeModel.CreatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="updatedAt"
+        name="updatedAt"
+        [label]="'Updated At'"
+        [placeHolder]="'Updated At'"
+        [(ngModel)]="employeeModel.UpdatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
+    </div>
+  </form>
+</nx-northwind-base-loader>

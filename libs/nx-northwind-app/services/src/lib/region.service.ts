@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class RegionService extends BaseService<RegionDto> {
   constructor(public override http: HttpClient) {
     super(http);
-    console.log('RegionService constructor...');
+    console.log(
+      'RegionService constructor... [http://localhost:3333/region]'
+    );
+    this.setApiUrl('http://localhost:3333/region');
   }
 }

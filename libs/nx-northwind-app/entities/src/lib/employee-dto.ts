@@ -6,8 +6,8 @@ export interface EmployeeDto extends BaseDto {
   FirstName?: null | string;
   Title?: null | string;
   TitleOfCourtesy?: null | string;
-  BirthDate?: Date;
-  HireDate?: Date;
+  BirthDate?: null | string;
+  HireDate?: null | string;
   Address?: null | string;
   City?: null | string;
   Region?: null | string;

@@ -1,1 +1,8 @@
-<h1>product-browser works!</h1>
+<nx-northwind-base-browser
+  [title]="'Products'"
+  [model$]="products$"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded"
+>
+</nx-northwind-base-browser>

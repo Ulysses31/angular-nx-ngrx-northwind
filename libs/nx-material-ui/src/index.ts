@@ -34,7 +34,7 @@ export * from './lib/controls/mt-checkbox/mt-checkbox.component';
 
 export * from './lib/controls/mt-chips/mt-chips.component';
 
-// export * from './lib/controls/mt-dialog/mt-dialog.component';
+export * from './lib/controls/mt-dialog/mt-dialog.component';
 
 export * from './lib/controls/mt-expansion-panel/mt-expansion-panel.component';
 

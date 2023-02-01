@@ -15,7 +15,7 @@ import { MaterialColor, ProgrBarMode } from '../enums/enums';
   styleUrls: ['./mt-progress.component.scss']
 })
 export class MtProgressComponent implements OnInit {
-  @Input() color: MaterialColor = MaterialColor.Primary;
+  @Input() color: MaterialColor = MaterialColor.Basic;
   @Input() mode: ProgrBarMode = ProgrBarMode.Determinate;
   @Input() value: number = 0;
   @Input() bufferValue: number = 0;

@@ -1,5 +1,5 @@
-import Shipper from '../data-access/shipper-repo';
 import { Router } from 'express';
+import Shipper from '../data-access/shipper-repo';
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -7,10 +7,9 @@ router.get('/', async (req, res) => {
   shipper.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        shippers: [],
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving shippers.'
       });
     }
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          shippers: [],
           statusCode: res.statusCode,
-          error: `Not found Shipper with id ${req.params.id}.`
+          message: `Not found Shipper with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          shippers: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Shipper with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Shipper with id ${req.params.id}`
         });
       }
     } else {
@@ -55,19 +54,24 @@ router.post('/', async (req, res) => {
 
   if (!req.body) {
     res.status(400).send({
-      shipper: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (shipper.CompanyName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CompanyName is required!'
     });
   }
 
   shipper.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        shipper: {},
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while inserting new shipper.'
       });
     } else {
@@ -82,13 +86,19 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var shipper = new Shipper(this);
+  var shipper = new Shipper(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      shipper: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (shipper.CompanyName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'CompanyName is required!'
     });
   }
 
@@ -96,15 +106,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          shipper: {},
           statusCode: res.statusCode,
-          error: `Not found Shipper with id ${req.params.id}.`
+          message: `Not found Shipper with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          shipper: {},
           statusCode: res.statusCode,
-          error: `Error updating Shipper with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Shipper with id ${req.params.id}`
         });
       }
     } else {
@@ -124,15 +134,15 @@ router.delete('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          shipper: {},
           statusCode: res.statusCode,
-          error: `Not found Shipper with id ${req.params.id}.`
+          message: `Not found Shipper with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          shipper: {},
           statusCode: res.statusCode,
-          error: `Could not delete Shipper with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Could not delete Shipper with id ${req.params.id}`
         });
       }
     } else {

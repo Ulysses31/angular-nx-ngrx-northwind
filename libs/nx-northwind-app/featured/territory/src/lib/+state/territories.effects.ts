@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TerritoryService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as TerritoriesActions from './territories.actions';
 import { TerritoriesState } from './territories.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class TerritoriesEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(TerritoryService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT TERRITORIES *************************************//
   initTerritories$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class TerritoriesEffects {
           tap((data: any) => console.log(data)),
           map((data: TerritoriesState) => {
             data.territories.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class TerritoriesEffects {
     )
   );
 
+  successPostTerritory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TerritoriesActions.postTerritorySuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT TERRITORY *************************************//
   putTerritory$ = createEffect(() =>
     this.actions$.pipe(
@@ -102,6 +132,26 @@ export class TerritoriesEffects {
     )
   );
 
+  successPutTerritory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TerritoriesActions.putTerritorySuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** DELETE TERRITORY **********************************//
   deleteTerritory$ = createEffect(() =>
     this.actions$.pipe(
@@ -116,5 +166,25 @@ export class TerritoriesEffects {
         )
       )
     )
+  );
+
+  successDeleteTerritory$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TerritoriesActions.deleteTerritorySuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

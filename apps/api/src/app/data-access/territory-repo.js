@@ -63,6 +63,7 @@ class Territory {
   }
 
   create(territory, result) {
+    territory.CreatedBy = 'admin';
     sql.query(
       'insert into territories set ?',
       territory,

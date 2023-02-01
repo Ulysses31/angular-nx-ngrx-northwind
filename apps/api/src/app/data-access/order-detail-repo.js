@@ -72,6 +72,7 @@ class OrderDetail {
   }
 
   create(orderDetail, result) {
+    orderDetail.CreatedBy = 'admin';
     sql.query(
       `insert into \`order details\` set ?`,
       orderDetail,

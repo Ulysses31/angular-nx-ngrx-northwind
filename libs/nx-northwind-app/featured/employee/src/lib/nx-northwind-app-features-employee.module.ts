@@ -1,18 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { nxNorthwindAppFeaturesEmployeeRoutes } from './lib.routes';
-import { EmployeeLoaderComponent } from './employee-loader/employee-loader.component';
-import { EmployeeBrowserComponent } from './employee-browser/employee-browser.component';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import * as fromEmployees from './+state/employees.reducer';
+import { StoreModule } from '@ngrx/store';
+import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
+import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
 import { EmployeesEffects } from './+state/employees.effects';
+import * as fromEmployees from './+state/employees.reducer';
+import { EmployeeBrowserComponent } from './employee-browser/employee-browser.component';
+import { EmployeeLoaderComponent } from './employee-loader/employee-loader.component';
+import { nxNorthwindAppFeaturesEmployeeRoutes } from './lib.routes';
 
 @NgModule({
   imports: [
     CommonModule,
-
+    FormsModule,
+    NxNorthwindAppFeaturedSharedModule,
+    NxMaterialUiModule,
     RouterModule.forChild(nxNorthwindAppFeaturesEmployeeRoutes),
 
     StoreModule.forFeature(

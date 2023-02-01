@@ -3,16 +3,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EmployeeService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as EmployeesActions from './employees.actions';
 import { EmployeesState } from './employees.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class EmployeesEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(EmployeeService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT EMPLOYEES *************************************//
   initEmployees$ = createEffect(() =>
@@ -23,8 +29,19 @@ export class EmployeesEffects {
           tap((data: any) => console.log(data)),
           map((data: EmployeesState) => {
             data.employees.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.Notes = item.Notes ? item.Notes.substring(0, 10)+'...' : '';
+              item.BirthDate = item.BirthDate
+                ? moment(item.BirthDate).format('DD/MM/YYYY')
+                : '';
+              item.HireDate = item.HireDate
+                ? moment(item.HireDate).format('DD/MM/YYYY')
+                : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -81,6 +98,26 @@ export class EmployeesEffects {
     )
   );
 
+  successPostEmployee$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EmployeesActions.postEmployeeSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT CATEGORY *************************************//
   putEmployee$ = createEffect(() =>
     this.actions$.pipe(
@@ -92,7 +129,7 @@ export class EmployeesEffects {
             tap((data: any) => console.log(data)),
             map((data: EmployeesState) =>
               EmployeesActions.putEmployeeSuccess({
-                employee: data.employee.body
+                employee: data.employee
               })
             ),
             catchError((error) =>
@@ -101,6 +138,26 @@ export class EmployeesEffects {
           )
       )
     )
+  );
+
+  successPutEmployee$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EmployeesActions.putEmployeeSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE CATEGORY **********************************//
@@ -117,5 +174,25 @@ export class EmployeesEffects {
         )
       )
     )
+  );
+
+  successDeleteEmployee$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EmployeesActions.deleteEmployeeSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

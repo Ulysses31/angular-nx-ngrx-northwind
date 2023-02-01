@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class ProductService extends BaseService<ProductDto> {
   constructor(public override http: HttpClient) {
     super(http);
-    console.log('ProductService constructor...');
+    console.log(
+      'ProductService constructor... [http://localhost:3333/product]'
+    );
+    this.setApiUrl('http://localhost:3333/product');
   }
 }

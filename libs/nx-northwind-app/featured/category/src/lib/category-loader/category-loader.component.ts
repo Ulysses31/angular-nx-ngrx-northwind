@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
@@ -21,6 +22,7 @@ import {
 } from './../+state/categories.actions';
 import {
   selectCategoriesError,
+  selectCategoriesLoaded,
   selectCategory
 } from './../+state/categories.selectors';
 
@@ -33,6 +35,8 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
   categoryModel!: CategoryDto;
   category$ = this.store.select(selectCategory);
   error$ = this.store.select(selectCategoriesError);
+  isLoaded$ = this.store.select(selectCategoriesLoaded);
+  loaded: boolean = true;
 
   fnButtons$: FunctionButtons[] = [
     {
@@ -90,6 +94,12 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
   }
 
   override ngOnInit(): void {
+    console.log('ngOnInit Category Loader...');
+
+    this.isLoaded$.subscribe((isloaded: boolean) => {
+      this.loaded = isloaded;
+    });
+
     this.loadData();
   }
 

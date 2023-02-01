@@ -84,6 +84,7 @@ class Product {
   }
 
   create(product, result) {
+    product.CreatedBy = 'admin';
     sql.query('insert into products set ?', product, (err, res) => {
       if (err) {
         console.log('error: ', err);

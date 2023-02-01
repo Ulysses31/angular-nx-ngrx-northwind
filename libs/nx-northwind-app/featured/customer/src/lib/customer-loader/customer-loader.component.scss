@@ -1,0 +1,26 @@
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.formContainer .mat-form-field {
+  width: 100%;
+  margin-left: 8px;
+}
+
+form {
+  padding: 10px;
+}
+
+@media only screen and (max-width: 1024px) {
+  /* For mobile phones: */
+  .formContainer {
+    flex-direction: column;
+  }
+
+  .formContainer .mat-form-field {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}

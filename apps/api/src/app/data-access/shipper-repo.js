@@ -63,6 +63,7 @@ class Shipper {
   }
 
   create(shipper, result) {
+    shipper.CreatedBy = 'admin';
     sql.query('insert into shippers set ?', shipper, (err, res) => {
       if (err) {
         console.log('error: ', err);

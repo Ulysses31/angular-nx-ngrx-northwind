@@ -60,6 +60,7 @@ class Region {
   }
 
   create(region, result) {
+    region.CreatedBy = 'admin';
     sql.query('insert into Region set ?', region, (err, res) => {
       if (err) {
         console.log('error: ', err);

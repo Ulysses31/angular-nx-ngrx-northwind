@@ -9,7 +9,7 @@ import * as swaggerJsdoc from 'swagger-jsdoc';
 
 import employeeRouter from './app/routes/employee-route';
 import categoryRouter from './app/routes/category-route';
-import customerRouter from './app/routes/employee-route';
+import customerRouter from './app/routes/customer-route';
 import employeeTerritoryRouter from './app/routes/employee-territory-route';
 import orderDetailRouter from './app/routes/order-detail-route';
 import orderRouter from './app/routes/order-route';
@@ -102,7 +102,7 @@ app.get('/api', (req, res) => {
 
 app.use('/employee', employeeRouter);
 app.use('/category', categoryRouter);
-app.use('/employee', customerRouter);
+app.use('/customer', customerRouter);
 app.use('/employee-territory', employeeTerritoryRouter);
 app.use('/order', orderRouter);
 app.use('/order-detail', orderDetailRouter);

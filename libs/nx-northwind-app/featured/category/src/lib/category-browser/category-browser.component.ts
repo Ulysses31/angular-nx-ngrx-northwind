@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +13,8 @@ import { initCategories } from '../+state/categories.actions';
 import { CategoriesState } from '../+state/categories.reducer';
 import {
   selectAllCategories,
-  selectCategoriesError
+  selectCategoriesError,
+  selectCategoriesLoaded
 } from './../+state/categories.selectors';
 
 @Component({
@@ -23,6 +25,8 @@ import {
 export class CategoryBrowserComponent extends BaseBrowserComponent {
   categories$ = this.store.select(selectAllCategories);
   error$ = this.store.select(selectCategoriesError);
+  isLoaded$ = this.store.select(selectCategoriesLoaded);
+  loaded: boolean = true;
 
   fnButtons$: FunctionButtons[] = [
     {
@@ -47,6 +51,11 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
 
   override ngOnInit(): void {
     console.log('ngOnInit Category Browser...');
+
+    this.isLoaded$.subscribe((isloaded: boolean) => {
+      this.loaded = isloaded;
+    });
+
     this.browseData();
   }
 

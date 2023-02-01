@@ -11,8 +11,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { MtDialogComponent } from 'libs/nx-material-ui/src/lib/controls/mt-dialog/mt-dialog.component';
+import { MaterialColor, MtDialogComponent, ProgrBarMode } from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 @Component({
@@ -27,8 +26,10 @@ export class BaseLoaderComponent
   @Input() model$!: any;
   @Input() error!: Observable<any>;
   @Input() fnButtons: FunctionButtons[] = [];
+  @Input() isLoaded: boolean = true;
   errorMessage!: string;
 
+  public mode: ProgrBarMode = ProgrBarMode.Indeterminate;
   public router = inject(Router);
   public route = inject(ActivatedRoute);
   public isModelVisible?: boolean = false;

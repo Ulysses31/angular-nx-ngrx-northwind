@@ -87,6 +87,7 @@ class Customer {
   }
 
   create(customer, result) {
+    customer.CreatedBy = 'admin';
     sql.query('insert into customers set ?', customer, (err, res) => {
       if (err) {
         console.log('error: ', err);

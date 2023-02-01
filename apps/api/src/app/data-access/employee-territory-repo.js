@@ -63,6 +63,7 @@ class EmployeeTerritory {
   }
 
   create(employeeTerritory, result) {
+    employeeTerritory.CreatedBy = 'admin';
     sql.query(
       'insert into employeeTerritories set ?',
       employeeTerritory,
@@ -116,6 +117,7 @@ class EmployeeTerritory {
   }
 
   delete(id, result) {
+    console.log('ID: ' + id);
     sql.query(
       'delete from employeeTerritories where Id = ?',
       id,

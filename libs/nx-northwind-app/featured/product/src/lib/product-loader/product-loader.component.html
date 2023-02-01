@@ -1,1 +1,162 @@
-<h1>product-loader works!</h1>
+<nx-northwind-base-loader
+  [title]="'Product'"
+  [model$]="productModel"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+  <form
+    #frm="ngForm"
+    (change)="formStatus(frm)"
+    class="mat-elevation-z4">
+    <div class="formContainer" *ngIf="productModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="productID"
+        name="productID"
+        [isClosable]="false"
+        [label]="'Product ID'"
+        [placeHolder]="'Enter the product id'"
+        [(ngModel)]="productModel.ProductID"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="productName"
+        name="productName"
+        [isClosable]="false"
+        [label]="'Product Name'"
+        [placeHolder]="'Enter the product name'"
+        [(ngModel)]="productModel.ProductName"
+        [disabled]="false"
+        [required]="true"
+        maxlength="40">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="supplierID"
+        name="supplierID"
+        [isClosable]="false"
+        [label]="'Supplier ID'"
+        [placeHolder]="'Enter the supplier id'"
+        [(ngModel)]="productModel.SupplierID"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="categoryID"
+        name="categoryID"
+        [isClosable]="false"
+        [label]="'Category ID'"
+        [placeHolder]="'Enter the category id'"
+        [(ngModel)]="productModel.CategoryID"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="productModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="quantityPerUnit"
+        name="quantityPerUnit"
+        [isClosable]="false"
+        [label]="'Quantity Per Unit'"
+        [placeHolder]="'Enter the quantity per unit'"
+        [(ngModel)]="productModel.QuantityPerUnit"
+        [disabled]="false"
+        maxlength="20">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="unitPrice"
+        name="unitPrice"
+        [isClosable]="false"
+        [label]="'Unit Price'"
+        [placeHolder]="'Enter the unit price'"
+        [(ngModel)]="productModel.UnitPrice"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="unitsInStock"
+        name="unitsInStock"
+        [isClosable]="false"
+        [label]="'Units In Stock'"
+        [placeHolder]="'Enter the units in stock'"
+        [(ngModel)]="productModel.UnitsInStock"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="unitsOnOrder"
+        name="unitsOnOrder"
+        [isClosable]="false"
+        [label]="'Units On Order'"
+        [placeHolder]="'Enter the units on order'"
+        [(ngModel)]="productModel.UnitsOnOrder"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="productModel">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="reorderLevel"
+        name="reorderLevel"
+        [isClosable]="false"
+        [label]="'Reorder Level'"
+        [placeHolder]="'Enter the reorder level'"
+        [(ngModel)]="productModel.ReorderLevel"
+        [disabled]="false"
+        [required]="false">
+      </nx-northwind-mt-input-text>
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="discontinued"
+        name="discontinued"
+        [isClosable]="false"
+        [label]="'Discontinued'"
+        [placeHolder]="'Enter the discontinued state'"
+        [(ngModel)]="productModel.Discontinued"
+        [disabled]="false"
+        [required]="true">
+      </nx-northwind-mt-input-text>
+    </div>
+
+    <div class="formContainer" *ngIf="productModel.ProductID !== '0'">
+      <nx-northwind-mt-input-text
+        class="mat-form-field"
+        id="createdBy"
+        name="createdBy"
+        [isClosable]="false"
+        [label]="'Created By'"
+        [placeHolder]="'Created By'"
+        [(ngModel)]="productModel.CreatedBy"
+        [disabled]="true">
+      </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="createdAt"
+        name="createdAt"
+        [label]="'Created At'"
+        [placeHolder]="'Created At'"
+        [(ngModel)]="productModel.CreatedAt"
+        [disabled]="true"></nx-northwind-mt-input-date>
+
+      <nx-northwind-mt-input-date
+        class="mat-form-field"
+        id="updatedAt"
+        name="updatedAt"
+        [label]="'Updated At'"
+        [placeHolder]="'Updated At'"
+        [(ngModel)]="productModel.UpdatedAt"
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
+    </div>
+  </form>
+</nx-northwind-base-loader>

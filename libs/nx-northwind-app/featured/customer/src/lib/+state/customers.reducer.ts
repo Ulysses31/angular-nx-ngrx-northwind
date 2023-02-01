@@ -15,7 +15,7 @@ export interface CustomersState {
 
 export const initialCustomersState: CustomersState = {
   customers: [],
-  customer: {},
+  customer: null,
   loaded: false,
   error: null
 };
@@ -25,7 +25,7 @@ const reducer = createReducer(
   // *********** INIT CUSTOMERS ******************************//
   on(CustomersActions.initCustomers, (state) => ({
     ...state,
-    customer: {},
+    customer: null,
     loaded: false,
     error: null
   })),
@@ -34,7 +34,7 @@ const reducer = createReducer(
     (state, { customers }) => ({
       ...state,
       customers,
-      customer: {},
+      customer: null,
       loaded: true,
       error: null
     })
@@ -42,7 +42,7 @@ const reducer = createReducer(
   on(CustomersActions.loadCustomersFailure, (state, { error }) => ({
     ...state,
     customers: [],
-    customer: {},
+    customer: null,
     loaded: true,
     error
   })),
@@ -60,7 +60,7 @@ const reducer = createReducer(
   })),
   on(CustomersActions.loadCustomerFailure, (state, { error }) => ({
     ...state,
-    customer: {},
+    customer: null,
     loaded: true,
     error
   })),

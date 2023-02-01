@@ -27,6 +27,9 @@
       "@nx-northwind/nx-northwind-app/featured/customer": [
         "libs/nx-northwind-app/featured/customer/src/index.ts"
       ],
+      "@nx-northwind/nx-northwind-app/featured/dashboard": [
+        "libs/nx-northwind-app/featured/dashboard/src/index.ts"
+      ],
       "@nx-northwind/nx-northwind-app/featured/employee": [
         "libs/nx-northwind-app/featured/employee/src/index.ts"
       ],

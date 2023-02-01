@@ -1,5 +1,5 @@
-import Product from '../data-access/product-repo';
 import { Router } from 'express';
+import Product from '../data-access/product-repo';
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -7,10 +7,9 @@ router.get('/', async (req, res) => {
   product.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        products: [],
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving products.'
       });
     }
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          products: [],
           statusCode: res.statusCode,
           error: `Not found Product with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          products: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Product with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Product with id ${req.params.id}`
         });
       }
     } else {
@@ -55,19 +54,31 @@ router.post('/', async (req, res) => {
 
   if (!req.body) {
     res.status(400).send({
-      product: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (product.ProductName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'ProductName is required!'
+    });
+  }
+
+  if (product.Discontinued === '') {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Discontinued is required!'
     });
   }
 
   product.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        product: {},
         statusCode: res.statusCode,
         error:
-          err.message ||
+          err.sqlMessage ||
           'Some error occurred while inserting new product.'
       });
     } else {
@@ -82,13 +93,26 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   var id = req.params.id;
-  var product = new Product(this);
+  var product = new Product(req.body);
 
   if (!req.body) {
     res.status(400).send({
-      product: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (product.ProductName.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'ProductName is required!'
+    });
+  }
+
+  if (product.Discontinued === '') {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Discontinued is required!'
     });
   }
 
@@ -96,15 +120,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          product: {},
           statusCode: res.statusCode,
-          error: `Not found Product with id ${req.params.id}.`
+          message: `Not found Product with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          product: {},
           statusCode: res.statusCode,
-          error: `Error updating Product with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Product with id ${req.params.id}`
         });
       }
     } else {
@@ -124,15 +148,15 @@ router.delete('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          product: {},
           statusCode: res.statusCode,
-          error: `Not found Product with id ${req.params.id}.`
+          message: `Not found Product with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          product: {},
           statusCode: res.statusCode,
-          error: `Could not delete Product with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Could not delete Product with id ${req.params.id}`
         });
       }
     } else {

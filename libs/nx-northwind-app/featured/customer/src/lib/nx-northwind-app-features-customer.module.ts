@@ -8,10 +8,16 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromCustomers from './+state/customers.reducer';
 import { CustomersEffects } from './+state/customers.effects';
+import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { FormsModule } from '@angular/forms';
+import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    NxNorthwindAppFeaturedSharedModule,
+    NxMaterialUiModule,
     RouterModule.forChild(nxNorthwindAppFeaturesCustomerRoutes),
 
     StoreModule.forFeature(

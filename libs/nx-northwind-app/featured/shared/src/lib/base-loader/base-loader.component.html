@@ -1,5 +1,12 @@
 <ng-container>
   <br />
+
+   <nx-northwind-mt-progress
+    [mode]="mode"
+    *ngIf="!isLoaded"
+  >
+  </nx-northwind-mt-progress>
+
   <br />
 
   <nx-northwind-mt-toolbar-btnfunctions [title]="title">

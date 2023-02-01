@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProductService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as ProductsActions from './products.actions';
 import { ProductsState } from './products.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class ProductsEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(ProductService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT PRODUCTS *************************************//
   initProducts$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class ProductsEffects {
           tap((data: any) => console.log(data)),
           map((data: ProductsState) => {
             data.products.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class ProductsEffects {
     )
   );
 
+  successPostProduct$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProductsActions.postProductSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT PRODUCT *************************************//
   putProduct$ = createEffect(() =>
     this.actions$.pipe(
@@ -91,7 +121,7 @@ export class ProductsEffects {
             tap((data: any) => console.log(data)),
             map((data: ProductsState) =>
               ProductsActions.putProductSuccess({
-                product: data.product.body
+                product: data.product
               })
             ),
             catchError((error) =>
@@ -100,6 +130,26 @@ export class ProductsEffects {
           )
       )
     )
+  );
+
+  successPutProduct$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProductsActions.putProductSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE PRODUCT **********************************//
@@ -116,5 +166,25 @@ export class ProductsEffects {
         )
       )
     )
+  );
+
+  successDeleteProduct$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProductsActions.deleteProductSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

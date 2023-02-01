@@ -2,7 +2,8 @@
   [title]="'Category'"
   [model$]="categoryModel"
   [error]="error$"
-  [fnButtons]="fnButtons$">
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
   <form
     #frm="ngForm"
     (change)="formStatus(frm)"

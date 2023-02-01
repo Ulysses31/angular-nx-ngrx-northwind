@@ -1,1 +1,7 @@
-<h1>customer-browser works!</h1>
+<nx-northwind-base-browser
+  [title]="'Customers'"
+  [model$]="customers$"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+</nx-northwind-base-browser>

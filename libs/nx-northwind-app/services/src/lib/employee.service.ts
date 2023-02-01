@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class EmployeeService extends BaseService<EmployeeDto> {
   constructor(public override http: HttpClient) {
     super(http);
-    console.log('EmployeeService constructor...');
+    console.log('EmployeeService constructor... [http://localhost:3333/employee]');
+    this.setApiUrl('http://localhost:3333/employee');
   }
 }

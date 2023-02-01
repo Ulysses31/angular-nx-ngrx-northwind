@@ -75,6 +75,7 @@ class User {
   }
 
   create(user, result) {
+    user.CreatedBy = 'admin';
     sql.query('insert into users set ?', user, (err, res) => {
       if (err) {
         console.log('error: ', err);

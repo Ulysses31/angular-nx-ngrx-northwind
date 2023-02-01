@@ -15,7 +15,7 @@ export interface EmployeesState {
 
 export const initialEmployeesState: EmployeesState = {
   employees: [],
-  employee: {},
+  employee: null,
   loaded: false,
   error: null
 };
@@ -25,7 +25,7 @@ const reducer = createReducer(
   // *********** INIT EMPLOYEES ******************************//
   on(EmployeesActions.initEmployees, (state) => ({
     ...state,
-    employee: {},
+    employee: null,
     loaded: false,
     error: null
   })),
@@ -34,7 +34,7 @@ const reducer = createReducer(
     (state, { employees }) => ({
       ...state,
       employees,
-      employee: {},
+      employee: null,
       loaded: true,
       error: null
     })
@@ -42,7 +42,7 @@ const reducer = createReducer(
   on(EmployeesActions.loadEmployeesFailure, (state, { error }) => ({
     ...state,
     employees: [],
-    employee: {},
+    employee: null,
     loaded: true,
     error
   })),
@@ -60,7 +60,7 @@ const reducer = createReducer(
   })),
   on(EmployeesActions.loadEmployeeFailure, (state, { error }) => ({
     ...state,
-    employee: {},
+    employee: null,
     loaded: true,
     error
   })),

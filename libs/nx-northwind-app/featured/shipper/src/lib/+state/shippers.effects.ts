@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ShipperService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import * as ShippersActions from './shippers.actions';
 import { ShippersState } from './shippers.reducer';
 import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ShippersEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(ShipperService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT SHIPPERS *************************************//
   initShippers$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class ShippersEffects {
           tap((data: any) => console.log(data)),
           map((data: ShippersState) => {
             data.shippers.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class ShippersEffects {
     )
   );
 
+  successPostShipper$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ShippersActions.postShipperSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT SHIPPER *************************************//
   putShipper$ = createEffect(() =>
     this.actions$.pipe(
@@ -91,7 +121,7 @@ export class ShippersEffects {
             tap((data: any) => console.log(data)),
             map((data: ShippersState) =>
               ShippersActions.putShipperSuccess({
-                shipper: data.shipper.body
+                shipper: data.shipper
               })
             ),
             catchError((error) =>
@@ -100,6 +130,26 @@ export class ShippersEffects {
           )
       )
     )
+  );
+
+  successPutShipper$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ShippersActions.putShipperSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE SHIPPER **********************************//
@@ -116,5 +166,25 @@ export class ShippersEffects {
         )
       )
     )
+  );
+
+  successDeleteShipper$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ShippersActions.deleteShipperSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }

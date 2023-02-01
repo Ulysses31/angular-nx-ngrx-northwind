@@ -14,12 +14,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   MaterialColor,
-  MtTableComponent
+  MtDialogComponent,
+  MtTableComponent,
+  ProgrBarMode
 } from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MtDialogComponent } from 'libs/nx-material-ui/src/lib/controls/mt-dialog/mt-dialog.component';
 
 @Component({
   selector: 'nx-northwind-base-browser',
@@ -34,7 +35,9 @@ export class BaseBrowserComponent
   @Input() headers: string[] = [];
   @Input() error!: Observable<any>;
   @Input() fnButtons: FunctionButtons[] = [];
-  // @Input() color: MaterialColor = MaterialColor.Primary;
+  @Input() isLoaded: boolean = true;
+
+  public mode: ProgrBarMode = ProgrBarMode.Indeterminate;
   public isSelectable: boolean = true;
   public modelData: any[] = [];
   public errorMessage!: string;

@@ -16,7 +16,7 @@ export interface EmployeeTerritoriesState {
 export const initialEmployeeTerritoriesState: EmployeeTerritoriesState =
   {
     employeeTerritories: [],
-    employeeTerritory: {},
+    employeeTerritory: null,
     loaded: false,
     error: null
   };
@@ -26,7 +26,7 @@ const reducer = createReducer(
   // *********** INIT EMPLOYEETERRITORIES ******************************//
   on(EmployeeTerritoriesActions.initEmployeeTerritories, (state) => ({
     ...state,
-    employeeTerritory: {},
+    employeeTerritory: null,
     loaded: false,
     error: null
   })),
@@ -35,7 +35,7 @@ const reducer = createReducer(
     (state, { employeeTerritories }) => ({
       ...state,
       employeeTerritories,
-      employeeTerritory: {},
+      employeeTerritory: null,
       loaded: true,
       error: null
     })
@@ -45,7 +45,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       employeeTerritories: [],
-      employeeTerritory: {},
+      employeeTerritory: null,
       loaded: true,
       error
     })
@@ -69,7 +69,7 @@ const reducer = createReducer(
     EmployeeTerritoriesActions.loadEmployeeTerritoryFailure,
     (state, { error }) => ({
       ...state,
-      employeeTerritory: {},
+      employeeTerritory: null,
       loaded: true,
       error
     })
