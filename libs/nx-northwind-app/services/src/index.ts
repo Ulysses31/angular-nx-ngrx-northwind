@@ -1,3 +1,4 @@
+export * from './lib/dashboard.service';
 export * from './lib/category.service';
 export * from './lib/customer.service';
 export * from './lib/employee.service';

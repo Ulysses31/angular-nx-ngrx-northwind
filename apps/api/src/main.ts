@@ -7,6 +7,7 @@ import * as logger from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
 import * as swaggerJsdoc from 'swagger-jsdoc';
 
+import dashboardRouter from './app/routes/dashboard-route';
 import employeeRouter from './app/routes/employee-route';
 import categoryRouter from './app/routes/category-route';
 import customerRouter from './app/routes/customer-route';
@@ -100,6 +101,7 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
 
+app.use('/dashboard', dashboardRouter);
 app.use('/employee', employeeRouter);
 app.use('/category', categoryRouter);
 app.use('/customer', customerRouter);
@@ -142,6 +144,228 @@ const options = {
     ],
     failOnErrors: true,
     paths: {
+      '/dashboard/sales-total-per-year': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllSalesTotalPerYear',
+          summary: 'Get list of total sales per year',
+          description: 'Total sales per year',
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerYear'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
+      '/dashboard/sales-total-amount-per-year': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllSalesTotalAmountPerYear',
+          summary: 'Get list of total sales amount per year',
+          description: 'Total sales amount per year',
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalAmountPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalAmountPerYear'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
+      '/dashboard/customers-count-per-year': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllCustomersCountPerYear',
+          summary: 'Get list of total customers count per year',
+          description: 'Total customers count per year',
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/CustomersCountPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/CustomersCountPerYear'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
       '/category': {
         get: {
           tags: ['Category'],
@@ -1862,6 +2086,261 @@ const options = {
                     type: 'array',
                     items: {
                       $ref: '#/components/schemas/User'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
+      '/dashboard/sales-total-per-category/{year}': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllSalesTotalPerCategory',
+          summary: 'Get list of total sales per category',
+          description: 'Total sales per category',
+          parameters: [
+            {
+              name: 'year',
+              in: 'path',
+              description: 'Year of report',
+              required: 'true',
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerCategory'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerCategory'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
+      '/dashboard/employees-total-sales-per-year/{year}': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllEmployeesSalesTotalPerYear',
+          summary: 'Get list of total employees sales per year',
+          description: 'Total employees sales per year',
+          parameters: [
+            {
+              name: 'year',
+              in: 'path',
+              description: 'Year of report',
+              required: 'true',
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/EmployeesTotalSalesPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/EmployeesTotalSalesPerYear'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
+      '/dashboard/customers-count-orders-per-year/{year}': {
+        get: {
+          tags: ['Dashboard'],
+          operationId: 'findAllCustomersCountOrdersPerYear',
+          summary: 'Get list of total customer orders per year',
+          description: 'Total customer orders per year',
+          parameters: [
+            {
+              name: 'year',
+              in: 'path',
+              description: 'Year of report',
+              required: 'true',
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/CustomersCountOrdersPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/CustomersCountOrdersPerYear'
                     }
                   }
                 }
@@ -4842,6 +5321,106 @@ const options = {
     },
     components: {
       schemas: {
+        SalesTotalPerYear: {
+          type: 'object',
+          description: 'SalesTotalPerYear entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            TotalOrders: {
+              type: 'string',
+              description: 'The total number of orders'
+            }
+          }
+        },
+        SalesTotalPerCategory: {
+          type: 'object',
+          description: 'SalesTotalPerCategory entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            CategoryName: {
+              type: 'string',
+              description: 'The category name'
+            },
+            SubTotal: {
+              type: 'string',
+              description: 'The SubTotal amount'
+            },
+            Total: {
+              type: 'string',
+              description: 'The Total amount'
+            }
+          }
+        },
+        SalesTotalAmountPerYear: {
+          type: 'object',
+          description: 'SalesTotalAmountPerYear entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            TotalAmount: {
+              type: 'string',
+              description: 'The total number of orders amount'
+            }
+          }
+        },
+        EmployeesTotalSalesPerYear: {
+          type: 'object',
+          description: 'EmployeesSalesTotalPerYear entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            Employee: {
+              type: 'string',
+              description: 'The employee name'
+            },
+            Total: {
+              type: 'string',
+              description: 'The total sales'
+            }
+          }
+        },
+        CustomersCountOrdersPerYear: {
+          type: 'object',
+          description: 'CustomersCountOrdersPerYear entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            Customer: {
+              type: 'string',
+              description: 'The customer name'
+            },
+            Total: {
+              type: 'string',
+              description: 'The total orders'
+            }
+          }
+        },
+        CustomersCountPerYear: {
+          type: 'object',
+          description: 'CustomersCountPerYear entity',
+          properties: {
+            Year: {
+              type: 'string',
+              description: 'Year'
+            },
+            Customers: {
+              type: 'string',
+              description: 'The customers count'
+            }
+          }
+        },
         Category: {
           type: 'object',
           description: 'Category entity',
@@ -5298,6 +5877,14 @@ const options = {
       }
     },
     tags: [
+      {
+        name: 'Dashboard',
+        description: 'Everything about your Dashboard',
+        externalDocs: {
+          description: 'Find out more',
+          url: 'http://swagger.io'
+        }
+      },
       {
         name: 'Category',
         description: 'Everything about your Categories',

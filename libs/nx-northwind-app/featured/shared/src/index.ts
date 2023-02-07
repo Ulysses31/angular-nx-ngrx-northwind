@@ -1,3 +1,5 @@
+export * from './assets/canvasjs.angular.component';
+
 export * from './lib/nx-northwind-app-featured-shared.module';
 
 export * from './lib/base-browser/base-browser.component';
