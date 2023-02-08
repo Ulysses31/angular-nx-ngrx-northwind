@@ -81,16 +81,16 @@ class Order {
     sql.query(query, (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(null, err);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-
-      // console.log('Order: ', res);
 
       if (res.length === 0) {
         result({ kind: 'not_found' }, null);
+        return { kind: 'not_found' };
       } else {
         result(null, res);
+        return res;
       }
     });
   }
@@ -98,27 +98,36 @@ class Order {
   create(order, result) {
     order.CreatedBy = 'admin';
     order.OrderDate = moment(order.OrderDate).format('yyyy-MM-DD');
-    order.RequiredDate = moment(order.RequiredDate).format('yyyy-MM-DD');
-    order.ShippedDate = moment(order.ShippedDate).format('yyyy-MM-DD');
+    order.RequiredDate = moment(order.RequiredDate).format(
+      'yyyy-MM-DD'
+    );
+    order.ShippedDate = moment(order.ShippedDate).format(
+      'yyyy-MM-DD'
+    );
 
-    sql.query('insert into orders set ?', order, (err, res) => {
+    sql.query('insert into orders set ?', order, (err) => {
       if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-      // console.log('created order: ', {
+      // console.log('created category: ', {
       //   id: res.insertId,
-      //   ...order
+      //   ...category
       // });
-      result(null, { id: res.insertId, ...order });
+
+      result(null, { ...order });
+      return { ...order };
     });
   }
 
   update(id, order, result) {
     order.OrderDate = moment(order.OrderDate).format('yyyy-MM-DD');
-    order.RequiredDate = moment(order.RequiredDate).format('yyyy-MM-DD');
-    order.ShippedDate = moment(order.ShippedDate).format('yyyy-MM-DD');
+    order.RequiredDate = moment(order.RequiredDate).format(
+      'yyyy-MM-DD'
+    );
+    order.ShippedDate = moment(order.ShippedDate).format(
+      'yyyy-MM-DD'
+    );
 
     sql.query(
       `update orders
@@ -159,20 +168,20 @@ class Order {
       ],
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
-          // not found Order with the id
+          // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
         // console.log('updated order: ', {
         //   id: id,
         //   ...order
         // });
-        result(null, { id: id, ...order });
+        result(null, { ...order });
+        return { ...order };
       }
     );
   }
@@ -183,17 +192,17 @@ class Order {
       id,
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
-          // not found Order with the id
+          // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
-        // console.log('deleted order with id: ', id);
+        // console.log('deleted category with id: ', id);
         result(null, res);
+        return res;
       }
     );
   }

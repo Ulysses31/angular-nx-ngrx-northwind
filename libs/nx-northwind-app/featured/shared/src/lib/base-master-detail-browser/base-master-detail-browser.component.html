@@ -1,0 +1,44 @@
+<ng-container>
+  <!-- <p *ngIf="errorMessage">{{ errorMessage }}</p> -->
+
+  <br />
+
+  <nx-northwind-mt-progress
+    [mode]="mode"
+    *ngIf="!isLoaded"
+  >
+  </nx-northwind-mt-progress>
+
+  <br />
+
+  <nx-northwind-mt-toolbar-btnfunctions [title]="title">
+    <div class="function-buttons">
+      <nx-northwind-mt-button-icon
+        class="btns"
+        *ngFor="let btn of fnButtons"
+        [toolTipMessage]="btn.toolTipMessage"
+        [color]="btn.color"
+        [icon]="btn.icon"
+        [disabled]="btn.disabled"
+        [command]="btn.command">
+      </nx-northwind-mt-button-icon>
+    </div>
+  </nx-northwind-mt-toolbar-btnfunctions>
+
+  <div *ngIf="isModelVisible">
+    <br />
+    <pre>{{ model$ | async | json }}</pre>
+  </div>
+
+  <br />
+
+  <nx-northwind-mt-table
+    class="datatable"
+    [displayedColumns]="this.headers"
+    [dataSource]="modelData"
+    [length]="modelData.length"
+    [isSelectable]="isSelectable"
+    (selectedRecordSubj)="getSelectRecord($event)"
+    >
+  </nx-northwind-mt-table>
+</ng-container>

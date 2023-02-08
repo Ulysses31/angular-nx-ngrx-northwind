@@ -15,7 +15,7 @@ export interface OrderDetailsState {
 
 export const initialOrderDetailsState: OrderDetailsState = {
   orderDetails: [],
-  orderDetail: {},
+  orderDetail: null,
   loaded: false,
   error: null
 };
@@ -25,7 +25,7 @@ const reducer = createReducer(
   // *********** INIT ORDER DETAILS ******************************//
   on(OrderDetailsActions.initOrderDetails, (state) => ({
     ...state,
-    orderDetail: {},
+    orderDetail: null,
     loaded: false,
     error: null
   })),
@@ -34,7 +34,7 @@ const reducer = createReducer(
     (state, { orderDetails }) => ({
       ...state,
       orderDetails,
-      orderDetail: {},
+      orderDetail: null,
       loaded: true,
       error: null
     })
@@ -44,7 +44,7 @@ const reducer = createReducer(
     (state, { error }) => ({
       ...state,
       orderDetails: [],
-      orderDetail: {},
+      orderDetail: null,
       loaded: true,
       error
     })
@@ -68,7 +68,7 @@ const reducer = createReducer(
     OrderDetailsActions.loadOrderDetailFailure,
     (state, { error }) => ({
       ...state,
-      orderDetail: {},
+      orderDetail: null,
       loaded: true,
       error
     })

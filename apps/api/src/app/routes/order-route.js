@@ -7,10 +7,9 @@ router.get('/', async (req, res) => {
   order.browse((err, data) => {
     if (err) {
       res.status(500).send({
-        orders: [],
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while retrieving orders.'
       });
     }
@@ -29,15 +28,15 @@ router.get('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          orders: [],
           statusCode: res.statusCode,
-          error: `Not found Order with id ${req.params.id}.`
+          message: `Not found Order with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          orders: [],
           statusCode: res.statusCode,
-          error: `Error retrieving Order with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error retrieving Order with id ${req.params.id}`
         });
       }
     } else {
@@ -55,22 +54,83 @@ router.post('/', async (req, res) => {
 
   if (!req.body) {
     res.status(400).send({
-      order: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (order.CustomerID.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Customer is required!'
+    });
+  }
+
+  if (order.EmployeeID.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Employee is required!'
+    });
+  }
+
+  if (order.OrderDate.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Order date is required!'
+    });
+  }
+
+  if (order.ShippedDate.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Shipped date is required!'
+    });
+  }
+
+  if (order.ShipAddress.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Shipp address is required!'
+    });
+  }
+
+  if (order.ShipCity.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship city is required!'
+    });
+  }
+
+  if (order.ShipRegion.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship region is required!'
+    });
+  }
+
+  if (order.ShipPostalCode.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship postal code is required!'
+    });
+  }
+
+  if (order.ShipCountry.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship country is required!'
     });
   }
 
   order.create(req.body, (err, data) => {
     if (err) {
       res.status(500).send({
-        order: {},
         statusCode: res.statusCode,
-        error:
-          err.message ||
+        message:
+          err.sqlMessage ||
           'Some error occurred while inserting new order.'
       });
-    } else {
+    } else if (data) {
       return res.send({
         order: data,
         statusCode: res.statusCode,
@@ -86,9 +146,71 @@ router.put('/:id', async (req, res) => {
 
   if (!req.body) {
     res.status(400).send({
-      order: {},
       statusCode: res.statusCode,
-      error: 'Content can not be empty!'
+      message: 'Content can not be empty!'
+    });
+  }
+
+  if (order.CustomerID.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Customer is required!'
+    });
+  }
+
+  if (order.EmployeeID.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Employee is required!'
+    });
+  }
+
+  if (order.OrderDate.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Order date is required!'
+    });
+  }
+
+  if (order.ShippedDate.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Shipped date is required!'
+    });
+  }
+
+  if (order.ShipAddress.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Shipp address is required!'
+    });
+  }
+
+  if (order.ShipCity.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship city is required!'
+    });
+  }
+
+  if (order.ShipRegion.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship region is required!'
+    });
+  }
+
+  if (order.ShipPostalCode.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship postal code is required!'
+    });
+  }
+
+  if (order.ShipCountry.length === 0) {
+    return res.status(400).send({
+      statusCode: res.statusCode,
+      message: 'Ship country is required!'
     });
   }
 
@@ -96,15 +218,15 @@ router.put('/:id', async (req, res) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          order: {},
           statusCode: res.statusCode,
-          error: `Not found Order with id ${req.params.id}.`
+          message: `Not found Order with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          order: {},
           statusCode: res.statusCode,
-          error: `Error updating Order with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Error updating Order with id ${req.params.id}`
         });
       }
     } else {
@@ -120,19 +242,20 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   var id = req.params.id;
   var order = new Order(this);
+
   order.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          order: {},
           statusCode: res.statusCode,
-          error: `Not found Order with id ${req.params.id}.`
+          message: `Not found Order with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          order: {},
           statusCode: res.statusCode,
-          error: `Could not delete Order with id ${req.params.id}`
+          message:
+            err.sqlMessage ||
+            `Could not delete Order with id ${req.params.id}`
         });
       }
     } else {

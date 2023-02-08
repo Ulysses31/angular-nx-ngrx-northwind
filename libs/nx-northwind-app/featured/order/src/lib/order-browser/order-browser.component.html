@@ -1,1 +1,7 @@
-<h1>order-browser works!</h1>
+<nx-northwind-base-browser
+  [title]="'Orders'"
+  [model$]="orders$"
+  [error]="error$"
+  [fnButtons]="fnButtons$"
+  [isLoaded]="loaded">
+</nx-northwind-base-browser>

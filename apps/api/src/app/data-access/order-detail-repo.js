@@ -31,12 +31,12 @@ class OrderDetail {
 	`;
     sql.query(query, (err, res) => {
       if (err) {
-        console.log('error: ', err);
-        result(null, err);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-      // console.log('OrderDetails: ', res);
+
       result(null, res);
+      return res;
     });
   }
 
@@ -57,16 +57,16 @@ class OrderDetail {
     sql.query(query, (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result(null, err);
-        throw err;
+        result({ ...err }, null);
+        return { ...err };
       }
-
-      // console.log('OrderDetail: ', res);
 
       if (res.length === 0) {
         result({ kind: 'not_found' }, null);
+        return { kind: 'not_found' };
       } else {
         result(null, res);
+        return res;
       }
     });
   }
@@ -78,15 +78,16 @@ class OrderDetail {
       orderDetail,
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(err, null);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         // console.log('created orderDetail: ', {
         //   id: res.insertId,
         //   ...orderDetail
         // });
-        result(null, { id: res.insertId, ...orderDetail });
+
+        result(null, { ...orderDetail });
+        return { ...orderDetail };
       }
     );
   }
@@ -113,20 +114,20 @@ class OrderDetail {
       ],
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
-          // not found OrderDetail with the id
+          // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
         // console.log('updated orderDetail: ', {
         //   id: id,
         //   ...orderDetail
         // });
-        result(null, { id: id, ...orderDetail });
+        result(null, { ...orderDetail });
+        return { ...orderDetail };
       }
     );
   }
@@ -137,17 +138,17 @@ class OrderDetail {
       id,
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
-          result(null, err);
-          throw err;
+          result({ ...err }, null);
+          return { ...err };
         }
         if (res.affectedRows === 0) {
-          // not found OrderDetail with the id
+          // not found Category with the id
           result({ kind: 'not_found' }, null);
-          return;
+          return { kind: 'not_found' };
         }
-        // console.log('deleted orderDetail with id: ', id);
+        // console.log('deleted category with id: ', id);
         result(null, res);
+        return res;
       }
     );
   }

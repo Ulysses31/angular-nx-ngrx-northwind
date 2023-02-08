@@ -15,7 +15,7 @@ export interface OrdersState {
 
 export const initialOrdersState: OrdersState = {
   orders: [],
-  order: {},
+  order: null,
   loaded: false,
   error: null
 };
@@ -25,21 +25,21 @@ const reducer = createReducer(
   // *********** INIT CATEGORIES ******************************//
   on(OrdersActions.initOrders, (state) => ({
     ...state,
-    order: {},
+    order: null,
     loaded: false,
     error: null
   })),
   on(OrdersActions.loadOrdersSuccess, (state, { orders }) => ({
     ...state,
     orders,
-    order: {},
+    order: null,
     loaded: true,
     error: null
   })),
   on(OrdersActions.loadOrdersFailure, (state, { error }) => ({
     ...state,
     orders: [],
-    order: {},
+    order: null,
     loaded: true,
     error
   })),
@@ -57,7 +57,7 @@ const reducer = createReducer(
   })),
   on(OrdersActions.loadOrderFailure, (state, { error }) => ({
     ...state,
-    order: {},
+    order: null,
     loaded: true,
     error
   })),

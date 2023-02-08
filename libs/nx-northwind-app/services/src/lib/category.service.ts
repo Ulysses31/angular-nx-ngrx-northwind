@@ -9,7 +9,9 @@ import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
 export class CategoryService extends BaseService<CategoryDto> {
   constructor(public override http: HttpClient) {
     super(http);
-    console.log('CategoryService constructor... [http://localhost:3333/category]');
+    console.log(
+      'CategoryService constructor... [http://localhost:3333/category]'
+    );
     this.setApiUrl('http://localhost:3333/category');
   }
 }

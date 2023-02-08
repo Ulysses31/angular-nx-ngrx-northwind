@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseBrowserComponent } from './base-browser/base-browser.component';
-import { BaseLoaderComponent } from './base-loader/base-loader.component';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+import { BaseBrowserComponent } from './base-browser/base-browser.component';
+import { BaseLoaderComponent } from './base-loader/base-loader.component';
+import { BaseMasterDetailBrowserComponent } from './base-master-detail-browser/base-master-detail-browser.component';
 
 const CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -13,8 +14,14 @@ const CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
   declarations: [
     CanvasJSChart,
     BaseBrowserComponent,
-    BaseLoaderComponent
+    BaseLoaderComponent,
+    BaseMasterDetailBrowserComponent
   ],
-  exports: [CanvasJSChart, BaseBrowserComponent, BaseLoaderComponent]
+  exports: [
+    CanvasJSChart,
+    BaseBrowserComponent,
+    BaseLoaderComponent,
+    BaseMasterDetailBrowserComponent
+  ]
 })
 export class NxNorthwindAppFeaturedSharedModule {}

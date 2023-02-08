@@ -2,16 +2,22 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { OrderDetailService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import * as OrderDetailsActions from './order-details.actions';
 import { OrderDetailsState } from './order-details.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class OrderDetailsEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(OrderDetailService);
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
 
   // ******** INIT ORDER DETAILS *************************************//
   initOrderDetails$ = createEffect(() =>
@@ -22,8 +28,12 @@ export class OrderDetailsEffects {
           tap((data: any) => console.log(data)),
           map((data: OrderDetailsState) => {
             data.orderDetails.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+              item.CreatedAt = item.CreatedAt
+                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
+              item.UpdatedAt = item.UpdatedAt
+                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+                : '';
             });
             return data;
           }),
@@ -80,6 +90,26 @@ export class OrderDetailsEffects {
     )
   );
 
+  successPostOrderDetails$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(OrderDetailsActions.postOrderDetailSuccess),
+        pipe(
+          tap(() => {
+            this.snackBar.open('Record saved...', 'Close', {
+              duration: 3000
+            });
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+          })
+        )
+      ),
+    { dispatch: false }
+  );
+
   // ******** PUT ORDER DETAIL *************************************//
   putOrderDetail$ = createEffect(() =>
     this.actions$.pipe(
@@ -91,7 +121,7 @@ export class OrderDetailsEffects {
             tap((data: any) => console.log(data)),
             map((data: OrderDetailsState) =>
               OrderDetailsActions.putOrderDetailSuccess({
-                orderDetail: data.orderDetail.body
+                orderDetail: data.orderDetail
               })
             ),
             catchError((error) =>
@@ -100,6 +130,26 @@ export class OrderDetailsEffects {
           )
       )
     )
+  );
+
+  successPutOrderDetails$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(OrderDetailsActions.putOrderDetailSuccess),
+        pipe(
+          tap(() => {
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
+            this.snackBar.open('Record updated...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 
   // ******** DELETE ORDER DETAIL **********************************//
@@ -118,5 +168,25 @@ export class OrderDetailsEffects {
         )
       )
     )
+  );
+
+  successDeleteOrderDetails$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(OrderDetailsActions.deleteOrderDetailSuccess),
+        pipe(
+          tap(() => {
+            const path =
+              this.route.snapshot.pathFromRoot[0].queryParams[
+                'backUrl'
+              ];
+            this.router.navigate([path]);
+            this.snackBar.open('Record deleted...', 'Close', {
+              duration: 3000
+            });
+          })
+        )
+      ),
+    { dispatch: false }
   );
 }
