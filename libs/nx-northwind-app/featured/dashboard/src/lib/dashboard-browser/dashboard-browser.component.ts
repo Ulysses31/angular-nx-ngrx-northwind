@@ -27,82 +27,103 @@ export class DashboardBrowserComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   private snackDuration: number = 3000; //ms -> 3sec
+  private apiTimeOut: number = 2000;
+  public isLoadingA: boolean = true;
+  public isLoadingB: boolean = true;
+  public isLoadingC: boolean = true;
+  public isLoadingD: boolean = true;
+  public isLoadingE: boolean = true;
+  public isLoadingF: boolean = true;
+  public isLoadingG: boolean = true;
+  public isLoadingH: boolean = true;
+  public isLoadingI: boolean = true;
 
-  chartSalesTotalPerYear: any;
-  chartSalesTotalAmountPerYear: any;
-  chartCustomersCountPerYear: any;
-  chartCustomersCountOrdersPerYearFirst: any;
-  chartCustomersCountOrdersPerYearSecond: any;
-  chartCustomersCountOrdersPerYearThird: any;
-  chartEmployeesTotalperYearFirst: any;
-  chartEmployeesTotalperYearSecond: any;
-  chartEmployeesTotalperYearThird: any;
+  public chartSalesTotalPerYear: any;
+  public chartSalesTotalAmountPerYear: any;
+  public chartCustomersCountPerYear: any;
+  public chartCustomersCountOrdersPerYearFirst: any;
+  public chartCustomersCountOrdersPerYearSecond: any;
+  public chartCustomersCountOrdersPerYearThird: any;
+  public chartEmployeesTotalperYearFirst: any;
+  public chartEmployeesTotalperYearSecond: any;
+  public chartEmployeesTotalperYearThird: any;
 
-  dataPointsSalesTotalPerYear: { label: string; y: string }[] = [];
-  dataPointssalesTotalAmountPerYear: { label: string; y: string }[] =
-    [];
-  dataPointsCustomersCountPerYear: { label: string; y: string }[] =
-    [];
-  dataPointsCustomersCountOrdersPerYearFirst: {
+  private dataPointsSalesTotalPerYear: {
     label: string;
     y: string;
   }[] = [];
-  dataPointsCustomersCountOrdersPerYearSecond: {
+  private dataPointssalesTotalAmountPerYear: {
     label: string;
     y: string;
   }[] = [];
-  dataPointsCustomersCountOrdersPerYearThird: {
+  private dataPointsCustomersCountPerYear: {
     label: string;
     y: string;
   }[] = [];
-  dataPointsChartEmployeesTotalperYearFirst: {
+  private dataPointsCustomersCountOrdersPerYearFirst: {
     label: string;
     y: string;
   }[] = [];
-  dataPointsChartEmployeesTotalperYearSecond: {
+  private dataPointsCustomersCountOrdersPerYearSecond: {
     label: string;
     y: string;
   }[] = [];
-  dataPointsChartEmployeesTotalperYearThird: {
+  private dataPointsCustomersCountOrdersPerYearThird: {
+    label: string;
+    y: string;
+  }[] = [];
+  private dataPointsChartEmployeesTotalperYearFirst: {
+    label: string;
+    y: string;
+  }[] = [];
+  private dataPointsChartEmployeesTotalperYearSecond: {
+    label: string;
+    y: string;
+  }[] = [];
+  private dataPointsChartEmployeesTotalperYearThird: {
     label: string;
     y: string;
   }[] = [];
 
-  salesTotalPerYear$!: Observable<SalesTotalPerYearDto[]>;
-  salesTotalAmountPerYear$!: Observable<SalesTotalAmountPerYearDto[]>;
-  customersCountPerYear$!: Observable<CustomersCountPerYearDto[]>;
+  private salesTotalPerYear$!: Observable<SalesTotalPerYearDto[]>;
+  private salesTotalAmountPerYear$!: Observable<
+    SalesTotalAmountPerYearDto[]
+  >;
+  private customersCountPerYear$!: Observable<
+    CustomersCountPerYearDto[]
+  >;
 
-  salesTotalperCategoryFirst$!: Observable<
+  private salesTotalperCategoryFirst$!: Observable<
     SalesTotalPerCategoryDto[]
   >;
-  salesTotalperCategorySecond$!: Observable<
+  private salesTotalperCategorySecond$!: Observable<
     SalesTotalPerCategoryDto[]
   >;
-  salesTotalperCategoryThird$!: Observable<
+  private salesTotalperCategoryThird$!: Observable<
     SalesTotalPerCategoryDto[]
   >;
 
-  employeesTotalperYearFirst$!: Observable<
+  private employeesTotalperYearFirst$!: Observable<
     EmployeesTotalSalesPerYearDto[]
   >;
-  employeesTotalperYearSecond$!: Observable<
+  private employeesTotalperYearSecond$!: Observable<
     EmployeesTotalSalesPerYearDto[]
   >;
-  employeesTotalperYearThird$!: Observable<
+  private employeesTotalperYearThird$!: Observable<
     EmployeesTotalSalesPerYearDto[]
   >;
 
-  customersCountOrdersPerYearFirst$!: Observable<
+  private customersCountOrdersPerYearFirst$!: Observable<
     CustomersCountOrdersPerYearDto[]
   >;
-  customersCountOrdersPerYearSecond$!: Observable<
+  private customersCountOrdersPerYearSecond$!: Observable<
     CustomersCountOrdersPerYearDto[]
   >;
-  customersCountOrdersPerYearThird$!: Observable<
+  private customersCountOrdersPerYearThird$!: Observable<
     CustomersCountOrdersPerYearDto[]
   >;
 
-  chartOptionsSalesTotalPerYear = {
+  public chartOptionsSalesTotalPerYear = {
     title: {
       text: 'Sales per year'
     },
@@ -134,7 +155,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsSalesTotalAmountPerYear = {
+  public chartOptionsSalesTotalAmountPerYear = {
     title: {
       text: 'Sales amount per year'
     },
@@ -166,7 +187,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsCustomersCountPerYear = {
+  public chartOptionsCustomersCountPerYear = {
     title: {
       text: 'Customers per year'
     },
@@ -198,7 +219,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsCustomersCountOrdersPerYearFirst = {
+  public chartOptionsCustomersCountOrdersPerYearFirst = {
     title: {
       text: 'Customer orders in 1996'
     },
@@ -230,7 +251,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsCustomersCountOrdersPerYearSecond = {
+  public chartOptionsCustomersCountOrdersPerYearSecond = {
     title: {
       text: 'Customer orders in 1997'
     },
@@ -262,7 +283,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsCustomersCountOrdersPerYearThird = {
+  public chartOptionsCustomersCountOrdersPerYearThird = {
     title: {
       text: 'Customer orders in 1998'
     },
@@ -294,7 +315,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsEmployeesTotalperYearFirst = {
+  public chartOptionsEmployeesTotalperYearFirst = {
     title: {
       text: 'Employees total sales in 1996'
     },
@@ -326,7 +347,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsEmployeesTotalperYearSecond = {
+  public chartOptionsEmployeesTotalperYearSecond = {
     title: {
       text: 'Employees total sales in 1997'
     },
@@ -358,7 +379,7 @@ export class DashboardBrowserComponent
     ]
   };
 
-  chartOptionsEmployeesTotalperYearThird = {
+  public chartOptionsEmployeesTotalperYearThird = {
     title: {
       text: 'Employees total sales in 1998'
     },
@@ -432,171 +453,197 @@ export class DashboardBrowserComponent
   ngAfterViewInit(): void {
     console.log('DashboardBrowserComponent onAfterViewInit...');
 
-    this.salesTotalPerYear$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.sales;
-        items.map((item) => {
-          this.dataPointsSalesTotalPerYear.push({
-            label: item.YEAR,
-            y: item.TotalOrders
+    setTimeout(() => {
+      this.salesTotalPerYear$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.sales;
+          items.map((item) => {
+            this.dataPointsSalesTotalPerYear.push({
+              label: item.YEAR,
+              y: item.TotalOrders
+            });
           });
-        });
-        this.chartSalesTotalPerYear.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
-
-    this.salesTotalAmountPerYear$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.sales;
-        items.map((item) => {
-          this.dataPointssalesTotalAmountPerYear.push({
-            label: item.Year,
-            y: item.TotalAmount
+          this.chartSalesTotalPerYear.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
           });
-        });
-        this.chartSalesTotalAmountPerYear.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+        },
+        complete: () => (this.isLoadingA = false)
+      });
+    }, this.apiTimeOut);
 
-    this.customersCountPerYear$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.customers;
-        items.map((item: any) => {
-          this.dataPointsCustomersCountPerYear.push({
-            label: item.YEAR,
-            y: item.Customers
+    setTimeout(() => {
+      this.salesTotalAmountPerYear$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.sales;
+          items.map((item) => {
+            this.dataPointssalesTotalAmountPerYear.push({
+              label: item.Year,
+              y: item.TotalAmount
+            });
           });
-        });
-        this.chartCustomersCountPerYear.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartSalesTotalAmountPerYear.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingB = false)
+      });
+    }, this.apiTimeOut);
 
+    setTimeout(() => {
+      this.customersCountPerYear$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.customers;
+          items.map((item: any) => {
+            this.dataPointsCustomersCountPerYear.push({
+              label: item.YEAR,
+              y: item.Customers
+            });
+          });
+          this.chartCustomersCountPerYear.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingC = false)
+      });
+    }, this.apiTimeOut);
     // this.salesTotalperCategoryFirst$.subscribe((data) => console.log(data));
     // this.salesTotalperCategorySecond$.subscribe((data) => console.log(data));
     // this.salesTotalperCategoryThird$.subscribe((data) => console.log(data));
 
-    this.employeesTotalperYearFirst$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsChartEmployeesTotalperYearFirst.push({
-            label: item.Employee,
-            y: item.Total
+    setTimeout(() => {
+      this.employeesTotalperYearFirst$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsChartEmployeesTotalperYearFirst.push({
+              label: item.Employee,
+              y: item.Total
+            });
           });
-        });
-        this.chartEmployeesTotalperYearFirst.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartEmployeesTotalperYearFirst.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingD = false)
+      });
+    }, this.apiTimeOut);
 
-    this.employeesTotalperYearSecond$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsChartEmployeesTotalperYearSecond.push({
-            label: item.Employee,
-            y: item.Total
+    setTimeout(() => {
+      this.employeesTotalperYearSecond$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsChartEmployeesTotalperYearSecond.push({
+              label: item.Employee,
+              y: item.Total
+            });
           });
-        });
-        this.chartEmployeesTotalperYearSecond.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartEmployeesTotalperYearSecond.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingE = false)
+      });
+    }, this.apiTimeOut);
 
-    this.employeesTotalperYearThird$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsChartEmployeesTotalperYearThird.push({
-            label: item.Employee,
-            y: item.Total
+    setTimeout(() => {
+      this.employeesTotalperYearThird$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsChartEmployeesTotalperYearThird.push({
+              label: item.Employee,
+              y: item.Total
+            });
           });
-        });
-        this.chartEmployeesTotalperYearThird.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartEmployeesTotalperYearThird.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingF = false)
+      });
+    }, this.apiTimeOut);
 
-    this.customersCountOrdersPerYearFirst$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsCustomersCountOrdersPerYearFirst.push({
-            label: item.Customer,
-            y: item.Total
+    setTimeout(() => {
+      this.customersCountOrdersPerYearFirst$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsCustomersCountOrdersPerYearFirst.push({
+              label: item.Customer,
+              y: item.Total
+            });
           });
-        });
-        this.chartCustomersCountOrdersPerYearFirst.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartCustomersCountOrdersPerYearFirst.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingG = false)
+      });
+    }, this.apiTimeOut);
 
-    this.customersCountOrdersPerYearSecond$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsCustomersCountOrdersPerYearSecond.push({
-            label: item.Customer,
-            y: item.Total
+    setTimeout(() => {
+      this.customersCountOrdersPerYearSecond$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsCustomersCountOrdersPerYearSecond.push({
+              label: item.Customer,
+              y: item.Total
+            });
           });
-        });
-        this.chartCustomersCountOrdersPerYearSecond.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartCustomersCountOrdersPerYearSecond.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingH = false)
+      });
+    }, this.apiTimeOut);
 
-    this.customersCountOrdersPerYearThird$.subscribe({
-      next: (data: any) => {
-        const items: any[] = data.employees;
-        items.map((item: any) => {
-          this.dataPointsCustomersCountOrdersPerYearThird.push({
-            label: item.Customer,
-            y: item.Total
+    setTimeout(() => {
+      this.customersCountOrdersPerYearThird$.subscribe({
+        next: (data: any) => {
+          const items: any[] = data.employees;
+          items.map((item: any) => {
+            this.dataPointsCustomersCountOrdersPerYearThird.push({
+              label: item.Customer,
+              y: item.Total
+            });
           });
-        });
-        this.chartCustomersCountOrdersPerYearThird.render();
-      },
-      error: (err) => {
-        this._snackBar.open(err.message, 'Close', {
-          duration: this.snackDuration
-        });
-      }
-    });
+          this.chartCustomersCountOrdersPerYearThird.render();
+        },
+        error: (err) => {
+          this._snackBar.open(err.message, 'Close', {
+            duration: this.snackDuration
+          });
+        },
+        complete: () => (this.isLoadingI = false)
+      });
+    }, this.apiTimeOut);
   }
 
   ngOnDestroy(): void {

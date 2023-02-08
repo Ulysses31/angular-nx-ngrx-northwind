@@ -17,8 +17,8 @@ import { MaterialColor, ProgrSpinnerMode } from '../enums/enums';
   styleUrls: ['./mt-spinner.component.scss']
 })
 export class MtSpinnerComponent implements OnInit {
-  @Input() color: MaterialColor = MaterialColor.Primary;
-  @Input() mode: ProgressSpinnerMode = ProgrSpinnerMode.Determinate;
+  @Input() color: MaterialColor = MaterialColor.Basic;
+  @Input() mode: ProgressSpinnerMode = ProgrSpinnerMode.Indeterminate
   @Input() value: number = 0;
   @Input() diameter: number = 0;
   @Input() strokeWidth: number = 0;

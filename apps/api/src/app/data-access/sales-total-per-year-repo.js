@@ -34,12 +34,12 @@ class SalesTotalPerYear {
         AND o.ShippedDate IS NOT NULL
         AND o.shippedDate BETWEEN '1998-01-01' AND '1998-12-31'
 	`;
+
     sql.query(query, (err, res) => {
       if (err) {
         result({ ...err }, null);
         return { ...err };
       }
-
       result(null, res);
       return res;
     });
