@@ -10,6 +10,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
@@ -20,7 +21,6 @@ import {
 } from '@nx-northwind/nx-material-ui';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'nx-northwind-base-browser',
@@ -186,7 +186,7 @@ export class BaseBrowserComponent
     }
   }
 
-  private extractFieldNameId(data: any): string {
+  private extractFieldNameIdFromArray(data: any): string {
     const vCnt = 0;
     for (const key in data[0]) {
       if (vCnt === 0) {
@@ -197,5 +197,27 @@ export class BaseBrowserComponent
       }
     }
     return '';
+  }
+
+  private extractFieldNameIdFromObj(data: any): string {
+    const vCnt = 0;
+    for (const key in data) {
+      if (vCnt === 0) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          // console.log(key);
+          return key as string;
+        }
+      }
+    }
+    return '';
+  }
+
+  public getSelectRecord(subj: any): void {
+    if (subj) {
+      console.log(subj);
+      console.log(
+        'ID: ' + subj[this.extractFieldNameIdFromObj(subj)]
+      );
+    }
   }
 }

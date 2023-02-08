@@ -37,6 +37,8 @@
     [displayedColumns]="this.headers"
     [dataSource]="modelData"
     [length]="modelData.length"
-    [isSelectable]="isSelectable">
+    [isSelectable]="isSelectable"
+    (selectedRecordSubj)="getSelectRecord($event)"
+    >
   </nx-northwind-mt-table>
 </ng-container>

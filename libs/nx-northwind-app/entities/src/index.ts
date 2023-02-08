@@ -10,6 +10,7 @@ export * from './lib/employee-dto';
 export * from './lib/employee-territory-dto';
 export * from './lib/order-detail-dto';
 export * from './lib/order-dto';
+export * from './lib/order-detail-dto';
 export * from './lib/product-dto';
 export * from './lib/region-dto';
 export * from './lib/shipper-dto';

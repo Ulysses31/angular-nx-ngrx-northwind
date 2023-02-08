@@ -7,11 +7,13 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'nx-northwind-mt-table',
@@ -84,6 +86,7 @@ export class MtTableComponent implements OnInit, AfterViewInit {
   @Input() isSelectable: boolean = true;
   dataSourceTmp: any[] = [];
   selectedRecord: any;
+  @Output() selectedRecordSubj: Subject<any> = new Subject();
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {
     pageSize: this.pageSize,
@@ -110,6 +113,8 @@ export class MtTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     console.log('nx-northwind-mt-table OnInit...');
+
+    this.selectedRecordSubj.subscribe((item) => this.selectedRecord = item);
 
     // state is immutable so make a copy of the datasource
     this.dataSourceTmp = this.dataSource.map((items) => ({
@@ -138,7 +143,9 @@ export class MtTableComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.selectedRecord = this.selection.selected[0];
+    this.selectedRecordSubj.next(this.selection.selected[0]);
+
+    // this.selectedRecord = this.selection.selected[0];
   }
 
   public announceSortChange(sortState: any) {
