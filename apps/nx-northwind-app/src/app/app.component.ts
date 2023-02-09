@@ -66,21 +66,30 @@ export class AppComponent implements OnInit, OnDestroy {
         }, this.menuTimeOut);
       }
     },
+    // {
+    //   text: 'Order',
+    //   active: false,
+    //   command: () => {
+    //     setTimeout(() => {
+    //       this.router.navigateByUrl('/order');
+    //     }, this.menuTimeOut);
+    //   }
+    // },
+    // {
+    //   text: 'Order-Detail',
+    //   active: false,
+    //   command: () => {
+    //     setTimeout(() => {
+    //       this.router.navigateByUrl('/order-detail');
+    //     }, this.menuTimeOut);
+    //   }
+    // },
     {
-      text: 'Order',
+      text: 'Order-Master-Detail',
       active: false,
       command: () => {
         setTimeout(() => {
-          this.router.navigateByUrl('/order');
-        }, this.menuTimeOut);
-      }
-    },
-    {
-      text: 'Order-Detail',
-      active: false,
-      command: () => {
-        setTimeout(() => {
-          this.router.navigateByUrl('/order-detail');
+          this.router.navigateByUrl('/order-master-detail');
         }, this.menuTimeOut);
       }
     },

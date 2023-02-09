@@ -52,6 +52,13 @@ const routes: Routes = [
       ).then((m) => m.NxNorthwindAppFeaturesOrderDetailModule)
   },
   {
+    path: 'order-master-detail',
+    loadChildren: () =>
+      import(
+        '@nx-northwind/nx-northwind-app/featured/order-master-detail'
+      ).then((m) => m.NxNorthwindAppFeaturedOrderMasterDetailModule)
+  },
+  {
     path: 'product',
     loadChildren: () =>
       import('@nx-northwind/nx-northwind-app/featured/product').then(

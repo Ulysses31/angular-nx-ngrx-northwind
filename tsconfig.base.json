@@ -45,6 +45,9 @@
       "@nx-northwind/nx-northwind-app/featured/order-detail": [
         "libs/nx-northwind-app/featured/order-detail/src/index.ts"
       ],
+      "@nx-northwind/nx-northwind-app/featured/order-master-detail": [
+        "libs/nx-northwind-app/featured/order-master-detail/src/index.ts"
+      ],
       "@nx-northwind/nx-northwind-app/featured/product": [
         "libs/nx-northwind-app/featured/product/src/index.ts"
       ],

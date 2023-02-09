@@ -32,7 +32,9 @@ export class BaseMasterDetailBrowserComponent
 {
   @Input() title!: string;
   @Input() model$!: Observable<any>;
+  @Input() modelDetails$!: Observable<any>;
   @Input() headers: string[] = [];
+  @Input() headersDetails: string[] = [];
   @Input() error!: Observable<any>;
   @Input() fnButtons: FunctionButtons[] = [];
   @Input() isLoaded: boolean = true;
@@ -40,11 +42,15 @@ export class BaseMasterDetailBrowserComponent
   public mode: ProgrBarMode = ProgrBarMode.Indeterminate;
   public isSelectable: boolean = true;
   public modelData: any[] = [];
+  public modelDetailsData: any[] = [];
   public errorMessage!: string;
   private snackDuration: number = 3000; //ms -> 3sec
 
-  @ViewChild(MtTableComponent, { static: true })
-  tableComp!: MtTableComponent;
+  //@ViewChild(MtTableComponent, { static: true }) tableComp!: MtTableComponent;
+
+  @ViewChild('ordersTable') ordersTableComp!: MtTableComponent;
+  @ViewChild('ordersDetailsTable')
+  ordersDetailsTableComp!: MtTableComponent;
 
   private router = inject(Router);
   private elRef = inject(ElementRef);
@@ -64,6 +70,7 @@ export class BaseMasterDetailBrowserComponent
     this.initFunctionButtons();
 
     this.generateHeaders();
+    this.generateHeadersDetails();
 
     this.error.subscribe((data) => {
       this.errorMessage = data ? data.error.message : '';
@@ -77,13 +84,7 @@ export class BaseMasterDetailBrowserComponent
 
   ngAfterViewInit(): void {
     console.log('BaseMasterDetailBrowserComponent AfterViewInit...');
-    this.model$.subscribe(() => {
-      if (this.modelData) {
-        this.tableComp.dataSource = [...this.modelData];
-        this.tableComp.ngOnInit();
-        this.tableComp.ngAfterViewInit();
-      }
-    });
+    this.updateOrdersTable();
   }
 
   ngOnDestroy(): void {
@@ -95,6 +96,15 @@ export class BaseMasterDetailBrowserComponent
       if (items.length > 0) {
         this.modelData = [...items];
         this.headers = Object.getOwnPropertyNames(items[0]);
+      }
+    });
+  }
+
+  private generateHeadersDetails(): void {
+    this.modelDetails$.subscribe((items: any[]) => {
+      if (items.length > 0) {
+        // this.modelDetailsData = [...items];
+        this.headersDetails = Object.getOwnPropertyNames(items[0]);
       }
     });
   }
@@ -136,15 +146,55 @@ export class BaseMasterDetailBrowserComponent
   }
 
   private editSelectedItem(): void {
-    if (!this.tableComp.selectedRecord) {
+    if (!this.ordersTableComp.selectedRecord) {
       this._snackBar.open('Select a record...', 'Close', {
         duration: 3000
       });
     } else {
-      const id = this.tableComp.selectedRecord[this.headers[0]];
+      const id = this.ordersTableComp.selectedRecord[this.headers[0]];
       this.router.navigate([this.router.url, id], {
         queryParams: { backUrl: this.router.url }
       });
+    }
+  }
+
+  private updateOrdersTable() {
+    this.model$.subscribe((data: any) => {
+      if (data) {
+        this.modelData = data;
+        this.ordersTableComp.dataSource = [...this.modelData];
+        this.ordersTableComp.ngOnInit();
+        this.ordersTableComp.ngAfterViewInit();
+      }
+    });
+  }
+
+  public updateOrdersDetailsTable(
+    showEmpty: boolean,
+    newData: any[]
+  ) {
+    if (!showEmpty) {
+      if (newData.length === 0) {
+        this.modelDetails$.subscribe((data: any) => {
+          if (data) {
+            this.modelDetailsData = data;
+          }
+        });
+      } else {
+        this.modelDetailsData = newData;
+      }
+    } else {
+      this.modelDetailsData = [];
+    }
+
+    if (this.ordersDetailsTableComp.dataSource) {
+      this.ordersDetailsTableComp.dataSource = [
+        ...this.modelDetailsData
+      ];
+      this.ordersDetailsTableComp.ngOnInit();
+      this.ordersDetailsTableComp.ngAfterViewInit();
+      this.ordersDetailsTableComp.isSelectable = false;
+      this.generateHeadersDetails();
     }
   }
 
@@ -213,11 +263,22 @@ export class BaseMasterDetailBrowserComponent
   }
 
   public getSelectRecord(subj: any): void {
+    console.log(subj);
     if (subj) {
-      console.log(subj);
-      console.log(
-        'ID: ' + subj[this.extractFieldNameIdFromObj(subj)]
-      );
+      this.modelDetails$.subscribe((items: any[]) => {
+        const result = items.filter(
+          (item) =>
+            item[this.extractFieldNameIdFromObj(subj)] ===
+            subj[this.extractFieldNameIdFromObj(subj)]
+        );
+        if (result.length > 0) {
+          this.updateOrdersDetailsTable(false, result);
+        } else {
+          this.updateOrdersDetailsTable(true, []);
+        }
+      });
+    } else {
+      this.updateOrdersDetailsTable(true, []);
     }
   }
 }

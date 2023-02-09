@@ -3,10 +3,7 @@
 
   <br />
 
-  <nx-northwind-mt-progress
-    [mode]="mode"
-    *ngIf="!isLoaded"
-  >
+  <nx-northwind-mt-progress [mode]="mode" *ngIf="!isLoaded">
   </nx-northwind-mt-progress>
 
   <br />
@@ -27,18 +24,35 @@
 
   <div *ngIf="isModelVisible">
     <br />
+    <h3>Orders</h3>
     <pre>{{ model$ | async | json }}</pre>
+    <h3>Order Details</h3>
+    <pre>{{ modelDetails$ && modelDetails$ | async | json }}</pre>
   </div>
 
   <br />
 
   <nx-northwind-mt-table
+    #ordersTable
     class="datatable"
     [displayedColumns]="this.headers"
     [dataSource]="modelData"
     [length]="modelData.length"
     [isSelectable]="isSelectable"
-    (selectedRecordSubj)="getSelectRecord($event)"
-    >
+    (selectedRecordSubj)="getSelectRecord($event)">
   </nx-northwind-mt-table>
+
+  <h3>Details</h3>
+  <hr />
+  <!-- <div *ngIf="modelDetailsData.length > 0"> -->
+  <nx-northwind-mt-table
+    #ordersDetailsTable
+    class="datatable"
+    [displayedColumns]="headersDetails"
+    [dataSource]="modelDetailsData"
+    [length]="modelDetailsData.length"
+    [isSelectable]="false">
+  </nx-northwind-mt-table>
+  <!-- </div> -->
+
 </ng-container>

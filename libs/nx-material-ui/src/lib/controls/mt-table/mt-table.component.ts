@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   Component,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild
@@ -73,7 +74,7 @@ import { Subject } from 'rxjs';
   `,
   styleUrls: ['./mt-table.component.scss']
 })
-export class MtTableComponent implements OnInit, AfterViewInit {
+export class MtTableComponent implements OnInit, AfterViewInit, OnDestroy {
   pageEvent?: PageEvent;
   @Input() displayedColumns: string[] = [];
   @Input() dataSource: any[] = [];
@@ -85,7 +86,7 @@ export class MtTableComponent implements OnInit, AfterViewInit {
   @Input() hasPagination: boolean = true;
   @Input() isSelectable: boolean = true;
   dataSourceTmp: any[] = [];
-  selectedRecord: any;
+  selectedRecord: any = null;
   @Output() selectedRecordSubj: Subject<any> = new Subject();
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {
@@ -114,7 +115,9 @@ export class MtTableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log('nx-northwind-mt-table OnInit...');
 
-    this.selectedRecordSubj.subscribe((item) => this.selectedRecord = item);
+    this.selectedRecordSubj.subscribe((item) => {
+      this.selectedRecord = item;
+    });
 
     // state is immutable so make a copy of the datasource
     this.dataSourceTmp = this.dataSource.map((items) => ({
@@ -129,6 +132,10 @@ export class MtTableComponent implements OnInit, AfterViewInit {
       this.allowMultiSelect,
       this.initialSelection
     );
+  }
+
+  ngOnDestroy(): void {
+    console.log('nx-northwind-mt-table OnDestroy...');
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
