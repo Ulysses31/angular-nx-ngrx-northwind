@@ -1,9 +1,9 @@
-import { BaseDto } from './base-dto';
-
-export interface OrderDetailDto extends BaseDto {
+export interface OrderDetailBrowserDto {
   OrderID: string;
   ProductID?: null | string;
   UnitPrice?: number;
   Quantity?: number;
   Discount?: number;
+  SubTotal?: number;
+  Total?: number;
 }

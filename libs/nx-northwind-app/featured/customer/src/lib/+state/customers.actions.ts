@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { CustomerDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  CustomerBrowserDto,
+  CustomerLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT CUSTOMERS *************************************//
 export const initCustomers = createAction('[Customers Page] Init');
 
 export const loadCustomersSuccess = createAction(
   '[Customers/API] Load Customers Success',
-  props<{ customers: CustomerDto[] }>()
+  props<{ customers: CustomerBrowserDto[] }>()
 );
 
 export const loadCustomersFailure = createAction(
@@ -23,7 +26,7 @@ export const initCustomer = createAction(
 
 export const loadCustomerSuccess = createAction(
   '[Customers/API] Load Customer Success',
-  props<{ customer: CustomerDto }>()
+  props<{ customer: CustomerLoaderDto }>()
 );
 
 export const loadCustomerFailure = createAction(
@@ -34,12 +37,12 @@ export const loadCustomerFailure = createAction(
 // *********** POST CUSTOMER **************************************//
 export const postCustomer = createAction(
   '[Customer Page] Post',
-  props<{ newCustomer: CustomerDto }>()
+  props<{ newCustomer: CustomerLoaderDto }>()
 );
 
 export const postCustomerSuccess = createAction(
   '[Customers/API] Post Customer Success',
-  props<{ customer: CustomerDto }>()
+  props<{ customer: CustomerLoaderDto }>()
 );
 
 export const postCustomerFailure = createAction(
@@ -50,12 +53,12 @@ export const postCustomerFailure = createAction(
 // *********** PUT CUSTOMER ***************************************//
 export const putCustomer = createAction(
   '[Customer Page] Put',
-  props<{ selectedId: string; putCustomer: CustomerDto }>()
+  props<{ selectedId: string; putCustomer: CustomerLoaderDto }>()
 );
 
 export const putCustomerSuccess = createAction(
   '[Customers/API] Put Customer Success',
-  props<{ customer: CustomerDto }>()
+  props<{ customer: CustomerLoaderDto }>()
 );
 
 export const putCustomerFailure = createAction(
@@ -66,7 +69,7 @@ export const putCustomerFailure = createAction(
 // *********** DELETE CUSTOMER ************************************//
 export const deleteCustomer = createAction(
   '[Customer Page] Delete',
-  props<{ delCustomer: CustomerDto }>()
+  props<{ delCustomer: CustomerLoaderDto }>()
 );
 
 export const deleteCustomerSuccess = createAction(

@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { TerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  TerritoryBrowserDto,
+  TerritoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as TerritoriesActions from './territories.actions';
 
 export const TERRITORIES_FEATURE_KEY = 'territories';
 
 export interface TerritoriesState {
-  territories: TerritoryDto[];
-  territory: TerritoryDto | any;
+  territories: TerritoryBrowserDto[];
+  territory: TerritoryLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

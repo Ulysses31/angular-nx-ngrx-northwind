@@ -1,6 +1,6 @@
 import { BaseDto } from './base-dto';
 
-export interface ProductDto extends BaseDto {
+export interface ProductLoaderDto extends BaseDto {
   ProductID: string;
   ProductName?: null | string;
   SupplierID?: null | string;

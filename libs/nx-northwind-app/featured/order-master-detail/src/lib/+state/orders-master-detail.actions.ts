@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { OrderDetailDto, OrderDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  OrderDetailBrowserDto,
+  OrderDetailLoaderDto,
+  OrderMasterDetailBrowserDto,
+  OrderMasterDetailLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT ORDERS *************************************//
 export const initOrders = createAction('[Orders Page] Init');
 
 export const loadOrdersSuccess = createAction(
   '[Orders/API] Load Orders Success',
-  props<{ orders: OrderDto[] }>()
+  props<{ orders: OrderMasterDetailBrowserDto[] }>()
 );
 
 export const loadOrdersFailure = createAction(
@@ -23,7 +28,7 @@ export const initOrder = createAction(
 
 export const loadOrderSuccess = createAction(
   '[Orders/API] Load Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderMasterDetailLoaderDto }>()
 );
 
 export const loadOrderFailure = createAction(
@@ -34,12 +39,12 @@ export const loadOrderFailure = createAction(
 // *********** POST ORDER **************************************//
 export const postOrder = createAction(
   '[Order Page] Post',
-  props<{ newOrder: OrderDto }>()
+  props<{ newOrder: OrderMasterDetailLoaderDto }>()
 );
 
 export const postOrderSuccess = createAction(
   '[Orders/API] Post Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderMasterDetailLoaderDto }>()
 );
 
 export const postOrderFailure = createAction(
@@ -50,12 +55,15 @@ export const postOrderFailure = createAction(
 // *********** PUT ORDER ***************************************//
 export const putOrder = createAction(
   '[Order Page] Put',
-  props<{ selectedId: string; putOrder: OrderDto }>()
+  props<{
+    selectedId: string;
+    putOrder: OrderMasterDetailLoaderDto;
+  }>()
 );
 
 export const putOrderSuccess = createAction(
   '[Orders/API] Put Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderMasterDetailLoaderDto }>()
 );
 
 export const putOrderFailure = createAction(
@@ -66,7 +74,7 @@ export const putOrderFailure = createAction(
 // *********** DELETE ORDER ************************************//
 export const deleteOrder = createAction(
   '[Order Page] Delete',
-  props<{ delOrder: OrderDto }>()
+  props<{ delOrder: OrderMasterDetailLoaderDto }>()
 );
 
 export const deleteOrderSuccess = createAction(
@@ -78,11 +86,6 @@ export const deleteOrderFailure = createAction(
   props<{ error: any }>()
 );
 
-
-
-
-
-
 // *********** INIT ORDER DETAILS *************************************//
 export const initOrderDetails = createAction(
   '[OrderDetails Page] Init'
@@ -90,7 +93,7 @@ export const initOrderDetails = createAction(
 
 export const loadOrderDetailsSuccess = createAction(
   '[OrderDetails/API] Load OrderDetails Success',
-  props<{ orderDetails: OrderDetailDto[] }>()
+  props<{ orderDetails: OrderDetailBrowserDto[] }>()
 );
 
 export const loadOrderDetailsFailure = createAction(
@@ -106,7 +109,7 @@ export const initOrderDetail = createAction(
 
 export const loadOrderDetailSuccess = createAction(
   '[OrderDetails/API] Load OrderDetail Success',
-  props<{ orderDetail: OrderDetailDto }>()
+  props<{ orderDetail: OrderDetailLoaderDto }>()
 );
 
 export const loadOrderDetailFailure = createAction(
@@ -117,12 +120,12 @@ export const loadOrderDetailFailure = createAction(
 // *********** POST ORDER DETAIL **************************************//
 export const postOrderDetail = createAction(
   '[OrderDetail Page] Post',
-  props<{ newOrderDetail: OrderDetailDto }>()
+  props<{ newOrderDetail: OrderDetailLoaderDto }>()
 );
 
 export const postOrderDetailSuccess = createAction(
   '[OrderDetails/API] Post OrderDetail Success',
-  props<{ orderDetail: OrderDetailDto }>()
+  props<{ orderDetail: OrderDetailLoaderDto }>()
 );
 
 export const postOrderDetailFailure = createAction(
@@ -133,12 +136,15 @@ export const postOrderDetailFailure = createAction(
 // *********** PUT ORDER DETAIL ***************************************//
 export const putOrderDetail = createAction(
   '[OrderDetail Page] Put',
-  props<{ selectedId: string; putOrderDetail: OrderDetailDto }>()
+  props<{
+    selectedId: string;
+    putOrderDetail: OrderDetailLoaderDto;
+  }>()
 );
 
 export const putOrderDetailSuccess = createAction(
   '[OrderDetails/API] Put OrderDetail Success',
-  props<{ orderDetail: OrderDetailDto }>()
+  props<{ orderDetail: OrderDetailLoaderDto }>()
 );
 
 export const putOrderDetailFailure = createAction(
@@ -149,7 +155,7 @@ export const putOrderDetailFailure = createAction(
 // *********** DELETE ORDER DETAIL ************************************//
 export const deleteOrderDetail = createAction(
   '[OrderDetail Page] Delete',
-  props<{ delOrderDetail: OrderDetailDto }>()
+  props<{ delOrderDetail: OrderDetailLoaderDto }>()
 );
 
 export const deleteOrderDetailSuccess = createAction(

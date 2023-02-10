@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { ShipperDto } from '@nx-northwind/nx-northwind-app/entities';
+import { ShipperLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./shipper-loader.component.scss']
 })
 export class ShipperLoaderComponent extends BaseLoaderComponent {
-  shipperModel!: ShipperDto;
+  shipperModel!: ShipperLoaderDto;
   shipper$ = this.store.select(selectShipper);
   error$ = this.store.select(selectShippersError);
   isLoaded$ = this.store.select(selectShippersLoaded);
@@ -134,7 +134,7 @@ export class ShipperLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.shipper$.subscribe((shipper: ShipperDto) => {
+    this.shipper$.subscribe((shipper: ShipperLoaderDto) => {
       this.shipperModel = { ...shipper };
     });
   }

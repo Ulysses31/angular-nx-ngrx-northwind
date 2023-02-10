@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  CategoryBrowserDto,
+  CategoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT CATEGORIES *************************************//
 export const initCategories = createAction('[Categories Page] Init');
 
 export const loadCategoriesSuccess = createAction(
   '[Categories/API] Load Categories Success',
-  props<{ categories: CategoryDto[] }>()
+  props<{ categories: CategoryBrowserDto[] }>()
 );
 
 export const loadCategoriesFailure = createAction(
@@ -23,7 +26,7 @@ export const initCategory = createAction(
 
 export const loadCategorySuccess = createAction(
   '[Categories/API] Load Category Success',
-  props<{ category: CategoryDto }>()
+  props<{ category: CategoryLoaderDto }>()
 );
 
 export const loadCategoryFailure = createAction(
@@ -34,12 +37,12 @@ export const loadCategoryFailure = createAction(
 // *********** POST CATEGORY **************************************//
 export const postCategory = createAction(
   '[Category Page] Post',
-  props<{ newCategory: CategoryDto }>()
+  props<{ newCategory: CategoryLoaderDto }>()
 );
 
 export const postCategorySuccess = createAction(
   '[Categories/API] Post Category Success',
-  props<{ category: CategoryDto }>()
+  props<{ category: CategoryLoaderDto }>()
 );
 
 export const postCategoryFailure = createAction(
@@ -50,12 +53,12 @@ export const postCategoryFailure = createAction(
 // *********** PUT CATEGORY ***************************************//
 export const putCategory = createAction(
   '[Category Page] Put',
-  props<{ selectedId: string; putCategory: CategoryDto }>()
+  props<{ selectedId: string; putCategory: CategoryLoaderDto }>()
 );
 
 export const putCategorySuccess = createAction(
   '[Categories/API] Put Category Success',
-  props<{ category: CategoryDto }>()
+  props<{ category: CategoryLoaderDto }>()
 );
 
 export const putCategoryFailure = createAction(
@@ -66,7 +69,7 @@ export const putCategoryFailure = createAction(
 // *********** DELETE CATEGORY ************************************//
 export const deleteCategory = createAction(
   '[Category Page] Delete',
-  props<{ delCategory: CategoryDto }>()
+  props<{ delCategory: CategoryLoaderDto }>()
 );
 
 export const deleteCategorySuccess = createAction(

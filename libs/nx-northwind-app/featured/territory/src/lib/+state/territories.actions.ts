@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { TerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  TerritoryBrowserDto,
+  TerritoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT TERRITORIES *************************************//
 export const initTerritories = createAction(
@@ -9,7 +12,7 @@ export const initTerritories = createAction(
 
 export const loadTerritoriesSuccess = createAction(
   '[Territories/API] Load Territories Success',
-  props<{ territories: TerritoryDto[] }>()
+  props<{ territories: TerritoryBrowserDto[] }>()
 );
 
 export const loadTerritoriesFailure = createAction(
@@ -25,7 +28,7 @@ export const initTerritory = createAction(
 
 export const loadTerritorySuccess = createAction(
   '[Territories/API] Load Territory Success',
-  props<{ territory: TerritoryDto }>()
+  props<{ territory: TerritoryLoaderDto }>()
 );
 
 export const loadTerritoryFailure = createAction(
@@ -36,12 +39,12 @@ export const loadTerritoryFailure = createAction(
 // *********** POST TERRITORY **************************************//
 export const postTerritory = createAction(
   '[Territory Page] Post',
-  props<{ newTerritory: TerritoryDto }>()
+  props<{ newTerritory: TerritoryLoaderDto }>()
 );
 
 export const postTerritorySuccess = createAction(
   '[Territories/API] Post Territory Success',
-  props<{ territory: TerritoryDto }>()
+  props<{ territory: TerritoryLoaderDto }>()
 );
 
 export const postTerritoryFailure = createAction(
@@ -52,12 +55,12 @@ export const postTerritoryFailure = createAction(
 // *********** PUT TERRITORY ***************************************//
 export const putTerritory = createAction(
   '[Territory Page] Put',
-  props<{ selectedId: string; putTerritory: TerritoryDto }>()
+  props<{ selectedId: string; putTerritory: TerritoryLoaderDto }>()
 );
 
 export const putTerritorySuccess = createAction(
   '[Territories/API] Put Territory Success',
-  props<{ territory: TerritoryDto }>()
+  props<{ territory: TerritoryLoaderDto }>()
 );
 
 export const putTerritoryFailure = createAction(
@@ -68,7 +71,7 @@ export const putTerritoryFailure = createAction(
 // *********** DELETE TERRITORY ************************************//
 export const deleteTerritory = createAction(
   '[Territory Page] Delete',
-  props<{ delTerritory: TerritoryDto }>()
+  props<{ delTerritory: TerritoryLoaderDto }>()
 );
 
 export const deleteTerritorySuccess = createAction(

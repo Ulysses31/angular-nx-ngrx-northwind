@@ -18,16 +18,19 @@ class OrderDetail {
   browse(result) {
     const query = `
 		select
-      Id,
-      OrderID,
-      ProductID,
-      UnitPrice,
-      Quantity,
-      Discount,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from \`order details\`
+      od.Id,
+      od.OrderID,
+      #od.ProductID,
+      (select productName from products p where p.productID = od.productID) as Product,
+      CONCAT(CAST(od.UnitPrice AS DECIMAL(19, 2)), ' €') as UnitPrice,
+      od.Quantity,
+      CAST(CAST(od.Discount AS DECIMAL(19, 2)) AS VARCHAR(1000)) AS Discount,
+      CONCAT(CAST((UnitPrice * Quantity) AS DECIMAL(19, 2)), ' €') AS SubTotal,
+      CONCAT(CAST((UnitPrice * Quantity) - (UnitPrice * Quantity) * (discount / 100) AS DECIMAL(19, 2)), ' €') AS Total
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
+		from \`order details\` od
 	`;
     sql.query(query, (err, res) => {
       if (err) {
@@ -46,9 +49,9 @@ class OrderDetail {
       Id,
       OrderID,
       ProductID,
-      UnitPrice,
+      CAST(UnitPrice AS DECIMAL(19, 2)) as UnitPrice,
       Quantity,
-      Discount,
+      CAST(od.Discount AS DECIMAL(19, 2)) as Discount,
       CreatedBy,
       CreatedAt,
       UpdatedAt

@@ -17,10 +17,10 @@ class Category {
 		select
       CategoryID,
       CategoryName,
-      Description,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+      Description
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from categories
 	`;
     sql.query(query, (err, res) => {

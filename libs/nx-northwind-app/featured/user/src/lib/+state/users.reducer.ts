@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { UserDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  UserBrowserDto,
+  UserLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as UsersActions from './users.actions';
 
 export const USERS_FEATURE_KEY = 'users';
 
 export interface UsersState {
-  users: UserDto[];
-  user: UserDto | any;
+  users: UserBrowserDto[];
+  user: UserLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

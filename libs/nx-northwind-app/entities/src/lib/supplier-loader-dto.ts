@@ -1,6 +1,6 @@
 import { BaseDto } from './base-dto';
 
-export interface SupplierDto extends BaseDto {
+export interface SupplierLoaderDto extends BaseDto {
   Id: string;
   CompanyName?: null | string;
   ContactName?: null | string;

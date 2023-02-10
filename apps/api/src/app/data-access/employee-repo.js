@@ -45,10 +45,10 @@ class Employee {
 			Extension,
 			Notes,
 			ReportsTo,
-			PhotoPath,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+			PhotoPath
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from employees
 	`;
     sql.query(query, (err, res) => {

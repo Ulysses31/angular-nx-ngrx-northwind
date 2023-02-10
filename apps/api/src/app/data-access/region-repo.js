@@ -15,10 +15,10 @@ class Region {
     const query = `
 		select
       RegionID,
-      RegionDescription,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+      RegionDescription
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from Region
 	`;
     sql.query(query, (err, res) => {

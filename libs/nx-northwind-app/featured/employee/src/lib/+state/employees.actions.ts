@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { EmployeeDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  EmployeeBrowserDto,
+  EmployeeLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT EMPLOYEES *************************************//
 export const initEmployees = createAction('[Employees Page] Init');
 
 export const loadEmployeesSuccess = createAction(
   '[Employees/API] Load Employees Success',
-  props<{ employees: EmployeeDto[] }>()
+  props<{ employees: EmployeeBrowserDto[] }>()
 );
 
 export const loadEmployeesFailure = createAction(
@@ -23,7 +26,7 @@ export const initEmployee = createAction(
 
 export const loadEmployeeSuccess = createAction(
   '[Employees/API] Load Employee Success',
-  props<{ employee: EmployeeDto }>()
+  props<{ employee: EmployeeLoaderDto }>()
 );
 
 export const loadEmployeeFailure = createAction(
@@ -34,12 +37,12 @@ export const loadEmployeeFailure = createAction(
 // *********** POST EMPLOYEE **************************************//
 export const postEmployee = createAction(
   '[Employee Page] Post',
-  props<{ newEmployee: EmployeeDto }>()
+  props<{ newEmployee: EmployeeLoaderDto }>()
 );
 
 export const postEmployeeSuccess = createAction(
   '[Employees/API] Post Employee Success',
-  props<{ employee: EmployeeDto }>()
+  props<{ employee: EmployeeLoaderDto }>()
 );
 
 export const postEmployeeFailure = createAction(
@@ -50,12 +53,12 @@ export const postEmployeeFailure = createAction(
 // *********** PUT EMPLOYEE ***************************************//
 export const putEmployee = createAction(
   '[Employee Page] Put',
-  props<{ selectedId: string; putEmployee: EmployeeDto }>()
+  props<{ selectedId: string; putEmployee: EmployeeLoaderDto }>()
 );
 
 export const putEmployeeSuccess = createAction(
   '[Employees/API] Put Employee Success',
-  props<{ employee: EmployeeDto }>()
+  props<{ employee: EmployeeLoaderDto }>()
 );
 
 export const putEmployeeFailure = createAction(
@@ -66,7 +69,7 @@ export const putEmployeeFailure = createAction(
 // *********** DELETE EMPLOYEE ************************************//
 export const deleteEmployee = createAction(
   '[Employee Page] Delete',
-  props<{ delEmployee: EmployeeDto }>()
+  props<{ delEmployee: EmployeeLoaderDto }>()
 );
 
 export const deleteEmployeeSuccess = createAction(

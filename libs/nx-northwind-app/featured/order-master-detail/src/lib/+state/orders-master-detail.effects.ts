@@ -39,12 +39,12 @@ export class OrdersEffects {
               item.ShippedDate = item.ShippedDate
                 ? moment(item.ShippedDate).format('DD/MM/YYYY HH:mm')
                 : '';
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
+              // item.CreatedAt = item.CreatedAt
+              //   ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
+              // item.UpdatedAt = item.UpdatedAt
+              //   ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
             });
             return data;
           }),
@@ -209,14 +209,14 @@ export class OrdersEffects {
         this.serviceDetails.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: OrdersMasterDetailState) => {
-            data.orderDetails.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.orderDetails.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: OrdersMasterDetailState) =>

@@ -35,10 +35,10 @@ class Supplier {
       Country,
       Phone,
       Fax,
-      HomePage,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+      HomePage
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from suppliers
 	`;
     sql.query(query, (err, res) => {

@@ -1,6 +1,4 @@
-import { BaseDto } from './base-dto';
-
-export interface TerritoryDto extends BaseDto {
+export interface TerritoryBrowserDto {
   TerritoryID: string;
   TerritoryDescription?: null | string;
   RegionID?: null | string;

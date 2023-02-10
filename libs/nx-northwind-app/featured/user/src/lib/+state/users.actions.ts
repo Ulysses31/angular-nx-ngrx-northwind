@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { UserDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  UserBrowserDto,
+  UserLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT USERS *************************************//
 export const initUsers = createAction('[Users Page] Init');
 
 export const loadUsersSuccess = createAction(
   '[Users/API] Load Users Success',
-  props<{ users: UserDto[] }>()
+  props<{ users: UserBrowserDto[] }>()
 );
 
 export const loadUsersFailure = createAction(
@@ -23,7 +26,7 @@ export const initUser = createAction(
 
 export const loadUserSuccess = createAction(
   '[Users/API] Load User Success',
-  props<{ user: UserDto }>()
+  props<{ user: UserLoaderDto }>()
 );
 
 export const loadUserFailure = createAction(
@@ -34,12 +37,12 @@ export const loadUserFailure = createAction(
 // *********** POST USER **************************************//
 export const postUser = createAction(
   '[User Page] Post',
-  props<{ newUser: UserDto }>()
+  props<{ newUser: UserLoaderDto }>()
 );
 
 export const postUserSuccess = createAction(
   '[Users/API] Post User Success',
-  props<{ user: UserDto }>()
+  props<{ user: UserLoaderDto }>()
 );
 
 export const postUserFailure = createAction(
@@ -50,12 +53,12 @@ export const postUserFailure = createAction(
 // *********** PUT USER ***************************************//
 export const putUser = createAction(
   '[User Page] Put',
-  props<{ selectedId: string; putUser: UserDto }>()
+  props<{ selectedId: string; putUser: UserLoaderDto }>()
 );
 
 export const putUserSuccess = createAction(
   '[Users/API] Put User Success',
-  props<{ user: UserDto }>()
+  props<{ user: UserLoaderDto }>()
 );
 
 export const putUserFailure = createAction(
@@ -66,7 +69,7 @@ export const putUserFailure = createAction(
 // *********** DELETE USER ************************************//
 export const deleteUser = createAction(
   '[User Page] Delete',
-  props<{ delUser: UserDto }>()
+  props<{ delUser: UserLoaderDto }>()
 );
 
 export const deleteUserSuccess = createAction(

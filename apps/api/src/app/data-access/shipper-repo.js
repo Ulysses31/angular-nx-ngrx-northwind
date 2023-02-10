@@ -17,10 +17,10 @@ class Shipper {
 		select
       ShipperID,
       CompanyName,
-      Phone,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+      Phone
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from shippers
 	`;
     sql.query(query, (err, res) => {

@@ -1,5 +1,5 @@
-import { UserDto } from '@nx-northwind/nx-northwind-app/entities';
+import { UserLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 /**
  * Interface for the 'Users' data
  */
-export type UsersEntity = UserDto;
+export type UsersEntity = UserLoaderDto;

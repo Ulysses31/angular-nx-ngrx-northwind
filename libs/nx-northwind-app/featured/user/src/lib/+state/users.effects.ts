@@ -6,7 +6,6 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import * as UsersActions from './users.actions';
 import { UsersState } from './users.reducer';
-import * as moment from 'moment';
 
 @Injectable()
 export class UsersEffects {
@@ -21,10 +20,10 @@ export class UsersEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: UsersState) => {
-            data.users.map((item) => {
-              item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
-              item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
-            });
+            // data.users.map((item) => {
+            //   item.CreatedAt = item.CreatedAt ? moment(item.CreatedAt).format('DD/MM/YYYY HH:MM') : '';
+            //   item.UpdatedAt = item.UpdatedAt ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:MM') : '';
+            // });
             return data;
           }),
           map((data: UsersState) =>

@@ -15,13 +15,14 @@ class Territory {
   browse(result) {
     const query = `
 		select
-      TerritoryID,
-      TerritoryDescription,
-      RegionID,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from territories
+      t.TerritoryID,
+      t.TerritoryDescription,
+      #t.RegionID,
+      (SELECT RegionDescription FROM region r WHERE r.RegionID = t.RegionID) AS Region
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
+		from territories t
 	`;
     sql.query(query, (err, res) => {
       if (err) {

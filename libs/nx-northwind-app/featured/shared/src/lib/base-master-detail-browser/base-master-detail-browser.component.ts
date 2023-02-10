@@ -263,7 +263,6 @@ export class BaseMasterDetailBrowserComponent
   }
 
   public getSelectRecord(subj: any): void {
-    console.log(subj);
     if (subj) {
       this.modelDetails$.subscribe((items: any[]) => {
         const result = items.filter(

@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { OrderDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  OrderBrowserDto,
+  OrderLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT ORDERS *************************************//
 export const initOrders = createAction('[Orders Page] Init');
 
 export const loadOrdersSuccess = createAction(
   '[Orders/API] Load Orders Success',
-  props<{ orders: OrderDto[] }>()
+  props<{ orders: OrderBrowserDto[] }>()
 );
 
 export const loadOrdersFailure = createAction(
@@ -23,7 +26,7 @@ export const initOrder = createAction(
 
 export const loadOrderSuccess = createAction(
   '[Orders/API] Load Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderLoaderDto }>()
 );
 
 export const loadOrderFailure = createAction(
@@ -34,12 +37,12 @@ export const loadOrderFailure = createAction(
 // *********** POST ORDER **************************************//
 export const postOrder = createAction(
   '[Order Page] Post',
-  props<{ newOrder: OrderDto }>()
+  props<{ newOrder: OrderLoaderDto }>()
 );
 
 export const postOrderSuccess = createAction(
   '[Orders/API] Post Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderLoaderDto }>()
 );
 
 export const postOrderFailure = createAction(
@@ -50,12 +53,12 @@ export const postOrderFailure = createAction(
 // *********** PUT ORDER ***************************************//
 export const putOrder = createAction(
   '[Order Page] Put',
-  props<{ selectedId: string; putOrder: OrderDto }>()
+  props<{ selectedId: string; putOrder: OrderLoaderDto }>()
 );
 
 export const putOrderSuccess = createAction(
   '[Orders/API] Put Order Success',
-  props<{ order: OrderDto }>()
+  props<{ order: OrderLoaderDto }>()
 );
 
 export const putOrderFailure = createAction(
@@ -66,7 +69,7 @@ export const putOrderFailure = createAction(
 // *********** DELETE ORDER ************************************//
 export const deleteOrder = createAction(
   '[Order Page] Delete',
-  props<{ delOrder: OrderDto }>()
+  props<{ delOrder: OrderLoaderDto }>()
 );
 
 export const deleteOrderSuccess = createAction(

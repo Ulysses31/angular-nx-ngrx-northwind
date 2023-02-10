@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
+import { RegionLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./region-loader.component.scss']
 })
 export class RegionLoaderComponent extends BaseLoaderComponent {
-  regionModel!: RegionDto;
+  regionModel!: RegionLoaderDto;
   region$ = this.store.select(selectRegion);
   error$ = this.store.select(selectRegionsError);
   isLoaded$ = this.store.select(selectRegionsLoaded);
@@ -133,7 +133,7 @@ export class RegionLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.region$.subscribe((region: RegionDto) => {
+    this.region$.subscribe((region: RegionLoaderDto) => {
       this.regionModel = { ...region };
     });
   }

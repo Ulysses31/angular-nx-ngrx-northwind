@@ -6,17 +6,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { CustomerDto } from '@nx-northwind/nx-northwind-app/entities';
+import { CustomerLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
 import {
+  deleteCustomer,
   initCustomer,
   loadCustomerSuccess,
-  deleteCustomer,
-  putCustomer,
-  postCustomer
+  postCustomer,
+  putCustomer
 } from '../+state/customers.actions';
 import { CustomersState } from '../+state/customers.reducer';
 import {
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./customer-loader.component.scss']
 })
 export class CustomerLoaderComponent extends BaseLoaderComponent {
-  customerModel!: CustomerDto;
+  customerModel!: CustomerLoaderDto;
   customer$ = this.store.select(selectCustomer);
   error$ = this.store.select(selectCustomersError);
   isLoaded$ = this.store.select(selectCustomersLoaded);
@@ -142,7 +142,7 @@ export class CustomerLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.customer$.subscribe((customer: CustomerDto) => {
+    this.customer$.subscribe((customer: CustomerLoaderDto) => {
       this.customerModel = { ...customer };
     });
   }

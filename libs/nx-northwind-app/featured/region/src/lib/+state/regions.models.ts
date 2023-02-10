@@ -1,5 +1,5 @@
-import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
+import { RegionLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 /**
  * Interface for the 'Regions' data
  */
-export type RegionsEntity = RegionDto;
+export type RegionsEntity = RegionLoaderDto;

@@ -7,7 +7,6 @@ import { CustomersState } from './customers.reducer';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import * as CustomersActions from './customers.actions';
 
 @Injectable()
@@ -27,14 +26,14 @@ export class CustomersEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: CustomersState) => {
-            data.customers.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.customers.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: CustomersState) =>

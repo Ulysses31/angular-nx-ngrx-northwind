@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { OrderDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  OrderBrowserDto,
+  OrderLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as OrdersActions from './orders.actions';
 
 export const ORDERS_FEATURE_KEY = 'orders';
 
 export interface OrdersState {
-  orders: OrderDto[];
-  order: OrderDto | any;
+  orders: OrderBrowserDto[];
+  order: OrderLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

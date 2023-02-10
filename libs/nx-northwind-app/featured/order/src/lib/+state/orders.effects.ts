@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { pipe } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { OrderService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,12 +37,12 @@ export class OrdersEffects {
               item.ShippedDate = item.ShippedDate
                 ? moment(item.ShippedDate).format('DD/MM/YYYY HH:mm')
                 : '';
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
+              // item.CreatedAt = item.CreatedAt
+              //   ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
+              // item.UpdatedAt = item.UpdatedAt
+              //   ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
             });
             return data;
           }),

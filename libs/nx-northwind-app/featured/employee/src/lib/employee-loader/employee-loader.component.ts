@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { EmployeeDto } from '@nx-northwind/nx-northwind-app/entities';
+import { EmployeeLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./employee-loader.component.scss']
 })
 export class EmployeeLoaderComponent extends BaseLoaderComponent {
-  employeeModel!: EmployeeDto;
+  employeeModel!: EmployeeLoaderDto;
   employee$ = this.store.select(selectEmployee);
   error$ = this.store.select(selectEmployeesError);
   isLoaded$ = this.store.select(selectEmployeesLoaded);
@@ -148,7 +148,7 @@ export class EmployeeLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.employee$.subscribe((employee: EmployeeDto) => {
+    this.employee$.subscribe((employee: EmployeeLoaderDto) => {
       this.employeeModel = { ...employee };
     });
   }

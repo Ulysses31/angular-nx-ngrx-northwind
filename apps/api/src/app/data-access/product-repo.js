@@ -22,20 +22,26 @@ class Product {
   browse(result) {
     const query = `
 		select
-      ProductID,
-      ProductName,
-      SupplierID,
-      CategoryID,
-      QuantityPerUnit,
-      UnitPrice,
-      UnitsInStock,
-      UnitsOnOrder,
-      ReorderLevel,
-      Discontinued,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from products
+      p.ProductID,
+      p.ProductName,
+      #p.SupplierID,
+      (SELECT companyName FROM suppliers s WHERE s.ID = p.SupplierID) AS Supplier,
+      #p.CategoryID,
+      (SELECT categoryName FROM categories c WHERE c.categoryID = p.CategoryID) AS Category,
+      p.QuantityPerUnit,
+      p.UnitPrice,
+      p.UnitsInStock,
+      p.UnitsOnOrder,
+      p.ReorderLevel,
+      #p.Discontinued,
+      case
+      	when p.Discontinued = 1 then 'Yes'
+      	when p.Discontinued = 0 then 'No'
+      end as Discontinued
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
+		from products p
 	`;
     sql.query(query, (err, res) => {
       if (err) {

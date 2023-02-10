@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  RegionBrowserDto,
+  RegionLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT REGIONS *************************************//
 export const initRegions = createAction('[Regions Page] Init');
 
 export const loadRegionsSuccess = createAction(
   '[Regions/API] Load Regions Success',
-  props<{ regions: RegionDto[] }>()
+  props<{ regions: RegionBrowserDto[] }>()
 );
 
 export const loadRegionsFailure = createAction(
@@ -23,7 +26,7 @@ export const initRegion = createAction(
 
 export const loadRegionSuccess = createAction(
   '[Regions/API] Load Region Success',
-  props<{ region: RegionDto }>()
+  props<{ region: RegionLoaderDto }>()
 );
 
 export const loadRegionFailure = createAction(
@@ -34,12 +37,12 @@ export const loadRegionFailure = createAction(
 // *********** POST REGION **************************************//
 export const postRegion = createAction(
   '[Region Page] Post',
-  props<{ newRegion: RegionDto }>()
+  props<{ newRegion: RegionLoaderDto }>()
 );
 
 export const postRegionSuccess = createAction(
   '[Regions/API] Post Region Success',
-  props<{ region: RegionDto }>()
+  props<{ region: RegionLoaderDto }>()
 );
 
 export const postRegionFailure = createAction(
@@ -50,12 +53,12 @@ export const postRegionFailure = createAction(
 // *********** PUT REGION ***************************************//
 export const putRegion = createAction(
   '[Region Page] Put',
-  props<{ selectedId: string; putRegion: RegionDto }>()
+  props<{ selectedId: string; putRegion: RegionLoaderDto }>()
 );
 
 export const putRegionSuccess = createAction(
   '[Regions/API] Put Region Success',
-  props<{ region: RegionDto }>()
+  props<{ region: RegionLoaderDto }>()
 );
 
 export const putRegionFailure = createAction(
@@ -66,7 +69,7 @@ export const putRegionFailure = createAction(
 // *********** DELETE REGION ************************************//
 export const deleteRegion = createAction(
   '[Region Page] Delete',
-  props<{ delRegion: RegionDto }>()
+  props<{ delRegion: RegionLoaderDto }>()
 );
 
 export const deleteRegionSuccess = createAction(

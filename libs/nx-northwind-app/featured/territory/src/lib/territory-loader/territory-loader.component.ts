@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { TerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import { TerritoryLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./territory-loader.component.scss']
 })
 export class TerritoryLoaderComponent extends BaseLoaderComponent {
-  territoryModel!: TerritoryDto;
+  territoryModel!: TerritoryLoaderDto;
   territory$ = this.store.select(selectTerritory);
   error$ = this.store.select(selectTerritoriesError);
   isLoaded$ = this.store.select(selectTerritoriesLoaded);
@@ -135,7 +135,7 @@ export class TerritoryLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.territory$.subscribe((territory: TerritoryDto) => {
+    this.territory$.subscribe((territory: TerritoryLoaderDto) => {
       this.territoryModel = { ...territory };
     });
   }

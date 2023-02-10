@@ -6,7 +6,7 @@ import { IBaseService } from './interfaces/ibase-service';
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService<TModel> implements IBaseService<TModel> {
+export class BaseService<TModelBrowser, TModelLoader> implements IBaseService<TModelBrowser, TModelLoader> {
   private apiServiceUrl = '';
 
   httpOptions = {
@@ -27,31 +27,31 @@ export class BaseService<TModel> implements IBaseService<TModel> {
     if (url) this.apiServiceUrl = url;
   }
 
-  browse(): Observable<TModel[]> {
+  browse(): Observable<TModelBrowser[]> {
     console.log('Browsing...');
-    return this.http.get<TModel[]>(
+    return this.http.get<TModelBrowser[]>(
       this.apiServiceUrl,
       this.httpOptions
     );
   }
 
-  load(id: string): Observable<TModel> {
-    return this.http.get<TModel>(
+  load(id: string): Observable<TModelLoader> {
+    return this.http.get<TModelLoader>(
       `${this.apiServiceUrl}/${id}`,
       this.httpOptions
     );
   }
 
-  create(dto: TModel): Observable<TModel> {
-    return this.http.post<TModel>(
+  create(dto: TModelLoader): Observable<TModelLoader> {
+    return this.http.post<TModelLoader>(
       this.apiServiceUrl,
       dto,
       this.httpOptions
     );
   }
 
-  update(id: string, dto: TModel): Observable<TModel> {
-    return this.http.put<TModel>(
+  update(id: string, dto: TModelLoader): Observable<TModelLoader> {
+    return this.http.put<TModelLoader>(
       `${this.apiServiceUrl}/${id}`,
       dto,
       this.httpOptions

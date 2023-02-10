@@ -4,11 +4,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ShipperService } from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as ShippersActions from './shippers.actions';
 import { ShippersState } from './shippers.reducer';
-import * as moment from 'moment';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ShippersEffects {
@@ -27,14 +26,14 @@ export class ShippersEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: ShippersState) => {
-            data.shippers.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.shippers.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: ShippersState) =>

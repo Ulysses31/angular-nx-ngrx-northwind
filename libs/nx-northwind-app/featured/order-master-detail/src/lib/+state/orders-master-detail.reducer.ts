@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { OrderDetailDto, OrderDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  OrderDetailBrowserDto,
+  OrderDetailLoaderDto,
+  OrderMasterDetailBrowserDto,
+  OrderMasterDetailLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as OrdersActions from './orders-master-detail.actions';
 
 export const ORDERS_MASTER_DETAIL_FEATURE_KEY = 'ordersMasterDetail';
 
 export interface OrdersMasterDetailState {
-  orders: OrderDto[];
-  order: OrderDto | any;
-  orderDetails: OrderDetailDto[],
-  orderDetail: OrderDetailDto | any,
+  orders: OrderMasterDetailBrowserDto[];
+  order: OrderMasterDetailLoaderDto | any;
+  orderDetails: OrderDetailBrowserDto[];
+  orderDetail: OrderDetailLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }
@@ -125,7 +130,6 @@ const reducer = createReducer(
     error
   })),
 
-
   // *********** INIT ORDER DETAILS ******************************//
   on(OrdersActions.initOrderDetails, (state) => ({
     ...state,
@@ -143,16 +147,13 @@ const reducer = createReducer(
       error: null
     })
   ),
-  on(
-    OrdersActions.loadOrderDetailsFailure,
-    (state, { error }) => ({
-      ...state,
-      orderDetails: [],
-      orderDetail: null,
-      loaded: true,
-      error
-    })
-  ),
+  on(OrdersActions.loadOrderDetailsFailure, (state, { error }) => ({
+    ...state,
+    orderDetails: [],
+    orderDetail: null,
+    loaded: true,
+    error
+  })),
   // *********** SELECTED ORDER DETAIL ****************************//
   on(OrdersActions.initOrderDetail, (state) => ({
     ...state,
@@ -168,25 +169,19 @@ const reducer = createReducer(
       error: null
     })
   ),
-  on(
-    OrdersActions.loadOrderDetailFailure,
-    (state, { error }) => ({
-      ...state,
-      orderDetail: null,
-      loaded: true,
-      error
-    })
-  ),
+  on(OrdersActions.loadOrderDetailFailure, (state, { error }) => ({
+    ...state,
+    orderDetail: null,
+    loaded: true,
+    error
+  })),
   // *********** POST ORDER DETAIL *******************************//
-  on(
-    OrdersActions.postOrderDetail,
-    (state, { newOrderDetail }) => ({
-      ...state,
-      orderDetail: newOrderDetail,
-      loaded: false,
-      error: null
-    })
-  ),
+  on(OrdersActions.postOrderDetail, (state, { newOrderDetail }) => ({
+    ...state,
+    orderDetail: newOrderDetail,
+    loaded: false,
+    error: null
+  })),
   on(
     OrdersActions.postOrderDetailSuccess,
     (state, { orderDetail }) => ({
@@ -196,24 +191,18 @@ const reducer = createReducer(
       error: null
     })
   ),
-  on(
-    OrdersActions.postOrderDetailFailure,
-    (state, { error }) => ({
-      ...state,
-      loaded: true,
-      error
-    })
-  ),
+  on(OrdersActions.postOrderDetailFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
   // *********** PUT ORDER DETAIL *******************************//
-  on(
-    OrdersActions.putOrderDetail,
-    (state, { putOrderDetail }) => ({
-      ...state,
-      orderDetail: putOrderDetail,
-      loaded: false,
-      error: null
-    })
-  ),
+  on(OrdersActions.putOrderDetail, (state, { putOrderDetail }) => ({
+    ...state,
+    orderDetail: putOrderDetail,
+    loaded: false,
+    error: null
+  })),
   on(
     OrdersActions.putOrderDetailSuccess,
     (state, { orderDetail }) => ({
@@ -223,14 +212,11 @@ const reducer = createReducer(
       error: null
     })
   ),
-  on(
-    OrdersActions.putOrderDetailFailure,
-    (state, { error }) => ({
-      ...state,
-      loaded: true,
-      error
-    })
-  ),
+  on(OrdersActions.putOrderDetailFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  })),
   // *********** DELETE ORDER DETAIL ****************************//
   on(
     OrdersActions.deleteOrderDetail,
@@ -246,14 +232,11 @@ const reducer = createReducer(
     loaded: true,
     error: null
   })),
-  on(
-    OrdersActions.deleteOrderDetailFailure,
-    (state, { error }) => ({
-      ...state,
-      loaded: true,
-      error
-    })
-  )
+  on(OrdersActions.deleteOrderDetailFailure, (state, { error }) => ({
+    ...state,
+    loaded: true,
+    error
+  }))
 );
 
 export function ordersMasterDetailReducer(

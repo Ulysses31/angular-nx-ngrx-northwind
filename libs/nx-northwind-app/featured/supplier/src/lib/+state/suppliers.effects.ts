@@ -6,7 +6,6 @@ import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import * as SuppliersActions from './suppliers.actions';
 import { SuppliersState } from './suppliers.reducer';
 
@@ -27,14 +26,14 @@ export class SuppliersEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: SuppliersState) => {
-            data.suppliers.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.suppliers.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: SuppliersState) =>

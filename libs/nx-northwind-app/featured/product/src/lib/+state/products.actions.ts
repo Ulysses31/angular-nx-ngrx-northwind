@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { ProductDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  ProductBrowserDto,
+  ProductLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT PRODUCTS *************************************//
 export const initProducts = createAction('[Products Page] Init');
 
 export const loadProductsSuccess = createAction(
   '[Products/API] Load Products Success',
-  props<{ products: ProductDto[] }>()
+  props<{ products: ProductBrowserDto[] }>()
 );
 
 export const loadProductsFailure = createAction(
@@ -23,7 +26,7 @@ export const initProduct = createAction(
 
 export const loadProductSuccess = createAction(
   '[Products/API] Load Product Success',
-  props<{ product: ProductDto }>()
+  props<{ product: ProductLoaderDto }>()
 );
 
 export const loadProductFailure = createAction(
@@ -34,12 +37,12 @@ export const loadProductFailure = createAction(
 // *********** POST PRODUCT **************************************//
 export const postProduct = createAction(
   '[Product Page] Post',
-  props<{ newProduct: ProductDto }>()
+  props<{ newProduct: ProductLoaderDto }>()
 );
 
 export const postProductSuccess = createAction(
   '[Products/API] Post Product Success',
-  props<{ product: ProductDto }>()
+  props<{ product: ProductLoaderDto }>()
 );
 
 export const postProductFailure = createAction(
@@ -50,12 +53,12 @@ export const postProductFailure = createAction(
 // *********** PUT PRODUCT ***************************************//
 export const putProduct = createAction(
   '[Product Page] Put',
-  props<{ selectedId: string; putProduct: ProductDto }>()
+  props<{ selectedId: string; putProduct: ProductLoaderDto }>()
 );
 
 export const putProductSuccess = createAction(
   '[Products/API] Put Product Success',
-  props<{ product: ProductDto }>()
+  props<{ product: ProductLoaderDto }>()
 );
 
 export const putProductFailure = createAction(
@@ -66,7 +69,7 @@ export const putProductFailure = createAction(
 // *********** DELETE PRODUCT ************************************//
 export const deleteProduct = createAction(
   '[Product Page] Delete',
-  props<{ delProduct: ProductDto }>()
+  props<{ delProduct: ProductLoaderDto }>()
 );
 
 export const deleteProductSuccess = createAction(

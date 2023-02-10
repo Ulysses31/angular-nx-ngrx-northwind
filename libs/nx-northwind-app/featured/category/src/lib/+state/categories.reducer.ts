@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { CategoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  CategoryBrowserDto,
+  CategoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as CategoriesActions from './categories.actions';
 
 export const CATEGORIES_FEATURE_KEY = 'categories';
 
 export interface CategoriesState {
-  categories: CategoryDto[];
-  category: CategoryDto | any;
+  categories: CategoryBrowserDto[];
+  category: CategoryLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

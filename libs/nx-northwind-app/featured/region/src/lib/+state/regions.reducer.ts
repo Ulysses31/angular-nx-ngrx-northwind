@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { RegionDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  RegionBrowserDto,
+  RegionLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as RegionsActions from './regions.actions';
 
 export const REGIONS_FEATURE_KEY = 'regions';
 
 export interface RegionsState {
-  regions: RegionDto[];
-  region: RegionDto | any;
+  regions: RegionBrowserDto[];
+  region: RegionLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

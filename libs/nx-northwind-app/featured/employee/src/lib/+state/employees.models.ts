@@ -1,6 +1,6 @@
-import { EmployeeDto } from '@nx-northwind/nx-northwind-app/entities';
+import { EmployeeLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 
 /**
  * Interface for the 'Employees' data
  */
-export type EmployeesEntity = EmployeeDto;
+export type EmployeesEntity = EmployeeLoaderDto;

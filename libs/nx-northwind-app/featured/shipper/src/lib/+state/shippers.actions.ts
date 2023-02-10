@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { ShipperDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  ShipperBrowserDto,
+  ShipperLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT SHIPPERS *************************************//
 export const initShippers = createAction('[Shippers Page] Init');
 
 export const loadShippersSuccess = createAction(
   '[Shippers/API] Load Shippers Success',
-  props<{ shippers: ShipperDto[] }>()
+  props<{ shippers: ShipperBrowserDto[] }>()
 );
 
 export const loadShippersFailure = createAction(
@@ -23,7 +26,7 @@ export const initShipper = createAction(
 
 export const loadShipperSuccess = createAction(
   '[Shippers/API] Load Shipper Success',
-  props<{ shipper: ShipperDto }>()
+  props<{ shipper: ShipperLoaderDto }>()
 );
 
 export const loadShipperFailure = createAction(
@@ -34,12 +37,12 @@ export const loadShipperFailure = createAction(
 // *********** POST SHIPPER **************************************//
 export const postShipper = createAction(
   '[Shipper Page] Post',
-  props<{ newShipper: ShipperDto }>()
+  props<{ newShipper: ShipperLoaderDto }>()
 );
 
 export const postShipperSuccess = createAction(
   '[Shippers/API] Post Shipper Success',
-  props<{ shipper: ShipperDto }>()
+  props<{ shipper: ShipperLoaderDto }>()
 );
 
 export const postShipperFailure = createAction(
@@ -50,12 +53,12 @@ export const postShipperFailure = createAction(
 // *********** PUT SHIPPER ***************************************//
 export const putShipper = createAction(
   '[Shipper Page] Put',
-  props<{ selectedId: string; putShipper: ShipperDto }>()
+  props<{ selectedId: string; putShipper: ShipperLoaderDto }>()
 );
 
 export const putShipperSuccess = createAction(
   '[Shippers/API] Put Shipper Success',
-  props<{ shipper: ShipperDto }>()
+  props<{ shipper: ShipperLoaderDto }>()
 );
 
 export const putShipperFailure = createAction(
@@ -66,7 +69,7 @@ export const putShipperFailure = createAction(
 // *********** DELETE SHIPPER ************************************//
 export const deleteShipper = createAction(
   '[Shipper Page] Delete',
-  props<{ delShipper: ShipperDto }>()
+  props<{ delShipper: ShipperLoaderDto }>()
 );
 
 export const deleteShipperSuccess = createAction(

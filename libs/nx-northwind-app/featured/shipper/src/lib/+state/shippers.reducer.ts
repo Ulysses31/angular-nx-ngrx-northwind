@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { ShipperDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  ShipperBrowserDto,
+  ShipperLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as ShippersActions from './shippers.actions';
 
 export const SHIPPERS_FEATURE_KEY = 'shippers';
 
 export interface ShippersState {
-  shippers: ShipperDto[];
-  shipper: ShipperDto | any;
+  shippers: ShipperBrowserDto[];
+  shipper: ShipperLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

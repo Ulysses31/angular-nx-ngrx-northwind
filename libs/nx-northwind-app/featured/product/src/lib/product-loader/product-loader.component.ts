@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { ProductDto } from '@nx-northwind/nx-northwind-app/entities';
+import { ProductLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseLoaderComponent,
   FunctionButtons
@@ -31,7 +31,7 @@ import {
   styleUrls: ['./product-loader.component.scss']
 })
 export class ProductLoaderComponent extends BaseLoaderComponent {
-  productModel!: ProductDto;
+  productModel!: ProductLoaderDto;
   product$ = this.store.select(selectProduct);
   error$ = this.store.select(selectProductsError);
   isLoaded$ = this.store.select(selectProductsLoaded);
@@ -141,7 +141,7 @@ export class ProductLoaderComponent extends BaseLoaderComponent {
       );
     }
 
-    this.product$.subscribe((product: ProductDto) => {
+    this.product$.subscribe((product: ProductLoaderDto) => {
       this.productModel = { ...product };
     });
   }

@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { EmployeeDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  EmployeeBrowserDto,
+  EmployeeLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as EmployeesActions from './employees.actions';
 
 export const EMPLOYEES_FEATURE_KEY = 'employees';
 
 export interface EmployeesState {
-  employees: EmployeeDto[];
-  employee: EmployeeDto | any;
+  employees: EmployeeBrowserDto[];
+  employee: EmployeeLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

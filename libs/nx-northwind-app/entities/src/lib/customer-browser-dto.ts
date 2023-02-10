@@ -1,6 +1,4 @@
-import { BaseDto } from './base-dto';
-
-export interface CustomerDto extends BaseDto {
+export interface CustomerBrowserDto {
   CustomerID: string;
   CompanyName?: null | string;
   ContactName?: null | string;

@@ -15,13 +15,15 @@ class EmployeeTerritory {
   browse(result) {
     const query = `
 		select
-      Id,
-      EmployeeID,
-      TerritoryID,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from employeeTerritories
+      t.Id,
+      #t.EmployeeID,
+      (SELECT CONCAT(LASTNAME, ' ', FIRSTNAME) FROM employees e WHERE e.EmployeeID = t.EmployeeID) AS Employee,
+      #t.TerritoryID
+      (SELECT TERRITORYDESCRIPTION FROM territories tr WHERE tr.territoryID = t.TerritoryID) AS Territory
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
+		from employeeTerritories t
 	`;
     sql.query(query, (err, res) => {
       if (err) {

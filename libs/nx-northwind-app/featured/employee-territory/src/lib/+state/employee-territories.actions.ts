@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
-import { EmployeeTerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  EmployeeTerritoryBrowserDto,
+  EmployeeTerritoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 // *********** INIT EMPLOYEE TERRITORIES *************************************//
 export const initEmployeeTerritories = createAction(
@@ -9,7 +12,7 @@ export const initEmployeeTerritories = createAction(
 
 export const loadEmployeeTerritoriesSuccess = createAction(
   '[EmployeeTerritories/API] Load EmployeeTerritories Success',
-  props<{ employeeTerritories: EmployeeTerritoryDto[] }>()
+  props<{ employeeTerritories: EmployeeTerritoryBrowserDto[] }>()
 );
 
 export const loadEmployeeTerritoriesFailure = createAction(
@@ -25,7 +28,7 @@ export const initEmployeeTerritory = createAction(
 
 export const loadEmployeeTerritorySuccess = createAction(
   '[EmployeeTerritories/API] Load EmployeeTerritory Success',
-  props<{ employeeTerritory: EmployeeTerritoryDto }>()
+  props<{ employeeTerritory: EmployeeTerritoryLoaderDto }>()
 );
 
 export const loadEmployeeTerritoryFailure = createAction(
@@ -36,12 +39,12 @@ export const loadEmployeeTerritoryFailure = createAction(
 // *********** POST EMPLOYEE TERRITORY **************************************//
 export const postEmployeeTerritory = createAction(
   '[EmployeeTerritory Page] Post',
-  props<{ newEmployeeTerritory: EmployeeTerritoryDto }>()
+  props<{ newEmployeeTerritory: EmployeeTerritoryLoaderDto }>()
 );
 
 export const postEmployeeTerritorySuccess = createAction(
   '[EmployeeTerritories/API] Post EmployeeTerritory Success',
-  props<{ employeeTerritory: EmployeeTerritoryDto }>()
+  props<{ employeeTerritory: EmployeeTerritoryLoaderDto }>()
 );
 
 export const postEmployeeTerritoryFailure = createAction(
@@ -54,13 +57,13 @@ export const putEmployeeTerritory = createAction(
   '[EmployeeTerritory Page] Put',
   props<{
     selectedId: string;
-    putEmployeeTerritory: EmployeeTerritoryDto;
+    putEmployeeTerritory: EmployeeTerritoryLoaderDto;
   }>()
 );
 
 export const putEmployeeTerritorySuccess = createAction(
   '[EmployeeTerritories/API] Put EmployeeTerritory Success',
-  props<{ employeeTerritory: EmployeeTerritoryDto }>()
+  props<{ employeeTerritory: EmployeeTerritoryLoaderDto }>()
 );
 
 export const putEmployeeTerritoryFailure = createAction(
@@ -71,7 +74,7 @@ export const putEmployeeTerritoryFailure = createAction(
 // *********** DELETE EMPLOYEE TERRITORY ************************************//
 export const deleteEmployeeTerritory = createAction(
   '[EmployeeTerritory Page] Delete',
-  props<{ delEmployeeTerritory: EmployeeTerritoryDto }>()
+  props<{ delEmployeeTerritory: EmployeeTerritoryLoaderDto }>()
 );
 
 export const deleteEmployeeTerritorySuccess = createAction(

@@ -33,10 +33,10 @@ class Customer {
       PostalCode,
       Country,
       Phone,
-      Fax,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
+      Fax
+      #CreatedBy,
+      #CreatedAt,
+      #UpdatedAt
 		from customers
 	`;
     sql.query(query, (err, res) => {

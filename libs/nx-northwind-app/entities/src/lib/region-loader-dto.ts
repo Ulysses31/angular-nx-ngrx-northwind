@@ -1,6 +1,6 @@
 import { BaseDto } from './base-dto';
 
-export interface RegionDto extends BaseDto {
+export interface RegionLoaderDto extends BaseDto {
   RegionID: string;
   RegionDescription?: null | string;
 }

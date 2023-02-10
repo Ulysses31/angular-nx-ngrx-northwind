@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { EmployeeTerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  EmployeeTerritoryBrowserDto,
+  EmployeeTerritoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as EmployeeTerritoriesActions from './employee-territories.actions';
 
 export const EMPLOYEE_TERRITORIES_FEATURE_KEY = 'employeeTerritories';
 
 export interface EmployeeTerritoriesState {
-  employeeTerritories: EmployeeTerritoryDto[];
-  employeeTerritory: EmployeeTerritoryDto | any;
+  employeeTerritories: EmployeeTerritoryBrowserDto[];
+  employeeTerritory: EmployeeTerritoryLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

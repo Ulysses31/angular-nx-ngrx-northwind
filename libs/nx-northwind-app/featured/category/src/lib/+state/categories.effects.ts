@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoriesState } from './categories.reducer';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CategoryService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, switchMap, tap, of, pipe } from 'rxjs';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
+import { CategoriesState } from './categories.reducer';
 
-import * as CategoriesActions from './categories.actions';
-import * as moment from 'moment';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as CategoriesActions from './categories.actions';
 
 // for read operations switchMa
 // for write operations concatMap, exhaustMap
@@ -30,14 +29,14 @@ export class CategoriesEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: CategoriesState) => {
-            data.categories.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.categories.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: CategoriesState) =>

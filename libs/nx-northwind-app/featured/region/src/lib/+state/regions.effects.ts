@@ -6,7 +6,6 @@ import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import * as RegionsActions from './regions.actions';
 import { RegionsState } from './regions.reducer';
 
@@ -27,14 +26,14 @@ export class RegionsEffects {
         this.service.browse().pipe(
           tap((data: any) => console.log(data)),
           map((data: RegionsState) => {
-            data.regions.map((item) => {
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-            });
+            // data.regions.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
             return data;
           }),
           map((data: RegionsState) =>

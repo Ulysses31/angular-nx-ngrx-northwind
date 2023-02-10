@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
-import { SupplierDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  SupplierBrowserDto,
+  SupplierLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 
 import * as SuppliersActions from './suppliers.actions';
 
 export const SUPPLIERS_FEATURE_KEY = 'suppliers';
 
 export interface SuppliersState {
-  suppliers: SupplierDto[];
-  supplier: SupplierDto | any;
+  suppliers: SupplierBrowserDto[];
+  supplier: SupplierLoaderDto | any;
   loaded: boolean;
   error?: string | null;
 }

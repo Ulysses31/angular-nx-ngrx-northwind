@@ -36,12 +36,12 @@ export class EmployeesEffects {
               item.HireDate = item.HireDate
                 ? moment(item.HireDate).format('DD/MM/YYYY')
                 : '';
-              item.CreatedAt = item.CreatedAt
-                ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
-              item.UpdatedAt = item.UpdatedAt
-                ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
-                : '';
+              // item.CreatedAt = item.CreatedAt
+              //   ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
+              // item.UpdatedAt = item.UpdatedAt
+              //   ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
             });
             return data;
           }),

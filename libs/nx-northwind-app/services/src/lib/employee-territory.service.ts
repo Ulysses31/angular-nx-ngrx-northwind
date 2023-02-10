@@ -1,12 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EmployeeTerritoryDto } from '@nx-northwind/nx-northwind-app/entities';
+import {
+  EmployeeTerritoryBrowserDto,
+  EmployeeTerritoryLoaderDto
+} from '@nx-northwind/nx-northwind-app/entities';
 import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeTerritoryService extends BaseService<EmployeeTerritoryDto> {
+export class EmployeeTerritoryService extends BaseService<
+  EmployeeTerritoryBrowserDto,
+  EmployeeTerritoryLoaderDto
+> {
   constructor(public override http: HttpClient) {
     super(http);
     console.log(
