@@ -1,0 +1,35 @@
+pre {
+  padding: 5px;
+  width: 99%;
+  height: 200px;
+  overflow: auto;
+  font-size: 0.8em;
+  box-shadow: 2px 2px 5px 0px #cdcdcd;
+}
+
+h3 {
+  color: #868686;
+}
+
+// .function-buttons .btns {
+//   margin: 2px;
+// }
+
+table {
+  margin-top: 120px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+th {
+  background-color: #bdbdbd;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}

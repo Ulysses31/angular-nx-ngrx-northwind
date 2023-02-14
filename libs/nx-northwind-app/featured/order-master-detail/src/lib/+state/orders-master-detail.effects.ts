@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { pipe } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { OrderDetailService, OrderService } from '@nx-northwind/nx-northwind-app/services';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import {
+  OrderDetailService,
+  OrderService
+} from '@nx-northwind/nx-northwind-app/services';
+import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -170,7 +172,9 @@ export class OrdersEffects {
           tap((data: any) => console.log(data)),
           map(() => OrdersMasterDetailActions.deleteOrderSuccess()),
           catchError((error) =>
-            of(OrdersMasterDetailActions.deleteOrderFailure({ error }))
+            of(
+              OrdersMasterDetailActions.deleteOrderFailure({ error })
+            )
           )
         )
       )
@@ -197,9 +201,7 @@ export class OrdersEffects {
     { dispatch: false }
   );
 
-
   //-----------------------------------------------------------------------------//
-
 
   // ******** INIT ORDER DETAILS *************************************//
   initOrderDetails$ = createEffect(() =>
@@ -225,7 +227,11 @@ export class OrdersEffects {
             })
           ),
           catchError((error) =>
-            of(OrdersMasterDetailActions.loadOrderDetailsFailure({ error }))
+            of(
+              OrdersMasterDetailActions.loadOrderDetailsFailure({
+                error
+              })
+            )
           )
         )
       )
@@ -245,9 +251,41 @@ export class OrdersEffects {
             })
           ),
           catchError((error) =>
-            of(OrdersMasterDetailActions.loadOrderDetailFailure({ error }))
+            of(
+              OrdersMasterDetailActions.loadOrderDetailFailure({
+                error
+              })
+            )
           )
         )
+      )
+    )
+  );
+
+  // ******** INIT ORDERS DETAILS BY ORDERID ************************//
+  initOrdersDetailsByOrderId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersMasterDetailActions.initOrderDetailsByOrderId),
+      switchMap((action) =>
+        this.serviceDetails
+          .browseByOrderId(action.selectedOrderId)
+          .pipe(
+            tap((data: any) => console.log(data)),
+            map((data: OrdersMasterDetailState) =>
+              OrdersMasterDetailActions.loadOrderDetailsByOrderIdSuccess(
+                {
+                  orderDetails: data.orderDetails
+                }
+              )
+            ),
+            catchError((error) =>
+              of(
+                OrdersMasterDetailActions.loadOrderDetailsByOrderIdFailure(
+                  { error }
+                )
+              )
+            )
+          )
       )
     )
   );
@@ -265,7 +303,11 @@ export class OrdersEffects {
             })
           ),
           catchError((error) =>
-            of(OrdersMasterDetailActions.postOrderDetailFailure({ error }))
+            of(
+              OrdersMasterDetailActions.postOrderDetailFailure({
+                error
+              })
+            )
           )
         )
       )
@@ -307,7 +349,11 @@ export class OrdersEffects {
               })
             ),
             catchError((error) =>
-              of(OrdersMasterDetailActions.putOrderDetailFailure({ error }))
+              of(
+                OrdersMasterDetailActions.putOrderDetailFailure({
+                  error
+                })
+              )
             )
           )
       )
@@ -339,15 +385,21 @@ export class OrdersEffects {
     this.actions$.pipe(
       ofType(OrdersMasterDetailActions.deleteOrderDetail),
       switchMap((action) =>
-        this.serviceDetails.delete(action.delOrderDetail.OrderID).pipe(
-          tap((data: any) => console.log(data)),
-          map(() => OrdersMasterDetailActions.deleteOrderDetailSuccess()),
-          catchError((error) =>
-            of(
-              OrdersMasterDetailActions.deleteOrderDetailFailure({ error })
+        this.serviceDetails
+          .delete(action.delOrderDetail.OrderID)
+          .pipe(
+            tap((data: any) => console.log(data)),
+            map(() =>
+              OrdersMasterDetailActions.deleteOrderDetailSuccess()
+            ),
+            catchError((error) =>
+              of(
+                OrdersMasterDetailActions.deleteOrderDetailFailure({
+                  error
+                })
+              )
             )
           )
-        )
       )
     )
   );

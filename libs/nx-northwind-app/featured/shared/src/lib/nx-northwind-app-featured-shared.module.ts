@@ -6,6 +6,7 @@ import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
 import { BaseBrowserComponent } from './base-browser/base-browser.component';
 import { BaseLoaderComponent } from './base-loader/base-loader.component';
 import { BaseMasterDetailBrowserComponent } from './base-master-detail-browser/base-master-detail-browser.component';
+import { BaseMasterDetailLoaderComponent } from './base-master-detail-loader/base-master-detail-loader.component';
 
 const CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -15,13 +16,15 @@ const CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     CanvasJSChart,
     BaseBrowserComponent,
     BaseLoaderComponent,
-    BaseMasterDetailBrowserComponent
+    BaseMasterDetailBrowserComponent,
+    BaseMasterDetailLoaderComponent
   ],
   exports: [
     CanvasJSChart,
     BaseBrowserComponent,
     BaseLoaderComponent,
-    BaseMasterDetailBrowserComponent
+    BaseMasterDetailBrowserComponent,
+    BaseMasterDetailLoaderComponent
   ]
 })
 export class NxNorthwindAppFeaturedSharedModule {}

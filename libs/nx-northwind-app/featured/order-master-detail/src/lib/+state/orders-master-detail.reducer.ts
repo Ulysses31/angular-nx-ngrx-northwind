@@ -154,6 +154,30 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
+  // *********** SELECTED ORDERS DETAILS BY ORDERID ***************//
+  on(OrdersActions.initOrderDetailsByOrderId, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrdersActions.loadOrderDetailsByOrderIdSuccess,
+    (state, { orderDetails }) => ({
+      ...state,
+      orderDetails,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrdersActions.loadOrderDetailsByOrderIdFailure,
+    (state, { error }) => ({
+      ...state,
+      orderDetails: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** SELECTED ORDER DETAIL ****************************//
   on(OrdersActions.initOrderDetail, (state) => ({
     ...state,

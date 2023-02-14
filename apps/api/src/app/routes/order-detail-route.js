@@ -21,6 +21,34 @@ router.get('/', async (req, res) => {
   });
 });
 
+router.get('/by-order-id/:orderid', async (req, res) => {
+  var orderDetail = new OrderDetail(this);
+  var orderid = req.params.orderid;
+  orderDetail.browseByOrderId(orderid, (err, data) => {
+    if (err) {
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          statusCode: res.statusCode,
+          message: `Not found OrderDetail with order id ${req.params.orderid}.`
+        });
+      } else {
+        res.status(500).send({
+          statusCode: res.statusCode,
+          message:
+            err.sqlMessage ||
+            `Error retrieving OrderDetail with order id ${req.params.orderid}`
+        });
+      }
+    } else {
+      return res.send({
+        orderDetails: data,
+        statusCode: res.statusCode,
+        error: ''
+      });
+    }
+  });
+});
+
 router.get('/:id', async (req, res) => {
   var orderDetail = new OrderDetail(this);
   var id = req.params.id;

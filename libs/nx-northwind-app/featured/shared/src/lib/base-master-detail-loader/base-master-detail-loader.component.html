@@ -1,0 +1,37 @@
+<ng-container>
+  <br />
+
+   <nx-northwind-mt-progress
+    [mode]="mode"
+    *ngIf="!isLoaded"
+  >
+  </nx-northwind-mt-progress>
+
+  <br />
+
+  <nx-northwind-mt-toolbar-btnfunctions [title]="title">
+    <div class="function-buttons">
+      <nx-northwind-mt-button-icon
+        class="btns"
+        *ngFor="let btn of fnButtons"
+        [toolTipMessage]="btn.toolTipMessage"
+        [color]="btn.color"
+        [icon]="btn.icon"
+        [disabled]="btn.disabled"
+        [command]="btn.command">
+      </nx-northwind-mt-button-icon>
+    </div>
+  </nx-northwind-mt-toolbar-btnfunctions>
+
+  <div *ngIf="isModelVisible">
+    <br />
+    <h3>Order</h3>
+    <pre>{{ model$ | json }}</pre>
+    <h3>Details</h3>
+    <pre>{{ modelDetails$ && modelDetails$ | json }}</pre>
+  </div>
+
+  <br />
+
+  <ng-content></ng-content>
+</ng-container>

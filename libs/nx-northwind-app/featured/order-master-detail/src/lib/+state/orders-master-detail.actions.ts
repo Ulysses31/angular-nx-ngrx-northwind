@@ -101,6 +101,22 @@ export const loadOrderDetailsFailure = createAction(
   props<{ error: any }>()
 );
 
+// *********** SELECTED ORDERS DETAILS By ORDERID  ********************//
+export const initOrderDetailsByOrderId = createAction(
+  '[OrderDetail Page] Init By OrderID',
+  props<{ selectedOrderId: number }>()
+);
+
+export const loadOrderDetailsByOrderIdSuccess = createAction(
+  '[OrderDetails/API] Load OrderDetail By OrderID Success',
+  props<{ orderDetails: OrderDetailLoaderDto[] }>()
+);
+
+export const loadOrderDetailsByOrderIdFailure = createAction(
+  '[OrderDetails/API] Load OrderDetail By OrderID Failure',
+  props<{ error: any }>()
+);
+
 // *********** SELECTED ORDER DETAIL ***********************************//
 export const initOrderDetail = createAction(
   '[OrderDetail Page] Init',

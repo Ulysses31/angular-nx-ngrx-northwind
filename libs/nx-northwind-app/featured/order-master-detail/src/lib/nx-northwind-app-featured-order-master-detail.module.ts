@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { OrderMasterDetailLoaderComponent } from './order-master-detail-loader/o
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NxNorthwindAppFeaturedSharedModule,
     NxMaterialUiModule,
     RouterModule.forChild(

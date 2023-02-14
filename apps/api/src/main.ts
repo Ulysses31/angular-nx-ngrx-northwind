@@ -3456,6 +3456,91 @@ const options = {
           security: [{ Authorization: [] }]
         }
       },
+      '/order-detail/by-order-id/{orderid}': {
+        get: {
+          tags: ['Order Detail'],
+          operationId: 'findOrderDetailByOrderId',
+          summary: 'Get order detail by order id',
+          description: 'Cet order detail by order id',
+          parameters: [
+            {
+              name: 'orderid',
+              in: 'path',
+              description: 'ORDER ID of the order detail',
+              required: 'true',
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/OrderDetail'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/OrderDetail'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
       '/order/{id}': {
         get: {
           tags: ['Order'],

@@ -43,6 +43,40 @@ class OrderDetail {
     });
   }
 
+  browseByOrderId(orderid, result) {
+    const query = `
+		select
+      od.Id,
+      od.OrderID,
+      od.ProductID,
+      (select productName from products p where p.productID = od.productID) as Product,
+      CAST(od.UnitPrice AS DECIMAL(19, 2)) as UnitPrice,
+      od.Quantity,
+      CAST(od.Discount AS DECIMAL(19, 2)) AS Discount,
+      CAST((UnitPrice * Quantity) AS DECIMAL(19, 2)) AS SubTotal,
+      CAST((UnitPrice * Quantity) - (UnitPrice * Quantity) * (discount / 100) AS DECIMAL(19, 2)) AS Total,
+      CreatedBy,
+      CreatedAt,
+      UpdatedAt
+		from \`order details\` od where od.OrderID = ${orderid}
+	`;
+    sql.query(query, (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ ...err }, null);
+        return { ...err };
+      }
+
+      if (res.length === 0) {
+        result({ kind: 'not_found' }, null);
+        return { kind: 'not_found' };
+      } else {
+        result(null, res);
+        return res;
+      }
+    });
+  }
+
   load(id, result) {
     const query = `
 		select
@@ -51,7 +85,7 @@ class OrderDetail {
       ProductID,
       CAST(UnitPrice AS DECIMAL(19, 2)) as UnitPrice,
       Quantity,
-      CAST(od.Discount AS DECIMAL(19, 2)) as Discount,
+      CAST(Discount AS DECIMAL(19, 2)) as Discount,
       CreatedBy,
       CreatedAt,
       UpdatedAt
@@ -79,7 +113,7 @@ class OrderDetail {
     sql.query(
       `insert into \`order details\` set ?`,
       orderDetail,
-      (err, res) => {
+      (err) => {
         if (err) {
           result({ ...err }, null);
           return { ...err };
