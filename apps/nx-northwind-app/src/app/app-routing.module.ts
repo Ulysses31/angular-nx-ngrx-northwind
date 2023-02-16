@@ -38,20 +38,6 @@ const routes: Routes = [
       ).then((m) => m.NxNorthwindAppFeaturesEmployeeTerritoryModule)
   },
   {
-    path: 'order',
-    loadChildren: () =>
-      import('@nx-northwind/nx-northwind-app/featured/order').then(
-        (m) => m.NxNorthwindAppFeaturesOrderModule
-      )
-  },
-  {
-    path: 'order-detail',
-    loadChildren: () =>
-      import(
-        '@nx-northwind/nx-northwind-app/featured/order-detail'
-      ).then((m) => m.NxNorthwindAppFeaturesOrderDetailModule)
-  },
-  {
     path: 'order-master-detail',
     loadChildren: () =>
       import(

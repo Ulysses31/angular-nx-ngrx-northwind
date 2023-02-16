@@ -19,6 +19,8 @@ import { MtInputAppearance } from '../enums/enums';
       <input
         type="text"
         matInput
+        [id]="id"
+        [name]="name"
         [disabled]="disabled"
         [placeholder]="placeHolder"
         [readonly]="readonly"
@@ -48,6 +50,8 @@ import { MtInputAppearance } from '../enums/enums';
 export class MtInputTextComponent
   implements OnInit, ControlValueAccessor
 {
+  @Input() id: string = '';
+  @Input() name: string = '';
   @Input() disabled: boolean = false;
   @Input() required: boolean = false;
   @Input() label: string = 'Material Text Input';

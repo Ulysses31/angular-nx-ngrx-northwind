@@ -6,4 +6,6 @@ export interface OrderDetailLoaderDto extends BaseDto {
   UnitPrice?: number;
   Quantity?: number;
   Discount?: number;
+  SubTotal?: string;
+  Total?: string;
 }

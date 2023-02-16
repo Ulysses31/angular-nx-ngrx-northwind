@@ -14,7 +14,7 @@ export const ORDERS_MASTER_DETAIL_FEATURE_KEY = 'ordersMasterDetail';
 export interface OrdersMasterDetailState {
   orders: OrderMasterDetailBrowserDto[];
   order: OrderMasterDetailLoaderDto | any;
-  orderDetails: OrderDetailBrowserDto[];
+  orderDetails: OrderDetailBrowserDto[] | OrderDetailLoaderDto[];
   orderDetail: OrderDetailLoaderDto | any;
   loaded: boolean;
   error?: string | null;

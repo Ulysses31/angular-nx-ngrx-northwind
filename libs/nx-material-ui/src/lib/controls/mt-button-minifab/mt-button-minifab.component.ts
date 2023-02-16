@@ -9,23 +9,29 @@ import { MaterialColor } from '../enums/enums';
   template: `
     <button
       mat-mini-fab
+      type="button"
+      [id]="id"
+      [name]="name"
       [color]="color"
       [disabled]="disabled"
       [matTooltip]="toolTipMessage"
       [matTooltipPosition]="tipPosition"
       [matTooltipShowDelay]="1000"
-      (click)="command()">
-      <mat-icon>{{ icon }}</mat-icon>
+      (click)="command(commandArgs)">
+      <mat-icon class="minifab-icon" *ngIf="icon">{{ icon }}</mat-icon>
     </button>
   `,
   styleUrls: ['./mt-button-minifab.component.scss']
 })
 export class MtButtonMinifabComponent implements OnInit {
-  @Input() command?: any;
+  @Input() command!: (args: any) => void;
+  @Input() commandArgs: any;
   @Input() icon: string = 'home';
   @Input() disabled: boolean = false;
-  @Input() color: MaterialColor = MaterialColor.Basic;
+  @Input() color: MaterialColor = MaterialColor.Primary;
   @Input() toolTipMessage: string = '';
+  @Input() id: string = '';
+  @Input() name: string = '';
   tipPosition: TooltipPosition = 'above';
 
   constructor() {

@@ -43,6 +43,7 @@ import { OrdersMasterDetailState } from './../+state/orders-master-detail.reduce
   styleUrls: ['./order-master-detail-loader.component.scss']
 })
 export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComponent {
+  orderDetailvCnt: number = 0;
   orderModel!: OrderMasterDetailLoaderDto;
   orderDetailModel: OrderDetailLoaderDto[] = [];
   order$ = this.store.select(selectOrder);
@@ -50,6 +51,8 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   error$ = this.store.select(selectOrderDetailsError);
   isLoaded$ = this.store.select(selectOrderDetailsLoaded);
   loaded: boolean = true;
+  orderSubTotal?: string = '';
+  orderTotal?: string = '';
 
   @ViewChild('orderDetailForm') orderDetailsForm!: HTMLFormElement;
 
@@ -113,6 +116,18 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     orderDetails: this.fb.array([])
   });
 
+  orderDetailBtns$: FunctionButtons[] = [
+    {
+      id: 'delete',
+      label: 'Delete',
+      toolTipMessage: 'Delete current product',
+      color: MaterialColor.Basic,
+      icon: 'delete',
+      disabled: false,
+      command: (ev: string) => { console.log(ev) }
+    }
+  ];
+
   fnButtons$: FunctionButtons[] = [
     {
       id: 'new',
@@ -138,7 +153,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       color: MaterialColor.Basic,
       icon: 'delete',
       disabled: false,
-      command: () => this.deleteData()
+      command: () => this.deleteOrder()
     },
     {
       id: 'save',
@@ -228,12 +243,14 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
       this.orderDetailModel = [
         {
-          Id: '0',
+          Id: this.orderDetailvCnt.toString(),
           OrderID: '',
           ProductID: '',
           UnitPrice: 0,
           Quantity: 0,
-          Discount: 0
+          Discount: 0,
+          SubTotal: '0',
+          Total: '0'
         }
       ];
 
@@ -291,12 +308,10 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       .subscribe((data: OrderDetailLoaderDto[]) => {
         this.orderDetailModel = [];
         this.frmGetOrderDetails.clear();
-        data.map((item) => {
-          if (param['id'] !== '0') {
-            this.orderDetailModel.push({ ...item });
-          } else {
-            this.orderDetailModel = [{ ...item }];
-          }
+        data.map((item: OrderDetailLoaderDto) => {
+          this.orderDetailModel.push({ ...item });
+
+          this.calculateSubTotals();
 
           this.frmAddOrderDetails(
             this.fb.group({
@@ -334,6 +349,20 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
                   disabled: false
                 },
                 Validators.required
+              ),
+              SubTotal: new FormControl(
+                {
+                  value: item.SubTotal,
+                  disabled: true
+                },
+                Validators.required
+              ),
+              Total: new FormControl(
+                {
+                  value: item.Total,
+                  disabled: true
+                },
+                Validators.required
               )
             })
           );
@@ -341,7 +370,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       });
   }
 
-  private deleteData(): void {
+  private deleteOrder(): void {
     this.confirmDialog(
       'Delete',
       'Are you sure you want to delete it?'
@@ -354,26 +383,156 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     });
   }
 
+  public deleteOrderDetail = (index: number): any => {
+    console.log('Delete: ' + index);
+    this.confirmDialog(
+      'Delete',
+      'Are you sure you want to delete it?'
+    ).subscribe((result: boolean) => {
+      if (result) {
+        this.frmRemoveOrderDetail(index);
+      }
+    });
+  };
+
+  public insertOrderDetail = (): void => {
+    this.orderDetailvCnt -= 1;
+
+    this.frmAddOrderDetails(
+      this.fb.group({
+        OrderID: new FormControl(
+          {
+            value: '0',
+            disabled: true
+          },
+          Validators.required
+        ),
+        ProductID: new FormControl(
+          {
+            value: '',
+            disabled: false
+          },
+          Validators.required
+        ),
+        UnitPrice: new FormControl(
+          {
+            value: 0,
+            disabled: false
+          },
+          Validators.required
+        ),
+        Quantity: new FormControl(
+          {
+            value: 0,
+            disabled: false
+          },
+          Validators.required
+        ),
+        Discount: new FormControl(
+          {
+            value: 0,
+            disabled: false
+          },
+          Validators.required
+        ),
+        SubTotal: new FormControl(
+          {
+            value: '0',
+            disabled: true
+          },
+          Validators.required
+        ),
+        Total: new FormControl(
+          {
+            value: '0',
+            disabled: true
+          },
+          Validators.required
+        )
+      })
+    );
+
+    this.orderDetailModel.push({
+      Id: this.orderDetailvCnt.toString(),
+      OrderID: this.orderModel.OrderID || '0',
+      ProductID: '',
+      UnitPrice: 0,
+      Quantity: 0,
+      Discount: 0,
+      SubTotal: '0',
+      Total: '0'
+    });
+
+    this.store.dispatch(
+      loadOrderDetailsSuccess({
+        orderDetails: this.orderDetailModel
+      })
+    );
+  }
+
   private saveData(): void {
     this.orderDetailsForm.submit;
   }
 
-  get frmGetOrderDetails(): FormArray {
-    return this.formGroup.get('orderDetails') as FormArray;
+  private frmAddOrderDetails(detail: any): void {
+    this.frmGetOrderDetails.push(detail);
   }
 
-  frmAddOrderDetails(detail: any) {
-    this.frmGetOrderDetails.push(detail);
+  private frmRemoveOrderDetail(rowIndex: number): void {
+    this.frmGetOrderDetails.removeAt(rowIndex);
+    this.orderDetailModel.splice(rowIndex, 1);
+    this.store.dispatch(
+      loadOrderDetailsSuccess({
+        orderDetails: this.orderDetailModel
+      })
+    );
   }
 
   public onFormSubmit(frm: FormGroupDirective): void {
     console.log('Submitted...');
-    console.log('Form is valid: ' + frm.valid);
-    console.log(this.formGroup.value);
+    console.log('Form is valid: ' + frm.status);
+    console.log(this.formGroup);
   }
 
   public onFormChange(frm: FormGroupDirective): void {
     const btn = this.fnButtons$.find((btn) => btn.id === 'save');
     if (btn) btn.disabled = !(frm.form.status === 'VALID');
+    this.calculateSubTotals();
+  }
+
+  private calculateSubTotals(): void {
+    let orderSubTotalTmp: number = 0;
+    let orderTotalTmp: number = 0;
+
+    this.orderDetailModel.map((res: OrderDetailLoaderDto) => {
+      if (
+        res.UnitPrice !== undefined &&
+        res.Quantity !== undefined &&
+        res.Discount !== undefined
+      ) {
+        // subtotals - totals per product
+        const subTotalTemp: number = res.UnitPrice * res.Quantity;
+        const totalTemp: number =
+          res.UnitPrice * res.Quantity -
+          res.UnitPrice * res.Quantity * (res.Discount / 100);
+
+        res.SubTotal = parseFloat(subTotalTemp.toString()).toFixed(2);
+        res.Total = parseFloat(totalTemp.toString()).toFixed(2);
+
+        // subtotals - totals
+        orderSubTotalTmp = orderSubTotalTmp + subTotalTemp;
+        orderTotalTmp = orderTotalTmp + totalTemp;
+        this.orderSubTotal = parseFloat(
+          orderSubTotalTmp.toString()
+        ).toFixed(2);
+        this.orderTotal = parseFloat(
+          orderTotalTmp.toString()
+        ).toFixed(2);
+      }
+    });
+  }
+
+  get frmGetOrderDetails(): FormArray {
+    return this.formGroup.get('orderDetails') as FormArray;
   }
 }

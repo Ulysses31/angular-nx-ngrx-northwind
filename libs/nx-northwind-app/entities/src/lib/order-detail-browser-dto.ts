@@ -4,6 +4,6 @@ export interface OrderDetailBrowserDto {
   UnitPrice?: number;
   Quantity?: number;
   Discount?: number;
-  SubTotal?: number;
-  Total?: number;
+  SubTotal?: string;
+  Total?: string;
 }

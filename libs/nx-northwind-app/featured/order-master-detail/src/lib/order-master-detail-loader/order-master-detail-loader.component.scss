@@ -2,10 +2,23 @@ h3 {
   color: #868686;
 }
 
+.formContainerTotals {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 8px !important;
+  padding-left: 3px !important;
+  padding-right: 58px !important;
+}
+
 .formContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
+  padding-top: 8px;
+  padding-left: 3px;
+  padding-right: 10px;
 }
 
 .formContainer .mat-form-field {
@@ -13,18 +26,52 @@ h3 {
   margin-left: 8px;
 }
 
+.formContainer .order-details,
+.formContainerTotals .order-details {
+  width: 145px !important;
+  margin: 5px;
+}
+
+.formContainerDetails {
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+.orderDetails-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-detail-option-btn {
+  margin-right: 10px;
+}
+
 form {
   padding: 10px;
+  margin: -8px;
 }
 
 @media only screen and (max-width: 1024px) {
   /* For mobile phones: */
   .formContainer {
     flex-direction: column;
+    padding-top: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .formContainer .mat-form-field {
     width: 100%;
     margin-left: 0 !important;
   }
+
+  .formContainer .order-details {
+    width: 100% !important;
+    margin: 5px;
   }
+
+  .formContainerDetails {
+    padding: 10px;
+  }
+}

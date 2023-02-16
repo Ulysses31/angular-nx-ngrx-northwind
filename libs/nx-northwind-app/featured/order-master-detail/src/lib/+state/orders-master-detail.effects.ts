@@ -1,3 +1,4 @@
+import { OrderDetailLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';

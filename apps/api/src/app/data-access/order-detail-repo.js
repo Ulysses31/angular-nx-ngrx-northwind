@@ -10,6 +10,8 @@ class OrderDetail {
       this.UnitPrice = orderDetail.UnitPrice;
       this.Quantity = orderDetail.Quantity;
       this.Discount = orderDetail.Discount;
+      this.SubTotal = orderDetail.SubTotal;
+      this.Total = orderDetail.Total;
       this.CreatedBy = orderDetail.CreatedBy;
       this.UpdatedAt = orderDetail.UpdatedAt;
     }
@@ -53,8 +55,10 @@ class OrderDetail {
       CAST(od.UnitPrice AS DECIMAL(19, 2)) as UnitPrice,
       od.Quantity,
       CAST(od.Discount AS DECIMAL(19, 2)) AS Discount,
-      CAST((UnitPrice * Quantity) AS DECIMAL(19, 2)) AS SubTotal,
-      CAST((UnitPrice * Quantity) - (UnitPrice * Quantity) * (discount / 100) AS DECIMAL(19, 2)) AS Total,
+      #CAST((UnitPrice * Quantity) AS DECIMAL(19, 2)) AS SubTotal,
+      #CAST((UnitPrice * Quantity) - (UnitPrice * Quantity) * (discount / 100) AS DECIMAL(19, 2)) AS Total,
+      0 AS SubTotal,
+      0 AS Total,
       CreatedBy,
       CreatedAt,
       UpdatedAt

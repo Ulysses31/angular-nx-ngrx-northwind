@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MaterialColor } from "@nx-northwind/nx-material-ui";
 
 export interface FunctionButtons {
@@ -7,5 +8,5 @@ export interface FunctionButtons {
   icon: string;
   disabled: boolean;
   toolTipMessage: string;
-  command: () => void;
+  command: (args: any) => void;
 }
