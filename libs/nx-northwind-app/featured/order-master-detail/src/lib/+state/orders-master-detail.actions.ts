@@ -1,11 +1,59 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
 import {
+  CustomerLoaderDto,
+  EmployeeLoaderDto,
   OrderDetailBrowserDto,
   OrderDetailLoaderDto,
   OrderMasterDetailBrowserDto,
-  OrderMasterDetailLoaderDto
+  OrderMasterDetailLoaderDto,
+  ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
+
+// *********** INIT SHIPPERS *************************************//
+export const initOrderDetailShippers = createAction(
+  '[OrderDetailShippers Page] Init'
+);
+
+export const loadOrderDetailShippersSuccess = createAction(
+  '[OrderDetailShippers/API] Load Shippers Success',
+  props<{ shippers: ShipperLoaderDto[] }>()
+);
+
+export const loadOrderDetailShippersFailure = createAction(
+  '[OrderDetailShippers/API] Load Shippers Failure',
+  props<{ error: any }>()
+);
+
+// *********** INIT CUSTOMERS *************************************//
+export const initOrderDetailCustomers = createAction(
+  '[OrderDetailCustomers Page] Init'
+);
+
+export const loadOrderDetailCustomersSuccess = createAction(
+  '[OrderDetailCustomers/API] Load Customers Success',
+  props<{ customers: CustomerLoaderDto[] }>()
+);
+
+export const loadOrderDetailCustomersFailure = createAction(
+  '[OrderDetailCustomers/API] Load Customers Failure',
+  props<{ error: any }>()
+);
+
+// *********** INIT EMPLOYEES *************************************//
+export const initOrderDetailEmployees = createAction(
+  '[OrderDetailEmployees Page] Init'
+);
+
+export const loadOrderDetailEmployeesSuccess = createAction(
+  '[OrderDetailEmployees/API] Load OrderDetailEmployees Success',
+  props<{ employees: EmployeeLoaderDto[] }>()
+);
+
+export const loadOrderDetailEmployeesFailure = createAction(
+  '[OrderDetailEmployees/API] Load OrderDetailEmployees Failure',
+  props<{ error: any }>()
+);
 
 // *********** INIT ORDERS *************************************//
 export const initOrders = createAction('[Orders Page] Init');

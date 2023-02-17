@@ -1,6 +1,13 @@
+import { MtSelectItem } from './../../../../../../nx-material-ui/src/lib/controls/interfaces/select-items.interface';
+import { EmployeeLoaderDto } from './../../../../../entities/src/lib/employee-loader-dto';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
+import {
+  selectAllOrderCustomers,
+  selectAllOrderEmployees,
+  selectAllOrderShippers
+} from './../+state/orders-master-detail.selectors';
 import { Component, ViewChild } from '@angular/core';
 import {
   FormArray,
@@ -15,17 +22,22 @@ import { Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
 import {
+  CustomerLoaderDto,
   OrderDetailLoaderDto,
-  OrderMasterDetailLoaderDto
+  OrderMasterDetailLoaderDto,
+  ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
 import {
   BaseMasterDetailLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
-import { map } from 'rxjs';
+import { map, of, tap } from 'rxjs';
 import {
   initOrder,
+  initOrderDetailCustomers,
+  initOrderDetailEmployees,
   initOrderDetailsByOrderId,
+  initOrderDetailShippers,
   loadOrderDetailsSuccess,
   loadOrderSuccess
 } from '../+state/orders-master-detail.actions';
@@ -46,10 +58,24 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   orderDetailvCnt: number = 0;
   orderModel!: OrderMasterDetailLoaderDto;
   orderDetailModel: OrderDetailLoaderDto[] = [];
+  orderDetailIdsForDelete: number[] = [];
+  employeesComboData: MtSelectItem[] = [];
+  customersComboData: MtSelectItem[] = [];
+  shippersComboData: MtSelectItem[] = [];
+
   order$ = this.store.select(selectOrder);
   ordersDetails$ = this.store.select(selectAllOrderDetails);
+  employees$ = this.store.select(selectAllOrderEmployees);
+  customers$ = this.store.select(selectAllOrderCustomers);
+  shippers$ = this.store.select(selectAllOrderShippers);
+
   error$ = this.store.select(selectOrderDetailsError);
   isLoaded$ = this.store.select(selectOrderDetailsLoaded);
+
+  //employees$ = this.store.select(selectAllEmployees);
+  //customers$ = this.store.select(selectAllCustomers);
+  //products$ = this.store.select(selectAllProducts);
+
   loaded: boolean = true;
   orderSubTotal?: string = '';
   orderTotal?: string = '';
@@ -124,7 +150,9 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       color: MaterialColor.Basic,
       icon: 'delete',
       disabled: false,
-      command: (ev: string) => { console.log(ev) }
+      command: (ev: string) => {
+        console.log(ev);
+      }
     }
   ];
 
@@ -193,7 +221,15 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       this.loaded = isloaded;
     });
 
-    this.loadData();
+    of(null)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(initOrderDetailCustomers());
+          this.store.dispatch(initOrderDetailEmployees());
+          this.store.dispatch(initOrderDetailShippers());
+        })
+      )
+      .subscribe(() => this.loadData());
   }
 
   override ngAfterViewInit(): void {
@@ -211,6 +247,8 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   private loadData(): void {
     const param = this.route.snapshot.params;
     const btn = this.fnButtons$.find((btn) => btn.id === 'delete');
+
+    this.initComboBoxes();
 
     if (param['id'] !== '0') {
       // Edit
@@ -270,7 +308,50 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     this.initFormControls(param);
   }
 
+  private initComboBoxes() {
+    this.employeesComboData = [];
+    this.customersComboData = [];
+    this.shippersComboData = [];
+
+    this.employees$.subscribe((data: EmployeeLoaderDto[]) => {
+      data.map((employee: EmployeeLoaderDto) => {
+        this.employeesComboData.push({
+          id: employee.EmployeeID,
+          label: employee.LastName + ' ' + employee.FirstName,
+          value: employee.EmployeeID,
+          disabled: false
+        });
+      });
+    });
+
+    // fill customers combo
+    this.customers$.subscribe((data: CustomerLoaderDto[]) => {
+      data.map((customer: CustomerLoaderDto) => {
+        this.customersComboData.push({
+          id: customer.CustomerID,
+          label: customer.CompanyName,
+          value: customer.CustomerID,
+          disabled: false
+        });
+      });
+    });
+
+    // fill shippers combo
+    this.shippers$.subscribe((data: ShipperLoaderDto[]) => {
+      data.map((shipper: ShipperLoaderDto) => {
+        this.shippersComboData.push({
+          id: shipper.ShipperID,
+          label: shipper.CompanyName,
+          value: shipper.ShipperID,
+          disabled: false
+        });
+      });
+    });
+  }
+
   private initFormControls(param: Params) {
+    this.orderDetailIdsForDelete = [];
+
     this.order$.subscribe((order: OrderMasterDetailLoaderDto) => {
       this.orderModel = { ...order };
 
@@ -315,6 +396,13 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
           this.frmAddOrderDetails(
             this.fb.group({
+              Id: new FormControl(
+                {
+                  value: item.Id,
+                  disabled: true
+                },
+                Validators.required
+              ),
               OrderID: new FormControl(
                 {
                   value: item.OrderID,
@@ -383,7 +471,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     });
   }
 
-  public deleteOrderDetail = (index: number): any => {
+  public deleteOrderDetail = (index: string): any => {
     console.log('Delete: ' + index);
     this.confirmDialog(
       'Delete',
@@ -400,6 +488,13 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
     this.frmAddOrderDetails(
       this.fb.group({
+        Id: new FormControl(
+          {
+            value: '0',
+            disabled: true
+          },
+          Validators.required
+        ),
         OrderID: new FormControl(
           {
             value: '0',
@@ -468,7 +563,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
         orderDetails: this.orderDetailModel
       })
     );
-  }
+  };
 
   private saveData(): void {
     this.orderDetailsForm.submit;
@@ -478,14 +573,23 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     this.frmGetOrderDetails.push(detail);
   }
 
-  private frmRemoveOrderDetail(rowIndex: number): void {
-    this.frmGetOrderDetails.removeAt(rowIndex);
-    this.orderDetailModel.splice(rowIndex, 1);
+  private frmRemoveOrderDetail(rowIndex: string): void {
+    const args = rowIndex.split('|');
+    const indx: number = parseInt(args[0]);
+    const detailId: number = parseInt(args[1]);
+
+    // gather detail id to be deleted
+    this.orderDetailIdsForDelete.push(detailId);
+
+    this.frmGetOrderDetails.removeAt(indx);
+    this.orderDetailModel.splice(indx, 1);
     this.store.dispatch(
       loadOrderDetailsSuccess({
         orderDetails: this.orderDetailModel
       })
     );
+
+    // console.log(this.orderDetailIdsForDelete);
   }
 
   public onFormSubmit(frm: FormGroupDirective): void {

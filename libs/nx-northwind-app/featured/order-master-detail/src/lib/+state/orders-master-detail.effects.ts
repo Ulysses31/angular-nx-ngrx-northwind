@@ -1,10 +1,12 @@
-import { OrderDetailLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  CustomerService,
+  EmployeeService,
   OrderDetailService,
-  OrderService
+  OrderService,
+  ShipperService
 } from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
@@ -18,11 +20,94 @@ import { OrdersMasterDetailState } from './orders-master-detail.reducer';
 export class OrdersEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(OrderService);
+  private serviceEmployees = inject(EmployeeService);
+  private serviceCustomers = inject(CustomerService);
+  private serviceShippers = inject(ShipperService);
   private serviceDetails = inject(OrderDetailService);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  // ******** INIT SHIPPERS *************************************//
+  initOrderDetailShippers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersMasterDetailActions.initOrderDetailShippers),
+      switchMap(() =>
+        this.serviceShippers.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: OrdersMasterDetailState) =>
+            OrdersMasterDetailActions.loadOrderDetailShippersSuccess({
+              shippers: data.shippers
+            })
+          ),
+          catchError((error) =>
+            of(
+              OrdersMasterDetailActions.loadOrderDetailShippersFailure(
+                { error }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT CUSTOMERS *************************************//
+  initOrderDetailCustomers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersMasterDetailActions.initOrderDetailCustomers),
+      switchMap(() =>
+        this.serviceCustomers.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: OrdersMasterDetailState) =>
+            OrdersMasterDetailActions.loadOrderDetailCustomersSuccess(
+              {
+                customers: data.customers
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              OrdersMasterDetailActions.loadOrderDetailCustomersFailure(
+                { error }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  //-----------------------------------------------------------------------------//
+
+  // ******** INIT EMPLOYEES *************************************//
+  initOrderDetailEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersMasterDetailActions.initOrderDetailEmployees),
+      switchMap(() =>
+        this.serviceEmployees.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: OrdersMasterDetailState) =>
+            OrdersMasterDetailActions.loadOrderDetailEmployeesSuccess(
+              {
+                employees: data.employees
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              OrdersMasterDetailActions.loadOrderDetailEmployeesFailure(
+                { error }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  //-----------------------------------------------------------------------------//
 
   // ******** INIT ORDERS *************************************//
   initOrders$ = createEffect(() =>

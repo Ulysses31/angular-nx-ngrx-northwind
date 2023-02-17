@@ -75,3 +75,25 @@ export const selectOrderDetail = createSelector(
     return state.orderDetail;
   }
 );
+
+//##########  EMPLOYEES - CUSTOMERS - SHIPPERS ###########//
+export const selectAllOrderEmployees = createSelector(
+  selectOrdersMasterDetailState,
+  (state: OrdersMasterDetailState) => {
+    return state.employees;
+  }
+);
+
+export const selectAllOrderCustomers = createSelector(
+  selectOrdersMasterDetailState,
+  (state: OrdersMasterDetailState) => {
+    return state.customers;
+  }
+);
+
+export const selectAllOrderShippers = createSelector(
+  selectOrdersMasterDetailState,
+  (state: OrdersMasterDetailState) => {
+    return state.shippers;
+  }
+);

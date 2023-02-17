@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
 import {
+  CustomerLoaderDto,
+  EmployeeLoaderDto,
   OrderDetailBrowserDto,
   OrderDetailLoaderDto,
   OrderMasterDetailBrowserDto,
-  OrderMasterDetailLoaderDto
+  OrderMasterDetailLoaderDto,
+  ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as OrdersActions from './orders-master-detail.actions';
@@ -16,6 +19,9 @@ export interface OrdersMasterDetailState {
   order: OrderMasterDetailLoaderDto | any;
   orderDetails: OrderDetailBrowserDto[] | OrderDetailLoaderDto[];
   orderDetail: OrderDetailLoaderDto | any;
+  employees: EmployeeLoaderDto[];
+  customers: CustomerLoaderDto[];
+  shippers: ShipperLoaderDto[];
   loaded: boolean;
   error?: string | null;
 }
@@ -25,18 +31,97 @@ export const initialOrdersState: OrdersMasterDetailState = {
   order: null,
   orderDetails: [],
   orderDetail: null,
+  employees: [],
+  customers: [],
+  shippers: [],
   loaded: false,
   error: null
 };
 
 const reducer = createReducer(
   initialOrdersState,
+  // *********** INIT SHIPPERS ******************************//
+  on(OrdersActions.initOrderDetailShippers, (state) => ({
+    ...state,
+    shippers: [],
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrdersActions.loadOrderDetailShippersSuccess,
+    (state, { shippers }) => ({
+      ...state,
+      shippers,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrdersActions.loadOrderDetailShippersFailure,
+    (state, { error }) => ({
+      ...state,
+      shippers: [],
+      loaded: true,
+      error
+    })
+  ),
+  // *********** INIT CUSTOMERS ******************************//
+  on(OrdersActions.initOrderDetailCustomers, (state) => ({
+    ...state,
+    customers: [],
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrdersActions.loadOrderDetailCustomersSuccess,
+    (state, { customers }) => ({
+      ...state,
+      customers,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrdersActions.loadOrderDetailCustomersFailure,
+    (state, { error }) => ({
+      ...state,
+      customers: [],
+      loaded: true,
+      error
+    })
+  ),
+  // *********** INIT EMPLOYEES ******************************//
+  on(OrdersActions.initOrderDetailEmployees, (state) => ({
+    ...state,
+    employees: [],
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrdersActions.loadOrderDetailEmployeesSuccess,
+    (state, { employees }) => ({
+      ...state,
+      employees,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrdersActions.loadOrderDetailEmployeesFailure,
+    (state, { error }) => ({
+      ...state,
+      employees: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** INIT ORDERS ******************************//
   on(OrdersActions.initOrders, (state) => ({
     ...state,
     order: null,
     orderDetails: [],
     orderDetail: null,
+    employees: [],
     loaded: false,
     error: null
   })),
@@ -46,6 +131,7 @@ const reducer = createReducer(
     order: null,
     orderDetails: [],
     orderDetail: null,
+    employees: [],
     loaded: true,
     error: null
   })),
@@ -55,6 +141,7 @@ const reducer = createReducer(
     order: null,
     orderDetails: [],
     orderDetail: null,
+    employees: [],
     loaded: true,
     error
   })),

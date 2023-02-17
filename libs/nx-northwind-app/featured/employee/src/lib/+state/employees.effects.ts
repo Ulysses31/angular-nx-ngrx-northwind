@@ -58,7 +58,7 @@ export class EmployeesEffects {
     )
   );
 
-  // ******** INIT CATEGORY *************************************//
+  // ******** INIT EMPLOYEE *************************************//
   initEmployee$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmployeesActions.initEmployee),
@@ -78,7 +78,7 @@ export class EmployeesEffects {
     )
   );
 
-  // ******** POST CATEGORY *************************************//
+  // ******** POST EMPLOYEE *************************************//
   postEmployee$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmployeesActions.postEmployee),
@@ -118,7 +118,7 @@ export class EmployeesEffects {
     { dispatch: false }
   );
 
-  // ******** PUT CATEGORY *************************************//
+  // ******** PUT EMPLOYEE *************************************//
   putEmployee$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmployeesActions.putEmployee),
@@ -160,7 +160,7 @@ export class EmployeesEffects {
     { dispatch: false }
   );
 
-  // ******** DELETE CATEGORY **********************************//
+  // ******** DELETE EMPLOYEE **********************************//
   deleteEmployee$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmployeesActions.deleteEmployee),
