@@ -1,13 +1,6 @@
-import { MtSelectItem } from './../../../../../../nx-material-ui/src/lib/controls/interfaces/select-items.interface';
-import { EmployeeLoaderDto } from './../../../../../entities/src/lib/employee-loader-dto';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import {
-  selectAllOrderCustomers,
-  selectAllOrderEmployees,
-  selectAllOrderShippers
-} from './../+state/orders-master-detail.selectors';
 import { Component, ViewChild } from '@angular/core';
 import {
   FormArray,
@@ -20,11 +13,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Params } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MaterialColor } from '@nx-northwind/nx-material-ui';
+import {
+  MaterialColor,
+  MtSelectItem
+} from '@nx-northwind/nx-material-ui';
 import {
   CustomerLoaderDto,
+  EmployeeLoaderDto,
   OrderDetailLoaderDto,
   OrderMasterDetailLoaderDto,
+  ProductLoaderDto,
   ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
 import {
@@ -33,13 +31,17 @@ import {
 } from '@nx-northwind/nx-northwind-app/featured/shared';
 import { map, of, tap } from 'rxjs';
 import {
+  deleteOrder,
   initOrder,
   initOrderDetailCustomers,
   initOrderDetailEmployees,
   initOrderDetailsByOrderId,
   initOrderDetailShippers,
   loadOrderDetailsSuccess,
-  loadOrderSuccess
+  loadOrderSuccess,
+  postOrderDetail,
+  putOrder,
+  putOrderDetail
 } from '../+state/orders-master-detail.actions';
 import {
   selectAllOrderDetails,
@@ -47,7 +49,18 @@ import {
   selectOrderDetailsError,
   selectOrderDetailsLoaded
 } from '../+state/orders-master-detail.selectors';
+import {
+  deleteOrderDetail,
+  initOrderDetailProducts,
+  postOrder
+} from './../+state/orders-master-detail.actions';
 import { OrdersMasterDetailState } from './../+state/orders-master-detail.reducer';
+import {
+  selectAllOrderCustomers,
+  selectAllOrderEmployees,
+  selectAllOrderProducts,
+  selectAllOrderShippers
+} from './../+state/orders-master-detail.selectors';
 
 @Component({
   selector: 'nx-northwind-order-master-detail-loader',
@@ -58,23 +71,21 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   orderDetailvCnt: number = 0;
   orderModel!: OrderMasterDetailLoaderDto;
   orderDetailModel: OrderDetailLoaderDto[] = [];
-  orderDetailIdsForDelete: number[] = [];
+  orderDetailIdsForDelete: OrderDetailLoaderDto[] = [];
   employeesComboData: MtSelectItem[] = [];
   customersComboData: MtSelectItem[] = [];
   shippersComboData: MtSelectItem[] = [];
+  productsComboData: MtSelectItem[] = [];
 
   order$ = this.store.select(selectOrder);
   ordersDetails$ = this.store.select(selectAllOrderDetails);
   employees$ = this.store.select(selectAllOrderEmployees);
   customers$ = this.store.select(selectAllOrderCustomers);
   shippers$ = this.store.select(selectAllOrderShippers);
+  products$ = this.store.select(selectAllOrderProducts);
 
   error$ = this.store.select(selectOrderDetailsError);
   isLoaded$ = this.store.select(selectOrderDetailsLoaded);
-
-  //employees$ = this.store.select(selectAllEmployees);
-  //customers$ = this.store.select(selectAllCustomers);
-  //products$ = this.store.select(selectAllProducts);
 
   loaded: boolean = true;
   orderSubTotal?: string = '';
@@ -227,6 +238,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
           this.store.dispatch(initOrderDetailCustomers());
           this.store.dispatch(initOrderDetailEmployees());
           this.store.dispatch(initOrderDetailShippers());
+          this.store.dispatch(initOrderDetailProducts());
         })
       )
       .subscribe(() => this.loadData());
@@ -309,11 +321,8 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   }
 
   private initComboBoxes() {
-    this.employeesComboData = [];
-    this.customersComboData = [];
-    this.shippersComboData = [];
-
     this.employees$.subscribe((data: EmployeeLoaderDto[]) => {
+      this.employeesComboData = [];
       data.map((employee: EmployeeLoaderDto) => {
         this.employeesComboData.push({
           id: employee.EmployeeID,
@@ -326,6 +335,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
     // fill customers combo
     this.customers$.subscribe((data: CustomerLoaderDto[]) => {
+      this.customersComboData = [];
       data.map((customer: CustomerLoaderDto) => {
         this.customersComboData.push({
           id: customer.CustomerID,
@@ -338,11 +348,25 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
     // fill shippers combo
     this.shippers$.subscribe((data: ShipperLoaderDto[]) => {
+      this.shippersComboData = [];
       data.map((shipper: ShipperLoaderDto) => {
         this.shippersComboData.push({
           id: shipper.ShipperID,
           label: shipper.CompanyName,
           value: shipper.ShipperID,
+          disabled: false
+        });
+      });
+    });
+
+    // fill products combo
+    this.products$.subscribe((data: ProductLoaderDto[]) => {
+      this.productsComboData = [];
+      data.map((product: ProductLoaderDto) => {
+        this.productsComboData.push({
+          id: product.ProductID,
+          label: product.ProductName,
+          value: product.ProductID,
           disabled: false
         });
       });
@@ -464,9 +488,20 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       'Are you sure you want to delete it?'
     ).subscribe((result: boolean) => {
       if (result) {
-        // this.store.dispatch(
-        //   deleteCategory({ delCategory: this.categoryModel })
-        // );
+        // delete order details
+        this.orderDetailModel.map((order: OrderDetailLoaderDto) => {
+          console.log(order);
+          this.store.dispatch(
+            deleteOrderDetail({
+              delOrderDetail: order
+            })
+          );
+        });
+
+        // delete order
+        this.store.dispatch(
+          deleteOrder({ delOrder: this.orderModel })
+        );
       }
     });
   }
@@ -566,7 +601,73 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   };
 
   private saveData(): void {
-    this.orderDetailsForm.submit;
+    // console.log(this.formGroup);
+
+    const param = this.route.snapshot.params;
+
+    // ##### Order ##### //
+    if (param['id'] !== '0') {
+      //Edit
+      this.store.dispatch(
+        putOrder({
+          selectedId: this.orderModel.OrderID,
+          putOrder: this.orderModel
+        })
+      );
+    } else {
+      // Insert
+      this.store.dispatch(
+        postOrder({
+          newOrder: this.orderModel
+        })
+      );
+    }
+
+    // ##### Order Details ##### //
+    // delete
+    if (param['id'] !== '0') {
+      if (this.orderDetailIdsForDelete.length > 0) {
+        this.orderDetailIdsForDelete.map(
+          (order: OrderDetailLoaderDto) => {
+            console.log(order);
+            this.store.dispatch(
+              deleteOrderDetail({
+                delOrderDetail: order
+              })
+            );
+          }
+        );
+      }
+    }
+
+    // update
+    if (param['id'] !== '0') {
+      this.orderDetailModel.map((order: OrderDetailLoaderDto) => {
+        if (order.Id) {
+          if (parseInt(order.Id) > 0) {
+            this.store.dispatch(
+              putOrderDetail({
+                selectedId: order.Id,
+                putOrderDetail: order
+              })
+            );
+          }
+        }
+      });
+    }
+
+    // insert
+    this.orderDetailModel.map((order: OrderDetailLoaderDto) => {
+      if (order.Id) {
+        if (parseInt(order.Id) <= 0) {
+          this.store.dispatch(
+            postOrderDetail({
+              newOrderDetail: order
+            })
+          );
+        }
+      }
+    });
   }
 
   private frmAddOrderDetails(detail: any): void {
@@ -579,7 +680,16 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     const detailId: number = parseInt(args[1]);
 
     // gather detail id to be deleted
-    this.orderDetailIdsForDelete.push(detailId);
+    const ord = this.orderDetailModel.find(
+      (orderDetail: OrderDetailLoaderDto) => {
+        if (orderDetail.Id !== undefined) {
+          return parseInt(orderDetail.Id) === detailId;
+        }
+        return null;
+      }
+    );
+
+    if (ord) this.orderDetailIdsForDelete.push(ord);
 
     this.frmGetOrderDetails.removeAt(indx);
     this.orderDetailModel.splice(indx, 1);
@@ -590,12 +700,6 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     );
 
     // console.log(this.orderDetailIdsForDelete);
-  }
-
-  public onFormSubmit(frm: FormGroupDirective): void {
-    console.log('Submitted...');
-    console.log('Form is valid: ' + frm.status);
-    console.log(this.formGroup);
   }
 
   public onFormChange(frm: FormGroupDirective): void {
@@ -620,18 +724,17 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
           res.UnitPrice * res.Quantity -
           res.UnitPrice * res.Quantity * (res.Discount / 100);
 
-        res.SubTotal = parseFloat(subTotalTemp.toString()).toFixed(2);
-        res.Total = parseFloat(totalTemp.toString()).toFixed(2);
+        res.SubTotal =
+          parseFloat(subTotalTemp.toString()).toFixed(2) + '€';
+        res.Total = parseFloat(totalTemp.toString()).toFixed(2) + '€';
 
         // subtotals - totals
         orderSubTotalTmp = orderSubTotalTmp + subTotalTemp;
         orderTotalTmp = orderTotalTmp + totalTemp;
-        this.orderSubTotal = parseFloat(
-          orderSubTotalTmp.toString()
-        ).toFixed(2);
-        this.orderTotal = parseFloat(
-          orderTotalTmp.toString()
-        ).toFixed(2);
+        this.orderSubTotal =
+          parseFloat(orderSubTotalTmp.toString()).toFixed(2) + '€';
+        this.orderTotal =
+          parseFloat(orderTotalTmp.toString()).toFixed(2) + '€';
       }
     });
   }

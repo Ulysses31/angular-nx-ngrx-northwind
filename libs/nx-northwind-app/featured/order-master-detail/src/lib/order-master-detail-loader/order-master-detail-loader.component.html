@@ -9,8 +9,7 @@
     #orderDetailForm
     #frm="ngForm"
     [formGroup]="formGroup"
-    (change)="onFormChange(frm)"
-    (ngSubmit)="onFormSubmit(frm)">
+    (change)="onFormChange(frm)">
     <div class="mat-elevation-z4 order-container">
       <div class="formContainer" *ngIf="orderModel">
         <nx-northwind-mt-input-text
@@ -26,21 +25,7 @@
           [required]="true">
         </nx-northwind-mt-input-text>
 
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="CustomerID"
-          name="CustomerID"
-          formControlName="CustomerID"
-          [(ngModel)]="orderModel.CustomerID"
-          [isClosable]="false"
-          [label]="'Customer ID'"
-          [placeHolder]="'Enter the customer id'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
-
         <nx-northwind-mt-select
-          ngDefaultControl
           class="mat-form-field"
           [id]="'CustomerID'"
           formControlName="CustomerID"
@@ -48,21 +33,7 @@
           [label]="'Customer'"
           [selectItems]="customersComboData"
           [disabled]="false"
-          [required]="true"
-        ></nx-northwind-mt-select>
-
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="EmployeeID"
-          name="EmployeeID"
-          formControlName="EmployeeID"
-          [(ngModel)]="orderModel.EmployeeID"
-          [isClosable]="false"
-          [label]="'Employee ID'"
-          [placeHolder]="'Enter the employee id'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
+          [required]="true"></nx-northwind-mt-select>
 
         <nx-northwind-mt-select
           class="mat-form-field"
@@ -72,21 +43,8 @@
           [label]="'Employee'"
           [selectItems]="employeesComboData"
           [disabled]="false"
-          [required]="true"
-        ></nx-northwind-mt-select>
+          [required]="true"></nx-northwind-mt-select>
 
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="OrderDate"
-          name="OrderDate"
-          formControlName="OrderDate"
-          [(ngModel)]="orderModel.OrderDate"
-          [isClosable]="false"
-          [label]="'Order Date'"
-          [placeHolder]="'Enter the order date'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
         <nx-northwind-mt-input-date
           class="mat-form-field"
           id="OrderDate"
@@ -100,18 +58,6 @@
         </nx-northwind-mt-input-date>
       </div>
       <div class="formContainer" *ngIf="orderModel">
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="RequiredDate"
-          name="RequiredDate"
-          formControlName="RequiredDate"
-          [(ngModel)]="orderModel.RequiredDate"
-          [isClosable]="false"
-          [label]="'Required Date'"
-          [placeHolder]="'Enter the required date'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
         <nx-northwind-mt-input-date
           class="mat-form-field"
           id="RequiredDate"
@@ -124,18 +70,6 @@
           [required]="true">
         </nx-northwind-mt-input-date>
 
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="ShippedDate"
-          name="ShippedDate"
-          formControlName="ShippedDate"
-          [(ngModel)]="orderModel.ShippedDate"
-          [isClosable]="false"
-          [label]="'Shipped Date'"
-          [placeHolder]="'Enter the shipped date'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
         <nx-northwind-mt-input-date
           class="mat-form-field"
           id="ShippedDate"
@@ -148,19 +82,6 @@
           [required]="true">
         </nx-northwind-mt-input-date>
 
-        <!-- <nx-northwind-mt-input-text
-          class="mat-form-field"
-          id="ShipVia"
-          name="ShipVia"
-          formControlName="ShipVia"
-          [(ngModel)]="orderModel.ShipVia"
-          [isClosable]="false"
-          [label]="'ShipVia'"
-          [placeHolder]="'Enter the shipvia'"
-          [disabled]="false"
-          [required]="true">
-        </nx-northwind-mt-input-text> -->
-
         <nx-northwind-mt-select
           class="mat-form-field"
           id="ShipVia"
@@ -169,9 +90,7 @@
           [label]="'ShipVia'"
           [selectItems]="shippersComboData"
           [disabled]="false"
-          [required]="true"
-        ></nx-northwind-mt-select>
-
+          [required]="true"></nx-northwind-mt-select>
 
         <nx-northwind-mt-input-text
           class="mat-form-field"
@@ -239,7 +158,8 @@
           [label]="'Ship Region'"
           [placeHolder]="'Enter the ship region'"
           [disabled]="false"
-          maxlength="15">
+          maxlength="15"
+          [required]="true">
         </nx-northwind-mt-input-text>
       </div>
       <div class="formContainer" *ngIf="orderModel">
@@ -283,7 +203,7 @@
       </nx-northwind-mt-button-minifab>
     </div>
 
-    <hr />
+    <nx-northwind-mt-divider></nx-northwind-mt-divider>
 
     <br />
 
@@ -301,26 +221,15 @@
             id="Id_{{ i }}"
             formControlName="Id"
             [(ngModel)]="orderDetailModel[i].Id" />
-          <!-- <nx-northwind-mt-input-text
-            class="mat-form-field order-details"
-            [id]="'ProductID_' + i"
-            formControlName="ProductID"
-            [(ngModel)]="orderDetailModel[i].ProductID"
-            [isClosable]="false"
-            [label]="'Product ID'"
-            [placeHolder]="'Enter the product id'"
-            [required]="true">
-          </nx-northwind-mt-input-text> -->
           <nx-northwind-mt-select
-            class="mat-form-field order-details"
+            class="mat-form-field order-details-product"
             [id]="'ProductID_' + i"
             formControlName="ProductID"
             [(ngModel)]="orderDetailModel[i].ProductID"
             [label]="'Product'"
-            [selectItems]="[]"
+            [selectItems]="productsComboData"
             [disabled]="false"
-            [required]="true"
-          ></nx-northwind-mt-select>
+            [required]="true"></nx-northwind-mt-select>
 
           <nx-northwind-mt-input-text
             class="mat-form-field order-details"
@@ -416,9 +325,3 @@
 <!-- SubTotal: {{ orderSubTotal }} Total: {{ orderTotal }}
 <pre>Status: {{ formGroup.status | json }}</pre>
 <pre>Valid: {{ formGroup.valid | json }}</pre> -->
-
-<!-- {{ employees$ | async | json }}
-<hr>
-{{ customers$ | async | json }}
-<hr>
-{{ shippers$ | async | json }} -->

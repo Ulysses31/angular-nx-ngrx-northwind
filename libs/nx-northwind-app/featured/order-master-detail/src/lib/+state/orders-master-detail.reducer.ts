@@ -7,6 +7,7 @@ import {
   OrderDetailLoaderDto,
   OrderMasterDetailBrowserDto,
   OrderMasterDetailLoaderDto,
+  ProductLoaderDto,
   ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
 
@@ -22,6 +23,7 @@ export interface OrdersMasterDetailState {
   employees: EmployeeLoaderDto[];
   customers: CustomerLoaderDto[];
   shippers: ShipperLoaderDto[];
+  products: ProductLoaderDto[];
   loaded: boolean;
   error?: string | null;
 }
@@ -34,12 +36,38 @@ export const initialOrdersState: OrdersMasterDetailState = {
   employees: [],
   customers: [],
   shippers: [],
+  products: [],
   loaded: false,
   error: null
 };
 
 const reducer = createReducer(
   initialOrdersState,
+  // *********** INIT PRODUCTS ******************************//
+  on(OrdersActions.initOrderDetailProducts, (state) => ({
+    ...state,
+    products: [],
+    loaded: false,
+    error: null
+  })),
+  on(
+    OrdersActions.loadOrderDetailProductsSuccess,
+    (state, { products }) => ({
+      ...state,
+      products,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    OrdersActions.loadOrderDetailProductsFailure,
+    (state, { error }) => ({
+      ...state,
+      products: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** INIT SHIPPERS ******************************//
   on(OrdersActions.initOrderDetailShippers, (state) => ({
     ...state,

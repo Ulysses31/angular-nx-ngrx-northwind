@@ -115,8 +115,28 @@ class OrderDetail {
   create(orderDetail, result) {
     orderDetail.CreatedBy = 'admin';
     sql.query(
-      `insert into \`order details\` set ?`,
-      orderDetail,
+      `insert into \`order details\`
+       set
+        OrderID = (
+          SELECT
+            o2.orderid
+          FROM orders o2
+          GROUP BY o2.orderid
+          ORDER BY o2.orderid DESC
+          LIMIT 1
+        ),
+        ProductID = ?,
+        UnitPrice = ?,
+        Quantity = ?,
+        Discount = ?,
+        CreatedBy = ?`,
+      [
+        orderDetail.ProductID,
+        orderDetail.UnitPrice,
+        orderDetail.Quantity,
+        orderDetail.Discount,
+        orderDetail.CreatedBy
+      ],
       (err) => {
         if (err) {
           result({ ...err }, null);

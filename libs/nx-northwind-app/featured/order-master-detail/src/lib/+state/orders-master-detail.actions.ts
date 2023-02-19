@@ -7,8 +7,24 @@ import {
   OrderDetailLoaderDto,
   OrderMasterDetailBrowserDto,
   OrderMasterDetailLoaderDto,
+  ProductLoaderDto,
   ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
+
+// *********** INIT PRODUCTS *************************************//
+export const initOrderDetailProducts = createAction(
+  '[OrderDetailProducts Page] Init'
+);
+
+export const loadOrderDetailProductsSuccess = createAction(
+  '[OrderDetailProducts/API] Load Products Success',
+  props<{ products: ProductLoaderDto[] }>()
+);
+
+export const loadOrderDetailProductsFailure = createAction(
+  '[OrderDetailProducts/API] Load Products Failure',
+  props<{ error: any }>()
+);
 
 // *********** INIT SHIPPERS *************************************//
 export const initOrderDetailShippers = createAction(

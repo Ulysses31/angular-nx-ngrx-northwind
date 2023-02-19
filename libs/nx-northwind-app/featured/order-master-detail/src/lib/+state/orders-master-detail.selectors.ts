@@ -76,7 +76,7 @@ export const selectOrderDetail = createSelector(
   }
 );
 
-//##########  EMPLOYEES - CUSTOMERS - SHIPPERS ###########//
+//##########  EMPLOYEES - CUSTOMERS - SHIPPERS - REGIONS - PRODUCTS ###########//
 export const selectAllOrderEmployees = createSelector(
   selectOrdersMasterDetailState,
   (state: OrdersMasterDetailState) => {
@@ -95,5 +95,12 @@ export const selectAllOrderShippers = createSelector(
   selectOrdersMasterDetailState,
   (state: OrdersMasterDetailState) => {
     return state.shippers;
+  }
+);
+
+export const selectAllOrderProducts = createSelector(
+  selectOrdersMasterDetailState,
+  (state: OrdersMasterDetailState) => {
+    return state.products;
   }
 );

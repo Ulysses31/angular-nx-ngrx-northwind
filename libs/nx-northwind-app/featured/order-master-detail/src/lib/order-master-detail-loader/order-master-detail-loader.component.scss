@@ -32,6 +32,11 @@ h3 {
   margin: 5px;
 }
 
+.formContainer .order-details-product {
+  width: 400px !important;
+  margin: 5px;
+}
+
 .formContainerDetails {
   margin-bottom: 15px;
   padding: 5px;
@@ -73,5 +78,12 @@ form {
 
   .formContainerDetails {
     padding: 10px;
+  }
+}
+
+@media only screen and (max-width: 1120px) {
+  /* For mobile phones: */
+  .formContainer .order-details-product {
+    width: 145px !important;
   }
 }

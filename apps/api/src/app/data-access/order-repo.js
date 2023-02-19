@@ -108,19 +108,74 @@ class Order {
       'yyyy-MM-DD'
     );
 
-    sql.query('insert into orders set ?', order, (err) => {
-      if (err) {
-        result({ ...err }, null);
-        return { ...err };
-      }
-      // console.log('created category: ', {
-      //   id: res.insertId,
-      //   ...category
-      // });
+    const sqlQuery = `
+      #SELECT @od := (
+      #  SELECT
+      #    o2.orderid + 1
+      #  FROM orders o2
+      #  GROUP BY o2.orderid
+      #  ORDER BY o2.orderid DESC
+      #  LIMIT 1
+      #);
 
-      result(null, { ...order });
-      return { ...order };
-    });
+      INSERT INTO orders
+      SET
+        OrderID = (
+          SELECT
+            o2.orderid + 1
+          FROM orders o2
+          GROUP BY o2.orderid
+          ORDER BY o2.orderid DESC
+          LIMIT 1
+        ),
+        CustomerID = ?,
+        EmployeeID = ?,
+        OrderDate = ?,
+        RequiredDate = ?,
+        ShippedDate = ?,
+        ShipVia = ?,
+        Freight = ?,
+        ShipName = ?,
+        ShipAddress = ?,
+        ShipCity = ?,
+        ShipRegion = ?,
+        ShipPostalCode = ?,
+        ShipCountry = ?,
+        CreatedBy = ?
+    `;
+
+    sql.query(
+      sqlQuery,
+      [
+        order.CustomerID,
+        order.EmployeeID,
+        order.OrderDate,
+        order.RequiredDate,
+        order.ShippedDate,
+        order.ShipVia,
+        order.Freight,
+        order.ShipName,
+        order.ShipAddress,
+        order.ShipCity,
+        order.ShipRegion,
+        order.ShipPostalCode,
+        order.ShipCountry,
+        order.CreatedBy
+      ],
+      (err) => {
+        if (err) {
+          result({ ...err }, null);
+          return { ...err };
+        }
+        // console.log('created category: ', {
+        //   id: res.insertId,
+        //   ...category
+        // });
+
+        result(null, { ...order });
+        return { ...order };
+      }
+    );
   }
 
   update(id, order, result) {
@@ -160,10 +215,10 @@ class Order {
         order.ShippedDate,
         order.ShipVia,
         order.Freight,
-        order.ShipName,
-        order.ShipAddress,
-        order.ShipCity,
-        order.ShipRegion,
+        order.ShipName.replace("'", ''),
+        order.ShipAddress.replace("'", ''),
+        order.ShipCity.replace("'", ''),
+        order.ShipRegion.replace("'", ''),
         order.ShipPostalCode,
         order.ShipCountry,
         moment(new Date()).format('yyyy-MM-DD HH-mm-ss'),

@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatDividerModule } from '@angular/material/divider';
 import { MtButtonFabComponent } from './controls/mt-button-fab/mt-button-fab.component';
 import { MtButtonFlatComponent } from './controls/mt-button-flat/mt-button-flat.component';
 import { MtButtonIconComponent } from './controls/mt-button-icon/mt-button-icon.component';
@@ -70,6 +71,7 @@ import { MtTableComponent } from './controls/mt-table/mt-table.component';
 import { MtToolbarBtnfunctionsComponent } from './controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.component';
 import { MtToolbarComponent } from './controls/mt-toolbar/mt-toolbar.component';
 import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
+import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
 
 @NgModule({
   imports: [
@@ -91,6 +93,7 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
     MatListModule,
     MatExpansionModule,
     MatTreeModule,
+    MatDividerModule,
     CdkTreeModule,
     MatSelectModule,
     MatPaginatorModule,
@@ -145,7 +148,8 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
     MtTreeComponent,
     MtToolbarBtnfunctionsComponent,
     MtDrawerComponent,
-    MtDialogComponent
+    MtDialogComponent,
+    MtDividerComponent
   ],
   exports: [
     MtButtonComponent,
@@ -186,7 +190,8 @@ import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
     MtTreeComponent,
     MtToolbarBtnfunctionsComponent,
     MtDrawerComponent,
-    MtDialogComponent
+    MtDialogComponent,
+    MtDividerComponent
   ]
 })
 export class NxMaterialUiModule {}

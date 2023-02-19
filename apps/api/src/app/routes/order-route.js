@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
   var order = new Order();
   order.browse((err, data) => {
     if (err) {
-      res.status(500).send({
+      return res.status(500).send({
         statusCode: res.statusCode,
         message:
           err.sqlMessage ||
@@ -27,12 +27,12 @@ router.get('/:id', async (req, res) => {
   order.load(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({
+        return res.status(404).send({
           statusCode: res.statusCode,
           message: `Not found Order with id ${req.params.id}.`
         });
       } else {
-        res.status(500).send({
+        return res.status(500).send({
           statusCode: res.statusCode,
           message:
             err.sqlMessage ||
@@ -124,7 +124,7 @@ router.post('/', async (req, res) => {
 
   order.create(req.body, (err, data) => {
     if (err) {
-      res.status(500).send({
+      return res.status(500).send({
         statusCode: res.statusCode,
         message:
           err.sqlMessage ||
@@ -141,8 +141,10 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  console.log(req.body);
+
   var id = req.params.id;
-  var order = new Order(this);
+  var order = new Order(req.body);
 
   if (!req.body) {
     res.status(400).send({
@@ -217,12 +219,12 @@ router.put('/:id', async (req, res) => {
   order.update(id, req.body, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({
+        return res.status(404).send({
           statusCode: res.statusCode,
           message: `Not found Order with id ${req.params.id}.`
         });
       } else {
-        res.status(500).send({
+        return res.status(500).send({
           statusCode: res.statusCode,
           message:
             err.sqlMessage ||
@@ -246,12 +248,12 @@ router.delete('/:id', async (req, res) => {
   order.delete(id, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({
+        return res.status(404).send({
           statusCode: res.statusCode,
           message: `Not found Order with id ${req.params.id}.`
         });
       } else {
-        res.status(500).send({
+        return res.status(500).send({
           statusCode: res.statusCode,
           message:
             err.sqlMessage ||

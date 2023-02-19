@@ -6,7 +6,7 @@ import {
   EmployeeService,
   OrderDetailService,
   OrderService,
-  ShipperService
+  ProductService, ShipperService
 } from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
@@ -23,11 +23,47 @@ export class OrdersEffects {
   private serviceEmployees = inject(EmployeeService);
   private serviceCustomers = inject(CustomerService);
   private serviceShippers = inject(ShipperService);
+  private serviceProducts = inject(ProductService);
   private serviceDetails = inject(OrderDetailService);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  // ******** INIT PRODUCTS *************************************//
+  initOrderDetailProducts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersMasterDetailActions.initOrderDetailProducts),
+      switchMap(() =>
+        this.serviceProducts.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: OrdersMasterDetailState) => {
+            // data.products.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
+            return data;
+          }),
+          map((data: OrdersMasterDetailState) =>
+            OrdersMasterDetailActions.loadOrderDetailProductsSuccess({
+              products: data.products
+            })
+          ),
+          catchError((error) =>
+            of(
+              OrdersMasterDetailActions.loadOrderDetailProductsFailure(
+                { error }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
 
   // ******** INIT SHIPPERS *************************************//
   initOrderDetailShippers$ = createEffect(() =>
@@ -409,11 +445,11 @@ export class OrdersEffects {
             this.snackBar.open('Record saved...', 'Close', {
               duration: 3000
             });
-            const path =
-              this.route.snapshot.pathFromRoot[0].queryParams[
-                'backUrl'
-              ];
-            this.router.navigate([path]);
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
           })
         )
       ),
@@ -472,7 +508,7 @@ export class OrdersEffects {
       ofType(OrdersMasterDetailActions.deleteOrderDetail),
       switchMap((action) =>
         this.serviceDetails
-          .delete(action.delOrderDetail.OrderID)
+          .delete(action.delOrderDetail.Id || '')
           .pipe(
             tap((data: any) => console.log(data)),
             map(() =>
@@ -496,11 +532,11 @@ export class OrdersEffects {
         ofType(OrdersMasterDetailActions.deleteOrderDetailSuccess),
         pipe(
           tap(() => {
-            const path =
-              this.route.snapshot.pathFromRoot[0].queryParams[
-                'backUrl'
-              ];
-            this.router.navigate([path]);
+            // const path =
+            //   this.route.snapshot.pathFromRoot[0].queryParams[
+            //     'backUrl'
+            //   ];
+            // this.router.navigate([path]);
             this.snackBar.open('Record deleted...', 'Close', {
               duration: 3000
             });
