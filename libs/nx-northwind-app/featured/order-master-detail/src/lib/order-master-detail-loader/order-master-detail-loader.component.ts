@@ -1,3 +1,8 @@
+import { ShipperBrowserComponent } from './../../../../shipper/src/lib/shipper-browser/shipper-browser.component';
+import {
+  CategoryBrowserDialogComponent,
+  CategoryBrowserComponent
+} from './../../../../category/src/lib/category-browser/category-browser.component';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
@@ -25,6 +30,7 @@ import {
   ProductLoaderDto,
   ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
+import { CategoriesState } from '@nx-northwind/nx-northwind-app/featured/category';
 import {
   BaseMasterDetailLoaderComponent,
   FunctionButtons
@@ -214,10 +220,13 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     }
   ];
 
+  private dialogRef: any;
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
+    public lookupDialog: MatDialog,
     private store: Store<OrdersMasterDetailState>,
+    private storeCategories: Store<CategoriesState>,
     private fb: FormBuilder
   ) {
     super(_snackBar, dialog);
@@ -741,5 +750,19 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
 
   get frmGetOrderDetails(): FormArray {
     return this.formGroup.get('orderDetails') as FormArray;
+  }
+
+  openDlg(): void {
+    this.dialogRef = this.lookupDialog.open(ShipperBrowserComponent, {
+      width: '50%',
+      //height: '100%',
+      data: {
+        isDialog: true,
+        shippers: this.shippers$,
+        isLoaded: this.isLoaded$,
+        error: this.error$,
+      }
+    });
+    // this.dialogRef.updatePosition({ top: '3%', left: '20%' });
   }
 }

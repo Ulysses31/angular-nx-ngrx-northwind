@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -18,6 +23,7 @@ import { ShipperLoaderComponent } from './shipper-loader/shipper-loader.componen
     FormsModule,
     NxNorthwindAppFeaturedSharedModule,
     NxMaterialUiModule,
+    MatDialogModule,
     RouterModule.forChild(nxNorthwindAppFeaturesShipperRoutes),
 
     StoreModule.forFeature(
@@ -27,6 +33,16 @@ import { ShipperLoaderComponent } from './shipper-loader/shipper-loader.componen
 
     EffectsModule.forFeature([ShippersEffects])
   ],
-  declarations: [ShipperBrowserComponent, ShipperLoaderComponent]
+  declarations: [ShipperBrowserComponent, ShipperLoaderComponent],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
+    }
+  ]
 })
 export class NxNorthwindAppFeaturesShipperModule {}

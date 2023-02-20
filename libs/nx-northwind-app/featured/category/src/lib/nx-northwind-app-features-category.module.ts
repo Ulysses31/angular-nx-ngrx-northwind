@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { nxNorthwindAppFeaturesCategoryRoutes } from './lib.routes';
-import { CategoryBrowserComponent } from './category-browser/category-browser.component';
-import { CategoryLoaderComponent } from './category-loader/category-loader.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromCategories from './+state/categories.reducer';
-import { CategoriesEffects } from './+state/categories.effects';
-import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
+import { NxNorthwindAppFeaturedSharedModule } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { CategoriesEffects } from './+state/categories.effects';
+import * as fromCategories from './+state/categories.reducer';
+import {
+  CategoryBrowserComponent,
+  CategoryBrowserDialogComponent
+} from './category-browser/category-browser.component';
+import { CategoryLoaderComponent } from './category-loader/category-loader.component';
+import { nxNorthwindAppFeaturesCategoryRoutes } from './lib.routes';
 
 @NgModule({
   imports: [
@@ -27,6 +30,10 @@ import { NxMaterialUiModule } from '@nx-northwind/nx-material-ui';
 
     EffectsModule.forFeature([CategoriesEffects])
   ],
-  declarations: [CategoryBrowserComponent, CategoryLoaderComponent]
+  declarations: [
+    CategoryBrowserComponent,
+    CategoryLoaderComponent,
+    CategoryBrowserDialogComponent
+  ]
 })
 export class NxNorthwindAppFeaturesCategoryModule {}

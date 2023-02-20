@@ -36,6 +36,7 @@ export class BaseBrowserComponent
   @Input() error!: Observable<any>;
   @Input() fnButtons: FunctionButtons[] = [];
   @Input() isLoaded: boolean = true;
+  @Input() isDialogActive: boolean = false;
 
   public mode: ProgrBarMode = ProgrBarMode.Indeterminate;
   public isSelectable: boolean = true;
@@ -100,39 +101,43 @@ export class BaseBrowserComponent
   }
 
   private initFunctionButtons(): void {
-    this.fnButtons.unshift(
-      {
-        id: 'new',
-        label: 'New',
-        toolTipMessage: 'Insert new record',
-        disabled: false,
-        icon: 'add',
-        color: MaterialColor.Basic,
-        command: () =>
-          this.router.navigate([this.router.url, 0], {
-            queryParams: { backUrl: this.router.url }
-          })
-      },
-      {
-        id: 'edit',
-        label: 'Edit',
-        toolTipMessage: 'Edit selected record',
-        disabled: false,
-        icon: 'edit',
-        color: MaterialColor.Basic,
-        command: () => this.editSelectedItem()
-      }
-    );
+    if (!this.isDialogActive) {
+      this.fnButtons.unshift(
+        {
+          id: 'new',
+          label: 'New',
+          toolTipMessage: 'Insert new record',
+          disabled: false,
+          icon: 'add',
+          color: MaterialColor.Basic,
+          command: () =>
+            this.router.navigate([this.router.url, 0], {
+              queryParams: { backUrl: this.router.url }
+            })
+        },
+        {
+          id: 'edit',
+          label: 'Edit',
+          toolTipMessage: 'Edit selected record',
+          disabled: false,
+          icon: 'edit',
+          color: MaterialColor.Basic,
+          command: () => this.editSelectedItem()
+        }
+      );
 
-    this.fnButtons.push({
-      id: 'model',
-      label: 'Model',
-      toolTipMessage: 'Toggle view model state',
-      color: MaterialColor.Basic,
-      icon: 'build',
-      disabled: false,
-      command: () => (this.isModelVisible = !this.isModelVisible)
-    });
+      this.fnButtons.push({
+        id: 'model',
+        label: 'Model',
+        toolTipMessage: 'Toggle view model state',
+        color: MaterialColor.Basic,
+        icon: 'build',
+        disabled: false,
+        command: () => (this.isModelVisible = !this.isModelVisible)
+      });
+    } else {
+      this.fnButtons = [];
+    }
   }
 
   private editSelectedItem(): void {

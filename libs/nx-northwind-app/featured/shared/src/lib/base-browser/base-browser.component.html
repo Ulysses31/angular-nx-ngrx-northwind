@@ -1,15 +1,14 @@
 <ng-container>
   <!-- <p *ngIf="errorMessage">{{ errorMessage }}</p> -->
 
-  <br />
+  <ng-container *ngIf="!isDialogActive">
+    <br />
 
-  <nx-northwind-mt-progress
-    [mode]="mode"
-    *ngIf="!isLoaded"
-  >
-  </nx-northwind-mt-progress>
+    <nx-northwind-mt-progress [mode]="mode" *ngIf="!isLoaded">
+    </nx-northwind-mt-progress>
 
-  <br />
+    <br />
+  </ng-container>
 
   <nx-northwind-mt-toolbar-btnfunctions [title]="title">
     <div class="function-buttons">
@@ -38,7 +37,6 @@
     [dataSource]="modelData"
     [length]="modelData.length"
     [isSelectable]="isSelectable"
-    (selectedRecordSubj)="getSelectRecord($event)"
-    >
+    (selectedRecordSubj)="getSelectRecord($event)">
   </nx-northwind-mt-table>
 </ng-container>
