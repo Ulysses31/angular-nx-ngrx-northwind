@@ -51,7 +51,7 @@ class OrderDetail {
       od.Id,
       od.OrderID,
       od.ProductID,
-      (select productName from products p where p.productID = od.productID) as Product,
+      (select productName from products p where p.productID = od.productID) as LU_Product,
       CAST(od.UnitPrice AS DECIMAL(19, 2)) as UnitPrice,
       od.Quantity,
       CAST(od.Discount AS DECIMAL(19, 2)) AS Discount,

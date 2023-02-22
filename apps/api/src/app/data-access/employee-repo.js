@@ -33,19 +33,19 @@ class Employee {
 			LastName,
 			FirstName,
 			Title,
-			TitleOfCourtesy,
-			BirthDate,
-			HireDate,
-			Address,
-			City,
-			Region,
-			PostalCode,
-			Country,
-			HomePhone,
-			Extension,
-			Notes,
-			ReportsTo,
-			PhotoPath
+			TitleOfCourtesy
+			#BirthDate,
+			#HireDate,
+			#Address,
+			#City,
+			#Region,
+			#PostalCode,
+			#Country
+			#HomePhone,
+			#Extension,
+			#Notes,
+			#ReportsTo,
+			#PhotoPath
       #CreatedBy,
       #CreatedAt,
       #UpdatedAt

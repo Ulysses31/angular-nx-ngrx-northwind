@@ -11,7 +11,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +33,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { MatDividerModule } from '@angular/material/divider';
 import { MtButtonFabComponent } from './controls/mt-button-fab/mt-button-fab.component';
 import { MtButtonFlatComponent } from './controls/mt-button-flat/mt-button-flat.component';
 import { MtButtonIconComponent } from './controls/mt-button-icon/mt-button-icon.component';
@@ -44,6 +45,7 @@ import { MtCardComponent } from './controls/mt-card/mt-card.component';
 import { MtCheckboxComponent } from './controls/mt-checkbox/mt-checkbox.component';
 import { MtChipsComponent } from './controls/mt-chips/mt-chips.component';
 import { MtDialogComponent } from './controls/mt-dialog/mt-dialog.component';
+import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
 import { MtDrawerComponent } from './controls/mt-drawer/mt-drawer.component';
 import { MtExpansionPanelComponent } from './controls/mt-expansion-panel/mt-expansion-panel.component';
 import { MtInputColorComponent } from './controls/mt-input-color/mt-input-color.component';
@@ -59,6 +61,7 @@ import { MtInputTimeComponent } from './controls/mt-input-time/mt-input-time.com
 import { MtInputUrlComponent } from './controls/mt-input-url/mt-input-url.component';
 import { MtLayoutComponent } from './controls/mt-layout/mt-layout.component';
 import { MtListComponent } from './controls/mt-list/mt-list.component';
+import { MtLookupComponent } from './controls/mt-lookup/mt-lookup.component';
 import { MtPaginatorComponent } from './controls/mt-paginator/mt-paginator.component';
 import { MtProgressComponent } from './controls/mt-progress/mt-progress.component';
 import { MtRadioComponent } from './controls/mt-radio/mt-radio.component';
@@ -71,7 +74,6 @@ import { MtTableComponent } from './controls/mt-table/mt-table.component';
 import { MtToolbarBtnfunctionsComponent } from './controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.component';
 import { MtToolbarComponent } from './controls/mt-toolbar/mt-toolbar.component';
 import { MtTreeComponent } from './controls/mt-tree/mt-tree.component';
-import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
 
 @NgModule({
   imports: [
@@ -84,6 +86,7 @@ import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
     MatIconModule,
     MatDialogModule,
     MatDatepickerModule,
+    MatFormFieldModule,
     MatNativeDateModule,
     MatTooltipModule,
     MatCardModule,
@@ -149,7 +152,8 @@ import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
     MtToolbarBtnfunctionsComponent,
     MtDrawerComponent,
     MtDialogComponent,
-    MtDividerComponent
+    MtDividerComponent,
+    MtLookupComponent
   ],
   exports: [
     MtButtonComponent,
@@ -191,7 +195,8 @@ import { MtDividerComponent } from './controls/mt-divider/mt-divider.component';
     MtToolbarBtnfunctionsComponent,
     MtDrawerComponent,
     MtDialogComponent,
-    MtDividerComponent
+    MtDividerComponent,
+    MtLookupComponent
   ]
 })
 export class NxMaterialUiModule {}

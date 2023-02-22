@@ -25,15 +25,15 @@ class Customer {
 		select
       CustomerID,
       CompanyName,
-      ContactName,
-      ContactTitle,
-      Address,
-      City,
-      Region,
-      PostalCode,
+      #ContactName,
+      #ContactTitle,
       Country,
-      Phone,
-      Fax
+      City,
+      #Region,
+      Address,
+      Phone
+      #PostalCode,
+      #Fax
       #CreatedBy,
       #CreatedAt,
       #UpdatedAt

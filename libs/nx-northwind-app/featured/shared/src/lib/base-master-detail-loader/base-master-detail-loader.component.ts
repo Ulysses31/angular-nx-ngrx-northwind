@@ -5,6 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialColor, MtDialogComponent, ProgrBarMode } from '@nx-northwind/nx-material-ui';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 
@@ -30,7 +31,8 @@ export class BaseMasterDetailLoaderComponent implements OnInit, AfterViewInit, O
 
   constructor(
     public _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public lookupService: LookupService
   ) {
     console.log('BaseMasterDetailLoaderComponent constructor...');
   }

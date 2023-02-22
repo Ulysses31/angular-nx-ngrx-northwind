@@ -11,5 +11,6 @@ export * from './lib/shipper.service';
 export * from './lib/supplier.service';
 export * from './lib/territory.service';
 export * from './lib/user.service';
+export * from './lib/lookup.service';
 
 export * from './lib/nx-northwind-app-services.module';

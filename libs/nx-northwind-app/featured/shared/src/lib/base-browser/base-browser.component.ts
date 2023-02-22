@@ -49,7 +49,7 @@ export class BaseBrowserComponent
 
   private router = inject(Router);
   private elRef = inject(ElementRef);
-  private selectedId!: string;
+  public selectedItem: string = '';
   public isModelVisible?: boolean = false;
 
   constructor(
@@ -136,7 +136,29 @@ export class BaseBrowserComponent
         command: () => (this.isModelVisible = !this.isModelVisible)
       });
     } else {
-      this.fnButtons = [];
+      this.fnButtons = [
+        {
+          id: 'cancel',
+          label: 'CANCEL',
+          toolTipMessage: 'Close window',
+          disabled: false,
+          icon: 'close',
+          color: MaterialColor.Basic,
+          command: () => {
+            this.selectedItem = '';
+            this.dialog.closeAll();
+          }
+        },
+        {
+          id: 'ok',
+          label: 'OK',
+          toolTipMessage: 'Accept selection',
+          disabled: false,
+          icon: 'check',
+          color: MaterialColor.Basic,
+          command: () => this.getRecord()
+        }
+      ];
     }
   }
 
@@ -219,10 +241,15 @@ export class BaseBrowserComponent
 
   public getSelectRecord(subj: any): void {
     if (subj) {
-      console.log(subj);
-      console.log(
-        'ID: ' + subj[this.extractFieldNameIdFromObj(subj)]
-      );
+      this.selectedItem = subj;
+      // console.log(
+      //   'ID: ' + subj[this.extractFieldNameIdFromObj(subj)]
+      // );
     }
+  }
+
+  public getRecord(): void {
+    const callBackDlg: any = this.dialog.openDialogs[0];
+    callBackDlg.close(this.selectedItem);
   }
 }

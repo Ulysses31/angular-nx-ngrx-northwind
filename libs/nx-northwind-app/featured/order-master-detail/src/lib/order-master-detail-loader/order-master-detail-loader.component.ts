@@ -1,8 +1,3 @@
-import { ShipperBrowserComponent } from './../../../../shipper/src/lib/shipper-browser/shipper-browser.component';
-import {
-  CategoryBrowserDialogComponent,
-  CategoryBrowserComponent
-} from './../../../../category/src/lib/category-browser/category-browser.component';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
@@ -30,11 +25,15 @@ import {
   ProductLoaderDto,
   ShipperLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
-import { CategoriesState } from '@nx-northwind/nx-northwind-app/featured/category';
+import { CustomerBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/customer';
+import { EmployeeBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/employee';
+import { ProductBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/product';
 import {
   BaseMasterDetailLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { ShipperBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/shipper';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
 import { map, of, tap } from 'rxjs';
 import {
   deleteOrder,
@@ -96,6 +95,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   loaded: boolean = true;
   orderSubTotal?: string = '';
   orderTotal?: string = '';
+  private dialogRef: any;
 
   @ViewChild('orderDetailForm') orderDetailsForm!: HTMLFormElement;
 
@@ -108,7 +108,15 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       { value: '', disabled: false },
       Validators.required
     ),
+    Customer: new FormControl(
+      { value: '', disabled: false },
+      Validators.required
+    ),
     EmployeeID: new FormControl(
+      { value: '', disabled: false },
+      Validators.required
+    ),
+    Employee: new FormControl(
       { value: '', disabled: false },
       Validators.required
     ),
@@ -125,6 +133,10 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       Validators.required
     ),
     ShipVia: new FormControl(
+      { value: '', disabled: false },
+      Validators.required
+    ),
+    Shipper: new FormControl(
       { value: '', disabled: false },
       Validators.required
     ),
@@ -220,16 +232,15 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     }
   ];
 
-  private dialogRef: any;
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
     public lookupDialog: MatDialog,
+    public override lookupService: LookupService,
     private store: Store<OrdersMasterDetailState>,
-    private storeCategories: Store<CategoriesState>,
     private fb: FormBuilder
   ) {
-    super(_snackBar, dialog);
+    super(_snackBar, dialog, lookupService);
   }
 
   override ngOnInit(): void {
@@ -286,11 +297,14 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
         Id: '0',
         OrderID: '',
         CustomerID: '',
+        LU_Customer: '',
         EmployeeID: '',
+        LU_Employee: '',
         OrderDate: '',
         RequiredDate: '',
         ShippedDate: '',
         ShipVia: '',
+        LU_Shipper: '',
         Freight: '',
         ShipName: '',
         ShipAddress: '',
@@ -305,6 +319,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
           Id: this.orderDetailvCnt.toString(),
           OrderID: '',
           ProductID: '',
+          LU_Product: '',
           UnitPrice: 0,
           Quantity: 0,
           Discount: 0,
@@ -391,11 +406,14 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       this.formGroup.patchValue({
         OrderID: this.orderModel.OrderID,
         CustomerID: this.orderModel.CustomerID || null,
+        Customer: this.orderModel.LU_Customer || null,
         EmployeeID: this.orderModel.EmployeeID || null,
+        Employee: this.orderModel.LU_Employee || null,
         OrderDate: this.orderModel.OrderDate || null,
         RequiredDate: this.orderModel.RequiredDate || null,
         ShippedDate: this.orderModel.ShippedDate || null,
         ShipVia: this.orderModel.ShipVia || null,
+        Shipper: this.orderModel.LU_Shipper || null,
         Freight: this.orderModel.Freight || null,
         ShipName: this.orderModel.ShipName || null,
         ShipAddress: this.orderModel.ShipAddress || null,
@@ -446,6 +464,13 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
               ProductID: new FormControl(
                 {
                   value: item.ProductID,
+                  disabled: false
+                },
+                Validators.required
+              ),
+              Product: new FormControl(
+                {
+                  value: item.LU_Product,
                   disabled: false
                 },
                 Validators.required
@@ -752,17 +777,93 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     return this.formGroup.get('orderDetails') as FormArray;
   }
 
-  openDlg(): void {
-    this.dialogRef = this.lookupDialog.open(ShipperBrowserComponent, {
-      width: '50%',
-      //height: '100%',
-      data: {
-        isDialog: true,
-        shippers: this.shippers$,
-        isLoaded: this.isLoaded$,
-        error: this.error$,
-      }
-    });
-    // this.dialogRef.updatePosition({ top: '3%', left: '20%' });
-  }
+  shippersLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const data = {
+      isDialog: true,
+      shippers: this.shippers$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, ShipperBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.orderModel.ShipVia = result.ShipperID;
+          this.orderModel.LU_Shipper = result.CompanyName;
+        }
+      });
+  };
+
+  employeesLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const data = {
+      isDialog: true,
+      employees: this.employees$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, EmployeeBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.orderModel.EmployeeID = result.EmployeeID;
+          this.orderModel.LU_Employee = `${result.LastName} ${result.FirstName}`;
+        }
+      });
+  };
+
+  customersLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const data = {
+      isDialog: true,
+      customers: this.customers$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, CustomerBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.orderModel.CustomerID = result.CustomerID;
+          this.orderModel.LU_Customer = result.CompanyName;
+        }
+      });
+  };
+
+  productsLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const orderDetailIndex: number = parseInt(
+      (args as string).replace('Product_', '')
+    );
+
+    const data = {
+      isDialog: true,
+      products: this.products$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, ProductBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.orderDetailModel[orderDetailIndex].ProductID =
+            result.ProductID;
+          this.orderDetailModel[orderDetailIndex].LU_Product =
+            result.ProductName;
+        }
+      });
+  };
 }

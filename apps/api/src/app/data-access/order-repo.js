@@ -62,24 +62,27 @@ class Order {
   load(id, result) {
     const query = `
 		select
-      OrderID,
-      CustomerID,
-      EmployeeID,
-      OrderDate,
-      RequiredDate,
-      ShippedDate,
-      ShipVia,
-      Freight,
-      ShipName,
-      ShipAddress,
-      ShipCity,
-      ShipRegion,
-      ShipPostalCode,
-      ShipCountry,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from orders where OrderID = ${id}
+      o.OrderID,
+      o.CustomerID,
+      (select companyName from customers c where c.customerID = o.customerID) as LU_Customer,
+      o.EmployeeID,
+      (select concat(lastname, ' ', firstname) from employees e where e.employeeID = o.employeeID) as LU_Employee,
+      o.OrderDate,
+      o.RequiredDate,
+      o.ShippedDate,
+      o.ShipVia,
+      (select companyName from shippers s where s.shipperID = o.shipvia) as LU_Shipper,
+      o.Freight,
+      o.ShipName,
+      o.ShipAddress,
+      o.ShipCity,
+      o.ShipRegion,
+      o.ShipPostalCode,
+      o.ShipCountry,
+      o.CreatedBy,
+      o.CreatedAt,
+      o.UpdatedAt
+		from orders o where o.OrderID = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {

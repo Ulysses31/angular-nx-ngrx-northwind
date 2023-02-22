@@ -92,3 +92,5 @@ export * from './lib/controls/mt-toolbar-btnfunctions/mt-toolbar-btnfunctions.co
 export * from './lib/controls/mt-drawer/mt-drawer.component';
 
 export * from './lib/controls/mt-divider/mt-divider.component';
+
+export * from './lib/controls/mt-lookup/mt-lookup.component';

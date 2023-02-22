@@ -29,13 +29,13 @@ export class EmployeesEffects {
           tap((data: any) => console.log(data)),
           map((data: EmployeesState) => {
             data.employees.map((item) => {
-              item.Notes = item.Notes ? item.Notes.substring(0, 10)+'...' : '';
-              item.BirthDate = item.BirthDate
-                ? moment(item.BirthDate).format('DD/MM/YYYY')
-                : '';
-              item.HireDate = item.HireDate
-                ? moment(item.HireDate).format('DD/MM/YYYY')
-                : '';
+              // item.Notes = item.Notes ? item.Notes.substring(0, 10)+'...' : '';
+              // item.BirthDate = item.BirthDate
+              //   ? moment(item.BirthDate).format('DD/MM/YYYY')
+              //   : '';
+              // item.HireDate = item.HireDate
+              //   ? moment(item.HireDate).format('DD/MM/YYYY')
+              //   : '';
               // item.CreatedAt = item.CreatedAt
               //   ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
               //   : '';

@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
@@ -43,6 +48,14 @@ export class EmployeeBrowserComponent extends BaseBrowserComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
+    public dialogRef: MatDialogRef<EmployeeBrowserComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      isDialog: boolean;
+      employees: any;
+      isLoaded: any;
+      error: any;
+    },
     private store: Store<EmployeesState>
   ) {
     super(_snackBar, dialog);
@@ -51,6 +64,12 @@ export class EmployeeBrowserComponent extends BaseBrowserComponent {
 
   override ngOnInit(): void {
     console.log('ngOnInit Employee Browser...');
+
+    if (this.data.isDialog) {
+      this.error$ = this.data.error;
+      this.isLoaded$ = this.data.isLoaded;
+      this.employees$ = this.data.employees;
+    }
 
     this.isLoaded$.subscribe((isloaded: boolean) => {
       this.loaded = isloaded;
