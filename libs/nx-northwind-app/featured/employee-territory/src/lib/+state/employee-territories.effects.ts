@@ -2,7 +2,11 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EmployeeTerritoryService } from '@nx-northwind/nx-northwind-app/services';
+import {
+  EmployeeService,
+  EmployeeTerritoryService,
+  TerritoryService
+} from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,10 +18,101 @@ import { EmployeeTerritoriesState } from './employee-territories.reducer';
 export class EmployeeTerritoriesEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(EmployeeTerritoryService);
+  private serviceEmployees = inject(EmployeeService);
+  private serviceTerritories = inject(TerritoryService);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  // ******** INIT EMPLOYEES *************************************//
+  initEmployeeTerritoriesEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EmployeeTerritoriesActions.initEmployeeTerritoriesEmployees
+      ),
+      switchMap(() =>
+        this.serviceEmployees.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: EmployeeTerritoriesState) => {
+            data.employees.map((item) => {
+              // item.Notes = item.Notes ? item.Notes.substring(0, 10)+'...' : '';
+              // item.BirthDate = item.BirthDate
+              //   ? moment(item.BirthDate).format('DD/MM/YYYY')
+              //   : '';
+              // item.HireDate = item.HireDate
+              //   ? moment(item.HireDate).format('DD/MM/YYYY')
+              //   : '';
+              // item.CreatedAt = item.CreatedAt
+              //   ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
+              // item.UpdatedAt = item.UpdatedAt
+              //   ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+              //   : '';
+            });
+            return data;
+          }),
+          map((data: EmployeeTerritoriesState) =>
+            EmployeeTerritoriesActions.loadEmployeeTerritoriesEmployeesSuccess(
+              {
+                employees: data.employees
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              EmployeeTerritoriesActions.loadEmployeeTerritoriesEmployeesFailure(
+                {
+                  error
+                }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT TERRITORIES *************************************//
+  initEmployeeTerritoriesTerritories$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EmployeeTerritoriesActions.initEmployeeTerritoriesTerritories
+      ),
+      switchMap(() =>
+        this.serviceTerritories.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: EmployeeTerritoriesState) => {
+            // data.territories.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
+            return data;
+          }),
+          map((data: EmployeeTerritoriesState) =>
+            EmployeeTerritoriesActions.loadEmployeeTerritoriesTerritoriesSuccess(
+              {
+                territories: data.territories
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              EmployeeTerritoriesActions.loadEmployeeTerritoriesTerritoriesFailure(
+                {
+                  error
+                }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
 
   // ******** INIT EMPLOYEE TERRITORIES *************************************//
   initEmployeeTerritories$ = createEffect(() =>

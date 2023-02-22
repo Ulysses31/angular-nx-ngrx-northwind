@@ -5,47 +5,50 @@
   [fnButtons]="fnButtons$"
   [isLoaded]="loaded">
   <form
+    #EmployeeTerritoryForm
     #frm="ngForm"
-    (change)="formStatus(frm)"
+    [formGroup]="formGroup"
+    (change)="onFormChange(frm)"
     class="mat-elevation-z4">
     <div class="formContainer" *ngIf="employeeTerritoryModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="id"
-        name="id"
+        id="Id"
+        name="Id"
+        formControlName="Id"
         [isClosable]="false"
         [label]="'ID'"
-        [placeHolder]="'Enter the employeeTerritory id'"
+        [placeHolder]="'Enter the id'"
         [(ngModel)]="employeeTerritoryModel.Id"
         [disabled]="true">
       </nx-northwind-mt-input-text>
-      <nx-northwind-mt-input-text
+
+      <nx-northwind-mt-lookup
         class="mat-form-field"
-        id="employeeId"
-        name="employeeId"
-        [isClosable]="false"
-        [label]="'Employee ID'"
-        [placeHolder]="'Enter the employee id'"
-        [(ngModel)]="employeeTerritoryModel.EmployeeID"
+        id="Employee"
+        formControlName="Employee"
+        [(ngModel)]="employeeTerritoryModel.LU_Employee"
+        [label]="'Employee'"
+        [placeHolder]="'Enter Employee'"
         [disabled]="false"
         [required]="true"
-        >
-      </nx-northwind-mt-input-text>
-      <nx-northwind-mt-input-text
+        [command]="employeesLookup">
+      </nx-northwind-mt-lookup>
+
+      <nx-northwind-mt-lookup
         class="mat-form-field"
-        id="territoryId"
-        name="territoryId"
-        [isClosable]="false"
-        [label]="'Territory ID'"
-        [placeHolder]="'Enter the employee territory id'"
-        [(ngModel)]="employeeTerritoryModel.TerritoryID"
+        id="Territory"
+        formControlName="Territory"
+        [(ngModel)]="employeeTerritoryModel.LU_Territory"
+        [label]="'Territory'"
+        [placeHolder]="'Enter Territory'"
         [disabled]="false"
         [required]="true"
-        >
-      </nx-northwind-mt-input-text>
+        [command]="territoriesLookup">
+      </nx-northwind-mt-lookup>
     </div>
 
-    <div
+    <!-- <div
       class="formContainer"
       *ngIf="employeeTerritoryModel.Id !== '0'">
       <nx-northwind-mt-input-text
@@ -66,7 +69,8 @@
         [label]="'Created At'"
         [placeHolder]="'Created At'"
         [(ngModel)]="employeeTerritoryModel.CreatedAt"
-        [disabled]="true"></nx-northwind-mt-input-date>
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
 
       <nx-northwind-mt-input-date
         class="mat-form-field"
@@ -77,6 +81,6 @@
         [(ngModel)]="employeeTerritoryModel.UpdatedAt"
         [disabled]="true">
       </nx-northwind-mt-input-date>
-    </div>
+    </div> -->
   </form>
 </nx-northwind-base-loader>

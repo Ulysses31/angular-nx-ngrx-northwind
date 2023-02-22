@@ -95,7 +95,6 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   loaded: boolean = true;
   orderSubTotal?: string = '';
   orderTotal?: string = '';
-  private dialogRef: any;
 
   @ViewChild('orderDetailForm') orderDetailsForm!: HTMLFormElement;
 
@@ -235,7 +234,6 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
-    public lookupDialog: MatDialog,
     public override lookupService: LookupService,
     private store: Store<OrdersMasterDetailState>,
     private fb: FormBuilder
@@ -292,7 +290,6 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       if (btn) btn.disabled = true;
 
       // Insert
-
       this.orderModel = {
         Id: '0',
         OrderID: '',
@@ -777,7 +774,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
     return this.formGroup.get('orderDetails') as FormArray;
   }
 
-  shippersLookup = (args: any): void => {
+  public shippersLookup = (args: any): void => {
     if (!args) args = null;
 
     const data = {
@@ -798,7 +795,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       });
   };
 
-  employeesLookup = (args: any): void => {
+  public employeesLookup = (args: any): void => {
     if (!args) args = null;
 
     const data = {
@@ -819,7 +816,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       });
   };
 
-  customersLookup = (args: any): void => {
+  public customersLookup = (args: any): void => {
     if (!args) args = null;
 
     const data = {
@@ -840,7 +837,7 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
       });
   };
 
-  productsLookup = (args: any): void => {
+  public productsLookup = (args: any): void => {
     if (!args) args = null;
 
     const orderDetailIndex: number = parseInt(

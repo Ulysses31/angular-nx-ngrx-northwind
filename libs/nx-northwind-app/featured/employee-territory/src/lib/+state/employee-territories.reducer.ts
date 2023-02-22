@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
 import {
+  EmployeeLoaderDto,
   EmployeeTerritoryBrowserDto,
-  EmployeeTerritoryLoaderDto
+  EmployeeTerritoryLoaderDto,
+  TerritoryLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as EmployeeTerritoriesActions from './employee-territories.actions';
@@ -12,6 +14,8 @@ export const EMPLOYEE_TERRITORIES_FEATURE_KEY = 'employeeTerritories';
 export interface EmployeeTerritoriesState {
   employeeTerritories: EmployeeTerritoryBrowserDto[];
   employeeTerritory: EmployeeTerritoryLoaderDto | any;
+  employees: EmployeeLoaderDto[];
+  territories: TerritoryLoaderDto[];
   loaded: boolean;
   error?: string | null;
 }
@@ -20,12 +24,70 @@ export const initialEmployeeTerritoriesState: EmployeeTerritoriesState =
   {
     employeeTerritories: [],
     employeeTerritory: null,
+    employees: [],
+    territories: [],
     loaded: false,
     error: null
   };
 
 const reducer = createReducer(
   initialEmployeeTerritoriesState,
+  // *********** INIT EMPLOYEES ******************************//
+  on(
+    EmployeeTerritoriesActions.initEmployeeTerritoriesEmployees,
+    (state) => ({
+      ...state,
+      employees: [],
+      loaded: false,
+      error: null
+    })
+  ),
+  on(
+    EmployeeTerritoriesActions.loadEmployeeTerritoriesEmployeesSuccess,
+    (state, { employees }) => ({
+      ...state,
+      employees,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    EmployeeTerritoriesActions.loadEmployeeTerritoriesEmployeesFailure,
+    (state, { error }) => ({
+      ...state,
+      employees: [],
+      loaded: true,
+      error
+    })
+  ),
+  // *********** INIT TERRITORIES *****************************//
+  on(
+    EmployeeTerritoriesActions.initEmployeeTerritoriesTerritories,
+    (state) => ({
+      ...state,
+      territories: [],
+      loaded: false,
+      error: null
+    })
+  ),
+  on(
+    EmployeeTerritoriesActions.loadEmployeeTerritoriesTerritoriesSuccess,
+    (state, { territories }) => ({
+      ...state,
+      territories,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    EmployeeTerritoriesActions.loadEmployeeTerritoriesTerritoriesFailure,
+    (state, { error }) => ({
+      ...state,
+      territories: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** INIT EMPLOYEETERRITORIES ******************************//
   on(EmployeeTerritoriesActions.initEmployeeTerritories, (state) => ({
     ...state,

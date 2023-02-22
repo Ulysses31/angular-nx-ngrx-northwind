@@ -12,6 +12,7 @@ import {
   BaseLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
 import { initCategory } from '../+state/categories.actions';
 import { CategoriesState } from '../+state/categories.reducer';
 import {
@@ -88,9 +89,10 @@ export class CategoryLoaderComponent extends BaseLoaderComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
+    public override lookupService: LookupService,
     private store: Store<CategoriesState>
   ) {
-    super(_snackBar, dialog);
+    super(_snackBar, dialog, lookupService);
   }
 
   override ngOnInit(): void {

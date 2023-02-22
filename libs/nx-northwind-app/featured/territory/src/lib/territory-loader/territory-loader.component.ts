@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
@@ -11,6 +12,7 @@ import {
   BaseLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
 import {
   deleteTerritory,
   initTerritory,
@@ -87,9 +89,18 @@ export class TerritoryLoaderComponent extends BaseLoaderComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
+    public override lookupService: LookupService,
+    public dialogRef: MatDialogRef<TerritoryLoaderComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      isDialog: boolean;
+      territories: any;
+      isLoaded: any;
+      error: any;
+    },
     private store: Store<TerritoriesState>
   ) {
-    super(_snackBar, dialog);
+    super(_snackBar, dialog, lookupService);
   }
 
   override ngOnInit(): void {

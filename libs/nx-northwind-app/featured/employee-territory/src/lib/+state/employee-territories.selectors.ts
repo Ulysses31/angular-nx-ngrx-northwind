@@ -45,3 +45,18 @@ export const selectEmployeeTerritory = createSelector(
 //       ? employeeTerritories.find((item) => item.id === selectedId)
 //       : undefined
 // );
+
+//##########  EMPLOYEES - TERRITORIES ###########//
+export const selectAllEmployees = createSelector(
+  selectEmployeeTerritoriesState,
+  (state: EmployeeTerritoriesState) => {
+    return state.employees;
+  }
+);
+
+export const selectAllTerritories = createSelector(
+  selectEmployeeTerritoriesState,
+  (state: EmployeeTerritoriesState) => {
+    return state.territories;
+  }
+);

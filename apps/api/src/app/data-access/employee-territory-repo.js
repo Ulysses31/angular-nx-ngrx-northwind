@@ -39,13 +39,15 @@ class EmployeeTerritory {
   load(id, result) {
     const query = `
 		select
-      Id,
-      EmployeeID,
-      TerritoryID,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from employeeTerritories where Id = ${id}
+      t.Id,
+      t.EmployeeID,
+      (SELECT CONCAT(LASTNAME, ' ', FIRSTNAME) FROM employees e WHERE e.EmployeeID = t.EmployeeID) AS LU_Employee,
+      t.TerritoryID,
+      (SELECT TERRITORYDESCRIPTION FROM territories tr WHERE tr.territoryID = t.TerritoryID) AS LU_Territory,
+      t.CreatedBy,
+      t.CreatedAt,
+      t.UpdatedAt
+		from employeeTerritories t where Id = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {

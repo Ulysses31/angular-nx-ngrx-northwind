@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,6 +28,16 @@ import { TerritoryLoaderComponent } from './territory-loader/territory-loader.co
 
     EffectsModule.forFeature([TerritoriesEffects])
   ],
-  declarations: [TerritoryBrowserComponent, TerritoryLoaderComponent]
+  declarations: [TerritoryBrowserComponent, TerritoryLoaderComponent],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
+    }
+  ]
 })
 export class NxNorthwindAppFeaturesTerritoryModule {}

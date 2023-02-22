@@ -11,6 +11,7 @@ import {
   BaseLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
 import {
   deleteProduct,
   initProduct,
@@ -87,9 +88,10 @@ export class ProductLoaderComponent extends BaseLoaderComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
+    public override lookupService: LookupService,
     private store: Store<ProductsState>
   ) {
-    super(_snackBar, dialog);
+    super(_snackBar, dialog, lookupService);
   }
 
   override ngOnInit(): void {

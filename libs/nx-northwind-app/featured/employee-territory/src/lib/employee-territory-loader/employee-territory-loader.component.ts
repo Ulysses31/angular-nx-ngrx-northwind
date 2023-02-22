@@ -1,29 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroupDirective,
+  Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
-import { EmployeeTerritoryLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
+import { EmployeeBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/employee';
 import {
   BaseLoaderComponent,
   FunctionButtons
 } from '@nx-northwind/nx-northwind-app/featured/shared';
+import { TerritoryBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/territory';
+import { LookupService } from '@nx-northwind/nx-northwind-app/services';
+import { of, tap } from 'rxjs';
 import {
   deleteEmployeeTerritory,
+  initEmployeeTerritoriesEmployees,
   initEmployeeTerritory,
   loadEmployeeTerritorySuccess,
   postEmployeeTerritory,
   putEmployeeTerritory
 } from '../+state/employee-territories.actions';
+import { initEmployeeTerritoriesTerritories } from './../+state/employee-territories.actions';
 import { EmployeeTerritoriesState } from '../+state/employee-territories.reducer';
 import {
+  selectAllEmployees,
+  selectAllTerritories,
   selectEmployeeTerritoriesError,
   selectEmployeeTerritoriesLoaded,
   selectEmployeeTerritory
 } from '../+state/employee-territories.selectors';
+import { EmployeeTerritoryLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 
 @Component({
   selector: 'nx-northwind-employee-territory-loader',
@@ -33,9 +47,34 @@ import {
 export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
   employeeTerritoryModel!: EmployeeTerritoryLoaderDto;
   employeeTerritory$ = this.store.select(selectEmployeeTerritory);
+  employees$ = this.store.select(selectAllEmployees);
+  territories$ = this.store.select(selectAllTerritories);
   error$ = this.store.select(selectEmployeeTerritoriesError);
   isLoaded$ = this.store.select(selectEmployeeTerritoriesLoaded);
   loaded: boolean = true;
+
+  public formGroup = this.fb.group({
+    Id: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    EmployeeID: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    Employee: new FormControl(
+      { value: '', disabled: false },
+      Validators.required
+    ),
+    TerritoryID: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    Territory: new FormControl(
+      { value: '', disabled: false },
+      Validators.required
+    )
+  });
 
   fnButtons$: FunctionButtons[] = [
     {
@@ -70,7 +109,7 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
       toolTipMessage: 'Save current record',
       color: MaterialColor.Basic,
       icon: 'save',
-      disabled: false,
+      disabled: this.formGroup.status !== 'VALID',
       command: () => this.saveData()
     },
     {
@@ -87,9 +126,11 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
-    private store: Store<EmployeeTerritoriesState>
+    public override lookupService: LookupService,
+    private store: Store<EmployeeTerritoriesState>,
+    private fb: FormBuilder
   ) {
-    super(_snackBar, dialog);
+    super(_snackBar, dialog, lookupService);
   }
 
   override ngOnInit(): void {
@@ -99,7 +140,14 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
       this.loaded = isloaded;
     });
 
-    this.loadData();
+    of(null)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(initEmployeeTerritoriesTerritories());
+          this.store.dispatch(initEmployeeTerritoriesEmployees());
+        })
+      )
+      .subscribe(() => this.loadData());
   }
 
   override ngAfterViewInit(): void {
@@ -124,8 +172,11 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
 
       // Insert
       this.employeeTerritoryModel = {
+        Id: '0',
         EmployeeID: '',
-        TerritoryID: ''
+        LU_Employee: '',
+        TerritoryID: '',
+        LU_Territory: ''
       };
 
       this.store.dispatch(
@@ -138,6 +189,13 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
     this.employeeTerritory$.subscribe(
       (employeeTerritory: EmployeeTerritoryLoaderDto) => {
         this.employeeTerritoryModel = { ...employeeTerritory };
+
+        this.formGroup.patchValue({
+          EmployeeID: this.employeeTerritoryModel.EmployeeID,
+          Employee: this.employeeTerritoryModel.LU_Employee,
+          TerritoryID: this.employeeTerritoryModel.TerritoryID,
+          Territory: this.employeeTerritoryModel.LU_Territory
+        });
       }
     );
   }
@@ -177,7 +235,59 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
     }
   }
 
-  public formStatus(frm: NgForm): void {
-    console.log('Form is valid: ' + frm.valid);
+  public onFormChange(frm: FormGroupDirective): void {
+    const btn = this.fnButtons$.find((btn) => btn.id === 'save');
+    if (btn) btn.disabled = !(frm.form.status === 'VALID');
   }
+
+  private lookupValidation(isValid: boolean): void {
+    const btn = this.fnButtons$.find((btn) => btn.id === 'save');
+    if (btn) btn.disabled = !isValid;
+  }
+
+  public employeesLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const data = {
+      isDialog: true,
+      employees: this.employees$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, EmployeeBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.employeeTerritoryModel.EmployeeID = result.EmployeeID;
+          this.employeeTerritoryModel.LU_Employee = `${result.LastName} ${result.FirstName}`;
+        }
+        this.lookupValidation(this.formGroup.valid);
+      });
+  };
+
+  public territoriesLookup = (args: any): void => {
+    if (!args) args = null;
+
+    const data = {
+      isDialog: true,
+      territories: this.territories$,
+      isLoaded: this.isLoaded$,
+      error: this.error$
+    };
+
+    this.lookupService
+      .openLookup(args, TerritoryBrowserComponent, data)
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.employeeTerritoryModel.TerritoryID =
+            result.TerritoryID;
+          this.employeeTerritoryModel.LU_Territory =
+            result.TerritoryDescription;
+        }
+        this.lookupValidation(this.formGroup.valid);
+      });
+  };
 }

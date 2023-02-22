@@ -1,9 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
 import {
+  EmployeeLoaderDto,
   EmployeeTerritoryBrowserDto,
-  EmployeeTerritoryLoaderDto
+  EmployeeTerritoryLoaderDto,
+  TerritoryBrowserDto
 } from '@nx-northwind/nx-northwind-app/entities';
+
+// *********** INIT EMPLOYEES *************************************//
+export const initEmployeeTerritoriesEmployees = createAction(
+  '[Employee-Territories Employees Page] Init'
+);
+
+export const loadEmployeeTerritoriesEmployeesSuccess = createAction(
+  '[Employee-Territories Employees/API] Load Employees Success',
+  props<{ employees: EmployeeLoaderDto[] }>()
+);
+
+export const loadEmployeeTerritoriesEmployeesFailure = createAction(
+  '[Employee-Territories Employees/API] Load Employees Failure',
+  props<{ error: any }>()
+);
+
+// *********** INIT TERRITORIES *************************************//
+export const initEmployeeTerritoriesTerritories = createAction(
+  '[Employee-Territories Territories Page] Init'
+);
+
+export const loadEmployeeTerritoriesTerritoriesSuccess = createAction(
+  '[Employee-Territories Territories/API] Load Territories Success',
+  props<{ territories: TerritoryBrowserDto[] }>()
+);
+
+export const loadEmployeeTerritoriesTerritoriesFailure = createAction(
+  '[Employee-Territories Territories/API] Load Territories Failure',
+  props<{ error: any }>()
+);
 
 // *********** INIT EMPLOYEE TERRITORIES *************************************//
 export const initEmployeeTerritories = createAction(
