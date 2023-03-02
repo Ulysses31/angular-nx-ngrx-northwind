@@ -5,54 +5,57 @@
   [fnButtons]="fnButtons$"
   [isLoaded]="loaded">
   <form
+    #TerritoryRegionForm
     #frm="ngForm"
-    (change)="formStatus(frm)"
+    [formGroup]="formGroup"
+    (change)="onFormChange(frm)"
     class="mat-elevation-z4">
     <div class="formContainer" *ngIf="territoryModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="territoryID"
-        name="territoryID"
+        id="TerritoryID"
+        name="TerritoryID"
+        formControlName="TerritoryID"
         [isClosable]="false"
-        [label]="'Territory ID'"
+        [label]="'TerritoryID'"
         [placeHolder]="'Enter the territory id'"
         [(ngModel)]="territoryModel.TerritoryID"
-        [disabled]="false"
-        [required]="true"
-      >
+        [disabled]="true"
+        [required]="true">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="territoryDescription"
-        name="territoryDescription"
+        id="TerritoryDescription"
+        name="TerritoryDescription"
+        formControlName="TerritoryDescription"
         [isClosable]="false"
-        [label]="'Territory Description'"
+        [label]="'TerritoryDescription'"
         [placeHolder]="'Enter the territory description'"
         [(ngModel)]="territoryModel.TerritoryDescription"
         [disabled]="false"
-        [required]="true"
-        maxlength="50">
-      </nx-northwind-mt-input-text>
-      <nx-northwind-mt-input-text
-        class="mat-form-field"
-        id="regionID"
-        name="regionID"
-        [isClosable]="false"
-        [label]="'RegionID'"
-        [placeHolder]="'Enter the region id'"
-        [(ngModel)]="territoryModel.RegionID"
-        [disabled]="false"
         [required]="true">
       </nx-northwind-mt-input-text>
+
+      <nx-northwind-mt-lookup
+        class="mat-form-field"
+        id="Region"
+        formControlName="Region"
+        [(ngModel)]="territoryModel.LU_Region"
+        [label]="'Region'"
+        [placeHolder]="'Enter Region'"
+        [disabled]="false"
+        [required]="true"
+        [command]="regionsLookup">
+      </nx-northwind-mt-lookup>
     </div>
 
-    <div
-      class="formContainer"
-      *ngIf="territoryModel.Id !== '0'">
+    <div class="formContainer" *ngIf="territoryModel.Id !== '0'">
       <nx-northwind-mt-input-text
         class="mat-form-field"
         id="createdBy"
         name="createdBy"
+        formControlName="CreatedBy"
         [isClosable]="false"
         [label]="'Created By'"
         [placeHolder]="'Created By'"
@@ -64,15 +67,18 @@
         class="mat-form-field"
         id="createdAt"
         name="createdAt"
+        formControlName="CreatedAt"
         [label]="'Created At'"
         [placeHolder]="'Created At'"
         [(ngModel)]="territoryModel.CreatedAt"
-        [disabled]="true"></nx-northwind-mt-input-date>
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
 
       <nx-northwind-mt-input-date
         class="mat-form-field"
         id="updatedAt"
         name="updatedAt"
+        formControlName="UpdatedAt"
         [label]="'Updated At'"
         [placeHolder]="'Updated At'"
         [(ngModel)]="territoryModel.UpdatedAt"

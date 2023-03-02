@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
 import {
+  RegionBrowserDto,
   TerritoryBrowserDto,
   TerritoryLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
@@ -12,6 +13,7 @@ export const TERRITORIES_FEATURE_KEY = 'territories';
 export interface TerritoriesState {
   territories: TerritoryBrowserDto[];
   territory: TerritoryLoaderDto | any;
+  regions: RegionBrowserDto[];
   loaded: boolean;
   error?: string | null;
 }
@@ -19,12 +21,37 @@ export interface TerritoriesState {
 export const initialTerritoriesState: TerritoriesState = {
   territories: [],
   territory: {},
+  regions: [],
   loaded: false,
   error: null
 };
 
 const reducer = createReducer(
   initialTerritoriesState,
+  // *********** SELECTED REGION ****************************//
+  on(TerritoriesActions.initTerritoryRegions, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    TerritoriesActions.loadTerritoryRegionsSuccess,
+    (state, { regions }) => ({
+      ...state,
+      regions,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    TerritoriesActions.loadTerritoryRegionsFailure,
+    (state, { error }) => ({
+      ...state,
+      regions: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** INIT TERRITORIES ******************************//
   on(TerritoriesActions.initTerritories, (state) => ({
     ...state,

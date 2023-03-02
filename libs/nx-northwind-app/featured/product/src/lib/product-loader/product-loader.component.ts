@@ -13,7 +13,10 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { MaterialColor } from '@nx-northwind/nx-material-ui';
+import {
+  MaterialColor,
+  MtToggleButtonGroup
+} from '@nx-northwind/nx-material-ui';
 import { ProductLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 import { CategoryBrowserComponent } from '@nx-northwind/nx-northwind-app/featured/category';
 import {
@@ -53,6 +56,19 @@ export class ProductLoaderComponent extends BaseLoaderComponent {
   error$ = this.store.select(selectProductsError);
   isLoaded$ = this.store.select(selectProductsLoaded);
   loaded: boolean = true;
+
+  public boolButtons: MtToggleButtonGroup[] = [
+    {
+      id: '0',
+      label: 'Νο',
+      value: '0'
+    },
+    {
+      id: '1',
+      label: 'Yes',
+      value: '1'
+    }
+  ];
 
   public formGroup = this.fb.group({
     Id: new FormControl(
@@ -223,7 +239,7 @@ export class ProductLoaderComponent extends BaseLoaderComponent {
         UnitsInStock: 0,
         UnitsOnOrder: 0,
         ReorderLevel: '',
-        Discontinued: false
+        Discontinued: 0
       };
 
       this.store.dispatch(
@@ -255,8 +271,7 @@ export class ProductLoaderComponent extends BaseLoaderComponent {
           this.productModel.UnitsOnOrder?.toString()
         ).toFixed(2),
         ReorderLevel: this.productModel.ReorderLevel,
-        Discontinued:
-          this.productModel.Discontinued === true ? '1' : '0'
+        Discontinued: this.productModel.Discontinued?.toString()
       });
     });
   }

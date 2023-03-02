@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { TerritoryService } from '@nx-northwind/nx-northwind-app/services';
+import {
+  RegionService,
+  TerritoryService
+} from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,10 +16,46 @@ import { TerritoriesState } from './territories.reducer';
 export class TerritoriesEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(TerritoryService);
+  private regionsService = inject(RegionService);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  // ******** INIT REGIONS *************************************//
+  initTerritoryRegions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TerritoriesActions.initTerritoryRegions),
+      switchMap(() =>
+        this.regionsService.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: TerritoriesState) => {
+            // data.regions.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
+            return data;
+          }),
+          map((data: TerritoriesState) =>
+            TerritoriesActions.loadTerritoryRegionsSuccess({
+              regions: data.regions
+            })
+          ),
+          catchError((error) =>
+            of(
+              TerritoriesActions.loadTerritoryRegionsFailure({
+                error
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
   // ******** INIT TERRITORIES *************************************//
   initTerritories$ = createEffect(() =>
@@ -120,7 +159,7 @@ export class TerritoriesEffects {
             tap((data: any) => console.log(data)),
             map((data: TerritoriesState) =>
               TerritoriesActions.putTerritorySuccess({
-                territory: data.territory.body
+                territory: data.territory
               })
             ),
             catchError((error) =>

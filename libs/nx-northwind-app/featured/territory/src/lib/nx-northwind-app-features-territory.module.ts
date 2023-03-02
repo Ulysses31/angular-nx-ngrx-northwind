@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,6 +17,7 @@ import { TerritoryLoaderComponent } from './territory-loader/territory-loader.co
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NxNorthwindAppFeaturedSharedModule,
     NxMaterialUiModule,
     RouterModule.forChild(nxNorthwindAppFeaturesTerritoryRoutes),

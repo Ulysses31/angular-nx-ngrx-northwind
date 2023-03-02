@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleAppearance } from '@angular/material/button-toggle';
+import { noop } from 'rxjs';
 import { MtToggleButtonGroup } from '../interfaces/toggle-btn-group.interface';
 
 @Component({
@@ -8,8 +11,12 @@ import { MtToggleButtonGroup } from '../interfaces/toggle-btn-group.interface';
   template: `
     <mat-button-toggle-group
       #group="matButtonToggleGroup"
+      name="fontStyle"
+      aria-label="Font Style"
       [multiple]="multiple"
-      [appearance]="appearance">
+      [appearance]="appearance"
+      [(ngModel)]="value"
+    >
       <mat-button-toggle
         *ngFor="let btn of toggleBtns"
         [value]="btn.value">
@@ -19,12 +26,23 @@ import { MtToggleButtonGroup } from '../interfaces/toggle-btn-group.interface';
     </mat-button-toggle-group>
     <!-- Selected: {{group.value}} -->
   `,
-  styleUrls: ['./mt-button-toggle.component.scss']
+  styleUrls: ['./mt-button-toggle.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MtButtonToggleComponent),
+      multi: true
+    }
+  ]
 })
 export class MtButtonToggleComponent implements OnInit {
   @Input() toggleBtns: MtToggleButtonGroup[] = [];
   @Input() multiple: boolean = false;
   @Input() appearance: MatButtonToggleAppearance = 'standard';
+
+  private innerValue: any = '';
+  private onTouchedCallback: () => void = noop;
+  private onChangeCallback: (_: any) => void = noop;
 
   constructor() {
     console.log('nx-northwind-mt-button-toggle constructor...');
@@ -58,5 +76,34 @@ export class MtButtonToggleComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('nx-northwind-mt-button-toggle OnInit...');
+  }
+
+  get value(): any {
+    return this.innerValue;
+  }
+
+  set value(val: any) {
+    if (val !== this.innerValue) {
+      this.innerValue = val;
+      this.onChangeCallback(val);
+    }
+  }
+
+  onBlur(): void {
+    this.onTouchedCallback();
+  }
+
+  writeValue(value: any): void {
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouchedCallback = fn;
   }
 }

@@ -12,5 +12,5 @@ export interface ProductLoaderDto extends BaseDto {
   UnitsInStock: number;
   UnitsOnOrder: number;
   ReorderLevel?: null | string;
-  Discontinued: boolean;
+  Discontinued: number;
 }

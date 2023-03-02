@@ -103,7 +103,6 @@ export class MtDrawerComponent implements OnInit, OnDestroy {
 
   private parseCurrentUrl(): void {
     const url: string = this.router.url;
-    console.log(url);
     this.clearMenuItems();
     const data: MtSidebarMenuItem = this.sidebarMenuItems.find(
       (x: MtSidebarMenuItem) => {

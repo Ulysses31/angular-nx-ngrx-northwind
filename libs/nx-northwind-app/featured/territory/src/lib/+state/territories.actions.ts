@@ -1,9 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
 import {
+  RegionBrowserDto,
   TerritoryBrowserDto,
   TerritoryLoaderDto
 } from '@nx-northwind/nx-northwind-app/entities';
+
+// *********** INIT REGIONS *************************************//
+export const initTerritoryRegions = createAction(
+  '[Territory Regions Page] Init'
+);
+
+export const loadTerritoryRegionsSuccess = createAction(
+  '[Territory Regions/API] Load Territory Regions Success',
+  props<{ regions: RegionBrowserDto[] }>()
+);
+
+export const loadTerritoryRegionsFailure = createAction(
+  '[Territory Regions/API] Load Territory Regions Failure',
+  props<{ error: any }>()
+);
 
 // *********** INIT TERRITORIES *************************************//
 export const initTerritories = createAction(

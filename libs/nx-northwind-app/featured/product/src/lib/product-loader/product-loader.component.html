@@ -129,18 +129,16 @@
         [disabled]="false">
       </nx-northwind-mt-input-text>
 
-      <nx-northwind-mt-input-text
+      &nbsp;Discontinued:
+      <nx-northwind-mt-button-toggle
         class="mat-form-field"
         id="Discontinued"
         name="Discontinued"
         formControlName="Discontinued"
-        [isClosable]="false"
-        [label]="'Discontinued'"
-        [placeHolder]="'Enter if discontinued'"
         [(ngModel)]="productModel.Discontinued"
-        [required]="true"
+        [toggleBtns]="boolButtons"
         [disabled]="false">
-      </nx-northwind-mt-input-text>
+      </nx-northwind-mt-button-toggle>
     </div>
 
     <div class="formContainer" *ngIf="productModel.ProductID !== '0'">

@@ -1,5 +1,5 @@
 export interface MtToggleButtonGroup {
-  id?: null | string;
+  id: string;
   label: string;
   icon?: null | string;
   value?: null | string;

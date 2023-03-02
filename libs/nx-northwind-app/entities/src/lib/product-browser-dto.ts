@@ -8,5 +8,5 @@ export interface ProductBrowserDto {
   UnitsInStock?: number;
   UnitsOnOrder?: number;
   ReorderLevel?: null | string;
-  Discontinued: boolean;
+  Discontinued: number;
 }

@@ -25,7 +25,7 @@ export const initialRegionsState: RegionsState = {
 
 const reducer = createReducer(
   initialRegionsState,
-  // *********** INIT CATEGORIES ******************************//
+  // *********** INIT REGIONS ******************************//
   on(RegionsActions.initRegions, (state) => ({
     ...state,
     region: {},
@@ -46,7 +46,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** SELECTED CATEGORY ****************************//
+  // *********** SELECTED REGION ****************************//
   on(RegionsActions.initRegion, (state) => ({
     ...state,
     loaded: false,
@@ -64,7 +64,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** POST CATEGORY *******************************//
+  // *********** POST REGION *******************************//
   on(RegionsActions.postRegion, (state, { newRegion }) => ({
     ...state,
     region: newRegion,
@@ -82,7 +82,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** PUT CATEGORY *******************************//
+  // *********** PUT REGION *******************************//
   on(RegionsActions.putRegion, (state, { putRegion }) => ({
     ...state,
     region: putRegion,
@@ -100,7 +100,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** DELETE CATEGORY ****************************//
+  // *********** DELETE REGION ****************************//
   on(RegionsActions.deleteRegion, (state, { delRegion }) => ({
     ...state,
     region: delRegion,

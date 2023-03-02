@@ -35,6 +35,13 @@ export const selectTerritory = createSelector(
   }
 );
 
+export const selectTerritoryRegions = createSelector(
+  selectTerritoriesState,
+  (state: TerritoriesState) => {
+    return state.regions;
+  }
+);
+
 // export const selectSelectedTerritory = createSelector(
 //   selectAllTerritories,
 //   selectSelectedId,
