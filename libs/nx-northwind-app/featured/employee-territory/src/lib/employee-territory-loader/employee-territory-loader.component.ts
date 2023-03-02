@@ -73,6 +73,17 @@ export class EmployeeTerritoryLoaderComponent extends BaseLoaderComponent {
     Territory: new FormControl(
       { value: '', disabled: false },
       Validators.required
+    ),
+    CreatedBy: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    CreatedAt: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
+    UpdatedAt: new FormControl(
+      { value: '', disabled: true }
     )
   });
 

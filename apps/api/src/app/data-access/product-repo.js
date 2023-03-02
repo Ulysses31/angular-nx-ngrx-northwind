@@ -57,20 +57,22 @@ class Product {
   load(id, result) {
     const query = `
 		select
-      ProductID,
-      ProductName,
-      SupplierID,
-      CategoryID,
-      QuantityPerUnit,
-      UnitPrice,
-      UnitsInStock,
-      UnitsOnOrder,
-      ReorderLevel,
-      Discontinued,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from products where ProductID = ${id}
+      p.ProductID,
+      p.ProductName,
+      p.SupplierID,
+      (SELECT companyName FROM suppliers s WHERE s.ID = p.SupplierID) AS LU_Supplier,
+      p.CategoryID,
+      (SELECT categoryName FROM categories c WHERE c.categoryID = p.CategoryID) AS LU_Category,
+      p.QuantityPerUnit,
+      p.UnitPrice,
+      p.UnitsInStock,
+      p.UnitsOnOrder,
+      p.ReorderLevel,
+      p.Discontinued,
+      p.CreatedBy,
+      p.CreatedAt,
+      p.UpdatedAt
+		from products p where p.ProductID = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {

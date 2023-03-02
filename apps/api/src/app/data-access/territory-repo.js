@@ -38,13 +38,14 @@ class Territory {
   load(id, result) {
     const query = `
 		select
-      TerritoryID,
-      TerritoryDescription,
-      RegionID,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from territories where TerritoryID = ${id}
+      t.TerritoryID,
+      t.TerritoryDescription,
+      t.RegionID,
+      (SELECT RegionDescription FROM region r WHERE r.RegionID = t.RegionID) AS LU_Region,
+      t.CreatedBy,
+      t.CreatedAt,
+      t.UpdatedAt
+		from territories t where t.TerritoryID = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {

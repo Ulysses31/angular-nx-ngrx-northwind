@@ -1,9 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAction, props } from '@ngrx/store';
 import {
+  CategoryBrowserDto,
   ProductBrowserDto,
-  ProductLoaderDto
+  ProductLoaderDto,
+  SupplierBrowserDto
 } from '@nx-northwind/nx-northwind-app/entities';
+
+// *********** INIT SUPPLIERS *************************************//
+export const initProductSuppliers = createAction(
+  '[Product Suppliers Page] Init'
+);
+
+export const loadProductSuppliersSuccess = createAction(
+  '[Product Suppliers/API] Load Product Suppliers Success',
+  props<{ suppliers: SupplierBrowserDto[] }>()
+);
+
+export const loadProductSuppliersFailure = createAction(
+  '[Product Suppliers/API] Load Product Suppliers Failure',
+  props<{ error: any }>()
+);
+
+// *********** INIT CATEGORIES *************************************//
+export const initProductCategories = createAction(
+  '[Product Categories Page] Init'
+);
+
+export const loadProductCategoriesSuccess = createAction(
+  '[Product Categories/API] Load Product Categories Success',
+  props<{ categories: CategoryBrowserDto[] }>()
+);
+
+export const loadProductCategoriesFailure = createAction(
+  '[Product Categories/API] Load Product Categories Failure',
+  props<{ error: any }>()
+);
 
 // *********** INIT PRODUCTS *************************************//
 export const initProducts = createAction('[Products Page] Init');

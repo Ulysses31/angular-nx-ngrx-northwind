@@ -35,6 +35,20 @@ export const selectProduct = createSelector(
   }
 );
 
+export const selectProductSuppliers = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.suppliers;
+  }
+);
+
+export const selectProductCategories = createSelector(
+  selectProductsState,
+  (state: ProductsState) => {
+    return state.categories;
+  }
+);
+
 // export const selectSelectedProduct = createSelector(
 //   selectAllProducts,
 //   selectSelectedId,

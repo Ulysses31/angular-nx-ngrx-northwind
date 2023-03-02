@@ -103,10 +103,15 @@ export class MtDrawerComponent implements OnInit, OnDestroy {
 
   private parseCurrentUrl(): void {
     const url: string = this.router.url;
+    console.log(url);
     this.clearMenuItems();
     const data: MtSidebarMenuItem = this.sidebarMenuItems.find(
-      (x: MtSidebarMenuItem) =>
-        '/' + x.text?.toLocaleLowerCase() === url.toLocaleLowerCase()
+      (x: MtSidebarMenuItem) => {
+        return (
+          '/' + x.text?.toLocaleLowerCase() ===
+          url.toLocaleLowerCase()
+        );
+      }
     ) as MtSidebarMenuItem;
     if (data) data.active = true;
   }

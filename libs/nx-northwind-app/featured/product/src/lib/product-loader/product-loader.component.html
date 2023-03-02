@@ -5,125 +5,141 @@
   [fnButtons]="fnButtons$"
   [isLoaded]="loaded">
   <form
+    #EmployeeProductForm
     #frm="ngForm"
-    (change)="formStatus(frm)"
+    [formGroup]="formGroup"
+    (change)="onFormChange(frm)"
     class="mat-elevation-z4">
     <div class="formContainer" *ngIf="productModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="productID"
-        name="productID"
+        id="ProductID"
+        name="ProductID"
+        formControlName="ProductID"
         [isClosable]="false"
-        [label]="'Product ID'"
+        [label]="'ProductID'"
         [placeHolder]="'Enter the product id'"
         [(ngModel)]="productModel.ProductID"
         [disabled]="true">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="productName"
-        name="productName"
+        id="ProductName"
+        name="ProductName"
+        formControlName="ProductName"
         [isClosable]="false"
-        [label]="'Product Name'"
+        [label]="'ProductName'"
         [placeHolder]="'Enter the product name'"
         [(ngModel)]="productModel.ProductName"
-        [disabled]="false"
         [required]="true"
-        maxlength="40">
+        [disabled]="false">
       </nx-northwind-mt-input-text>
-      <nx-northwind-mt-input-text
+
+      <nx-northwind-mt-lookup
         class="mat-form-field"
-        id="supplierID"
-        name="supplierID"
-        [isClosable]="false"
-        [label]="'Supplier ID'"
-        [placeHolder]="'Enter the supplier id'"
-        [(ngModel)]="productModel.SupplierID"
+        id="Supplier"
+        formControlName="Supplier"
+        [(ngModel)]="productModel.LU_Supplier"
+        [label]="'Supplier'"
+        [placeHolder]="'Enter Supplier'"
         [disabled]="false"
-        [required]="false">
-      </nx-northwind-mt-input-text>
-      <nx-northwind-mt-input-text
+        [required]="false"
+        [command]="suppliersLookup">
+      </nx-northwind-mt-lookup>
+
+      <nx-northwind-mt-lookup
         class="mat-form-field"
-        id="categoryID"
-        name="categoryID"
-        [isClosable]="false"
-        [label]="'Category ID'"
-        [placeHolder]="'Enter the category id'"
-        [(ngModel)]="productModel.CategoryID"
+        id="Category"
+        formControlName="Category"
+        [(ngModel)]="productModel.LU_Category"
+        [label]="'Category'"
+        [placeHolder]="'Enter Category'"
         [disabled]="false"
-        [required]="false">
-      </nx-northwind-mt-input-text>
+        [required]="false"
+        [command]="categoriesLookup">
+      </nx-northwind-mt-lookup>
     </div>
 
     <div class="formContainer" *ngIf="productModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="quantityPerUnit"
-        name="quantityPerUnit"
+        id="QuantityPerUnit"
+        name="QuantityPerUnit"
+        formControlName="QuantityPerUnit"
         [isClosable]="false"
-        [label]="'Quantity Per Unit'"
-        [placeHolder]="'Enter the quantity per unit'"
+        [label]="'QuantityPerUnit'"
+        [placeHolder]="'Enter the quantit per unit'"
         [(ngModel)]="productModel.QuantityPerUnit"
-        [disabled]="false"
-        maxlength="20">
+        [required]="false"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="unitPrice"
-        name="unitPrice"
+        id="UnitPrice"
+        name="UnitPrice"
+        formControlName="UnitPrice"
         [isClosable]="false"
-        [label]="'Unit Price'"
+        [label]="'UnitPrice'"
         [placeHolder]="'Enter the unit price'"
         [(ngModel)]="productModel.UnitPrice"
-        [disabled]="false"
-        [required]="false">
+        [required]="false"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="unitsInStock"
-        name="unitsInStock"
+        id="UnitsInStock"
+        name="UnitsInStock"
+        formControlName="UnitsInStock"
         [isClosable]="false"
-        [label]="'Units In Stock'"
+        [label]="'UnitsInStock'"
         [placeHolder]="'Enter the units in stock'"
         [(ngModel)]="productModel.UnitsInStock"
-        [disabled]="false"
-        [required]="false">
+        [required]="false"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="unitsOnOrder"
-        name="unitsOnOrder"
+        id="UnitsOnOrder"
+        name="UnitsOnOrder"
+        formControlName="UnitsOnOrder"
         [isClosable]="false"
-        [label]="'Units On Order'"
+        [label]="'UnitsOnOrder'"
         [placeHolder]="'Enter the units on order'"
         [(ngModel)]="productModel.UnitsOnOrder"
-        [disabled]="false"
-        [required]="false">
+        [required]="false"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
     </div>
 
     <div class="formContainer" *ngIf="productModel">
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="reorderLevel"
-        name="reorderLevel"
+        id="ReorderLevel"
+        name="ReorderLevel"
+        formControlName="ReorderLevel"
         [isClosable]="false"
-        [label]="'Reorder Level'"
+        [label]="'ReorderLevel'"
         [placeHolder]="'Enter the reorder level'"
         [(ngModel)]="productModel.ReorderLevel"
-        [disabled]="false"
-        [required]="false">
+        [required]="false"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
+
       <nx-northwind-mt-input-text
         class="mat-form-field"
-        id="discontinued"
-        name="discontinued"
+        id="Discontinued"
+        name="Discontinued"
+        formControlName="Discontinued"
         [isClosable]="false"
         [label]="'Discontinued'"
-        [placeHolder]="'Enter the discontinued state'"
+        [placeHolder]="'Enter if discontinued'"
         [(ngModel)]="productModel.Discontinued"
-        [disabled]="false"
-        [required]="true">
+        [required]="true"
+        [disabled]="false">
       </nx-northwind-mt-input-text>
     </div>
 
@@ -132,6 +148,7 @@
         class="mat-form-field"
         id="createdBy"
         name="createdBy"
+        formControlName="CreatedBy"
         [isClosable]="false"
         [label]="'Created By'"
         [placeHolder]="'Created By'"
@@ -143,15 +160,18 @@
         class="mat-form-field"
         id="createdAt"
         name="createdAt"
+        formControlName="CreatedAt"
         [label]="'Created At'"
         [placeHolder]="'Created At'"
         [(ngModel)]="productModel.CreatedAt"
-        [disabled]="true"></nx-northwind-mt-input-date>
+        [disabled]="true">
+      </nx-northwind-mt-input-date>
 
       <nx-northwind-mt-input-date
         class="mat-form-field"
         id="updatedAt"
         name="updatedAt"
+        formControlName="UpdatedAt"
         [label]="'Updated At'"
         [placeHolder]="'Updated At'"
         [(ngModel)]="productModel.UpdatedAt"

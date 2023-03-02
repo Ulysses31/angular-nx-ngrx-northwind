@@ -24,22 +24,22 @@ class Supplier {
   browse(result) {
     const query = `
 		select
-      Id,
-      CompanyName,
-      ContactName,
-      ContactTitle,
-      Address,
-      City,
-      Region,
-      PostalCode,
-      Country,
-      Phone,
-      Fax,
-      HomePage
-      #CreatedBy,
-      #CreatedAt,
-      #UpdatedAt
-		from suppliers
+      s.Id,
+      s.CompanyName,
+      #s.ContactName,
+      #s.ContactTitle,
+      s.Country,
+      s.City,
+      s.Region
+      #s.Address,
+      #s.PostalCode
+      #s.Phone
+      #s.Fax,
+      #s.HomePage
+      #s.CreatedBy,
+      #s.CreatedAt,
+      #s.UpdatedAt
+		from suppliers s
 	`;
     sql.query(query, (err, res) => {
       if (err) {
@@ -55,22 +55,22 @@ class Supplier {
   load(id, result) {
     const query = `
 		select
-      Id,
-      CompanyName,
-      ContactName,
-      ContactTitle,
-      Address,
-      City,
-      Region,
-      PostalCode,
-      Country,
-      Phone,
-      Fax,
-      HomePage,
-      CreatedBy,
-      CreatedAt,
-      UpdatedAt
-		from suppliers where Id = ${id}
+      s.Id,
+      s.CompanyName,
+      s.ContactName,
+      s.ContactTitle,
+      s.Address,
+      s.City,
+      s.Region,
+      s.PostalCode,
+      s.Country,
+      s.Phone,
+      s.Fax,
+      s.HomePage,
+      s.CreatedBy,
+      s.CreatedAt,
+      s.UpdatedAt
+		from suppliers s where s.Id = ${id}
 	`;
     sql.query(query, (err, res) => {
       if (err) {

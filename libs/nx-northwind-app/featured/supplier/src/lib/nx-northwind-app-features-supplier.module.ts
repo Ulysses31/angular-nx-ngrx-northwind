@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,6 +31,16 @@ import { SupplierLoaderComponent } from './supplier-loader/supplier-loader.compo
 
     EffectsModule.forFeature([SuppliersEffects])
   ],
-  declarations: [SupplierLoaderComponent, SupplierBrowserComponent]
+  declarations: [SupplierLoaderComponent, SupplierBrowserComponent],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: {}
+    }
+  ]
 })
 export class NxNorthwindAppFeaturesSupplierModule {}

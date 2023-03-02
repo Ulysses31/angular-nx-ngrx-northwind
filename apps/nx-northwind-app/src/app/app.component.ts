@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
       text: 'Dashboard',
       active: false,
       command: () => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/dashboard');
       }
     },
     {

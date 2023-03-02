@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     loadChildren: () =>
       import(
         '@nx-northwind/nx-northwind-app/featured/dashboard'
@@ -93,6 +93,7 @@ const routes: Routes = [
         '@nx-northwind/nx-northwind-app/featured/not-found'
       ).then((m) => m.NxNorthwindAppFeaturesNotFoundModule)
   },
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   { path: '**', redirectTo: 'not-found' }
 ];
 

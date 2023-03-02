@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action, createReducer, on } from '@ngrx/store';
 import {
+  CategoryBrowserDto,
   ProductBrowserDto,
-  ProductLoaderDto
+  ProductLoaderDto,
+  SupplierBrowserDto
 } from '@nx-northwind/nx-northwind-app/entities';
 
 import * as ProductsActions from './products.actions';
@@ -12,6 +14,8 @@ export const PRODUCTS_FEATURE_KEY = 'products';
 export interface ProductsState {
   products: ProductBrowserDto[];
   product: ProductLoaderDto | any;
+  suppliers: SupplierBrowserDto[];
+  categories: CategoryBrowserDto[];
   loaded: boolean;
   error?: string | null;
 }
@@ -19,13 +23,63 @@ export interface ProductsState {
 export const initialProductsState: ProductsState = {
   products: [],
   product: {},
+  suppliers: [],
+  categories: [],
   loaded: false,
   error: null
 };
 
 const reducer = createReducer(
   initialProductsState,
+  // *********** INIT SUPPLIERS ******************************//
+  on(ProductsActions.initProductSuppliers, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    ProductsActions.loadProductSuppliersSuccess,
+    (state, { suppliers }) => ({
+      ...state,
+      suppliers,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    ProductsActions.loadProductSuppliersFailure,
+    (state, { error }) => ({
+      ...state,
+      suppliers: [],
+      loaded: true,
+      error
+    })
+  ),
   // *********** INIT CATEGORIES ******************************//
+  on(ProductsActions.initProductCategories, (state) => ({
+    ...state,
+    loaded: false,
+    error: null
+  })),
+  on(
+    ProductsActions.loadProductCategoriesSuccess,
+    (state, { categories }) => ({
+      ...state,
+      categories,
+      loaded: true,
+      error: null
+    })
+  ),
+  on(
+    ProductsActions.loadProductCategoriesFailure,
+    (state, { error }) => ({
+      ...state,
+      categories: [],
+      loaded: true,
+      error
+    })
+  ),
+  // *********** INIT PRODUCTS ******************************//
   on(ProductsActions.initProducts, (state) => ({
     ...state,
     product: {},
@@ -46,7 +100,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** SELECTED CATEGORY ****************************//
+  // *********** SELECTED PRODUCT ****************************//
   on(ProductsActions.initProduct, (state) => ({
     ...state,
     loaded: false,
@@ -64,7 +118,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** POST CATEGORY *******************************//
+  // *********** POST PRODUCT *******************************//
   on(ProductsActions.postProduct, (state, { newProduct }) => ({
     ...state,
     product: newProduct,
@@ -82,7 +136,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** PUT CATEGORY *******************************//
+  // *********** PUT PRODUCT *******************************//
   on(ProductsActions.putProduct, (state, { putProduct }) => ({
     ...state,
     product: putProduct,
@@ -100,7 +154,7 @@ const reducer = createReducer(
     loaded: true,
     error
   })),
-  // *********** DELETE CATEGORY ****************************//
+  // *********** DELETE PRODUCT ****************************//
   on(ProductsActions.deleteProduct, (state, { delProduct }) => ({
     ...state,
     product: delProduct,

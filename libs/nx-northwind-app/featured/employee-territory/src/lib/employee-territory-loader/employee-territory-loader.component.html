@@ -48,13 +48,14 @@
       </nx-northwind-mt-lookup>
     </div>
 
-    <!-- <div
+    <div
       class="formContainer"
       *ngIf="employeeTerritoryModel.Id !== '0'">
       <nx-northwind-mt-input-text
         class="mat-form-field"
         id="createdBy"
         name="createdBy"
+        formControlName="CreatedBy"
         [isClosable]="false"
         [label]="'Created By'"
         [placeHolder]="'Created By'"
@@ -66,6 +67,7 @@
         class="mat-form-field"
         id="createdAt"
         name="createdAt"
+        formControlName="CreatedAt"
         [label]="'Created At'"
         [placeHolder]="'Created At'"
         [(ngModel)]="employeeTerritoryModel.CreatedAt"
@@ -76,11 +78,12 @@
         class="mat-form-field"
         id="updatedAt"
         name="updatedAt"
+        formControlName="UpdatedAt"
         [label]="'Updated At'"
         [placeHolder]="'Updated At'"
         [(ngModel)]="employeeTerritoryModel.UpdatedAt"
         [disabled]="true">
       </nx-northwind-mt-input-date>
-    </div> -->
+    </div>
   </form>
 </nx-northwind-base-loader>

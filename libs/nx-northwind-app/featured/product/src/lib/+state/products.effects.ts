@@ -1,7 +1,12 @@
+import { ProductLoaderDto } from '@nx-northwind/nx-northwind-app/entities';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ProductService } from '@nx-northwind/nx-northwind-app/services';
+import {
+  CategoryService,
+  ProductService,
+  SupplierService
+} from '@nx-northwind/nx-northwind-app/services';
 import { catchError, map, of, pipe, switchMap, tap } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,10 +18,78 @@ import { ProductsState } from './products.reducer';
 export class ProductsEffects {
   private actions$: Actions = inject(Actions) as any;
   private service = inject(ProductService);
+  private suppliersService = inject(SupplierService);
+  private categoriesService = inject(CategoryService);
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  // ******** INIT SUPPLIERS *************************************//
+  initProductSuppliers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.initProductSuppliers),
+      switchMap(() =>
+        this.suppliersService.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: ProductsState) => {
+            // data.suppliers.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
+            return data;
+          }),
+          map((data: ProductsState) =>
+            ProductsActions.loadProductSuppliersSuccess({
+              suppliers: data.suppliers
+            })
+          ),
+          catchError((error) =>
+            of(ProductsActions.loadProductSuppliersFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  // ******** INIT CATEGORIES *************************************//
+  initProductCategories$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.initProductCategories),
+      switchMap(() =>
+        this.categoriesService.browse().pipe(
+          tap((data: any) => console.log(data)),
+          map((data: ProductsState) => {
+            // data.categories.map((item) => {
+            //   item.CreatedAt = item.CreatedAt
+            //     ? moment(item.CreatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            //   item.UpdatedAt = item.UpdatedAt
+            //     ? moment(item.UpdatedAt).format('DD/MM/YYYY HH:mm')
+            //     : '';
+            // });
+            return data;
+          }),
+          map((data: ProductsState) =>
+            ProductsActions.loadProductCategoriesSuccess({
+              categories: data.categories
+            })
+          ),
+          catchError((error) =>
+            of(
+              ProductsActions.loadProductCategoriesFailure({
+                error
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
   // ******** INIT PRODUCTS *************************************//
   initProducts$ = createEffect(() =>
@@ -58,7 +131,7 @@ export class ProductsEffects {
           tap((data: any) => console.log(data)),
           map((data: ProductsState) =>
             ProductsActions.loadProductSuccess({
-              product: data.products[0]
+              product: data.products[0] as ProductLoaderDto
             })
           ),
           catchError((error) =>

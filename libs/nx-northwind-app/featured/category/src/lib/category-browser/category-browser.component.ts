@@ -2,9 +2,12 @@
 import { Inject } from '@angular/core';
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @angular-eslint/use-lifecycle-interface */
-import { DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { MaterialColor } from '@nx-northwind/nx-material-ui';
@@ -46,7 +49,14 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
   constructor(
     public override _snackBar: MatSnackBar,
     public override dialog: MatDialog,
-
+    public dialogRef: MatDialogRef<CategoryBrowserComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      isDialog: boolean;
+      categories: any;
+      isLoaded: any;
+      error: any;
+    },
     private store: Store<CategoriesState>
   ) {
     super(_snackBar, dialog);
@@ -55,6 +65,12 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
 
   override ngOnInit(): void {
     console.log('ngOnInit Category Browser...');
+
+    if (this.data.isDialog) {
+      this.error$ = this.data.error;
+      this.isLoaded$ = this.data.isLoaded;
+      this.categories$ = this.data.categories;
+    }
 
     this.isLoaded$.subscribe((isloaded: boolean) => {
       this.loaded = isloaded;
@@ -73,55 +89,5 @@ export class CategoryBrowserComponent extends BaseBrowserComponent {
 
   private browseData(): void {
     this.store.dispatch(initCategories());
-  }
-}
-
-@Component({
-  selector: 'nx-northwind-category-browser-dialog',
-  templateUrl: './category-browser.component.html'
-})
-export class CategoryBrowserDialogComponent extends BaseBrowserComponent {
-  categories$ = this.store.select(selectAllCategories);
-  error$ = this.store.select(selectCategoriesError);
-  isLoaded$ = this.store.select(selectCategoriesLoaded);
-  loaded: boolean = true;
-
-  fnButtons$: FunctionButtons[] = [
-    {
-      id: 'refresh',
-      label: 'Refresh',
-      color: MaterialColor.Basic,
-      icon: 'sync',
-      disabled: false,
-      toolTipMessage: 'Refresh browser data',
-      command: () => this.browseData()
-    }
-  ];
-
-  constructor(
-    public override _snackBar: MatSnackBar,
-    public override dialog: MatDialog,
-    public dialogRef: DialogRef,
-    @Inject(MAT_DIALOG_DATA) private data: any,
-    private store: Store<CategoriesState>
-  ) {
-    super(_snackBar, dialog);
-  }
-
-  override ngOnInit() {
-    console.log('CategoryBrowserDialogComponent');
-    console.log(this.data);
-  }
-
-  override ngAfterViewInit(): void {
-    console.log('ngAfterViewInit Category Browser...');
-  }
-
-  override ngOnDestroy(): void {
-    console.log('ngOnDestroy Category Browser...');
-  }
-
-  private browseData(): void {
-    // this.store.dispatch(initCategories());
   }
 }
