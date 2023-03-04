@@ -19,6 +19,7 @@ import {
   MtTableComponent,
   ProgrBarMode
 } from '@nx-northwind/nx-material-ui';
+import { PdfService } from '@nx-northwind/nx-northwind-app/services';
 import { Observable } from 'rxjs';
 import { FunctionButtons } from '../interfaces/function-buttons.interface';
 
@@ -49,6 +50,7 @@ export class BaseBrowserComponent
 
   private router = inject(Router);
   private elRef = inject(ElementRef);
+  private pdfService = inject(PdfService);
   public selectedItem: string = '';
   public isModelVisible?: boolean = false;
 
@@ -103,6 +105,39 @@ export class BaseBrowserComponent
   private initFunctionButtons(): void {
     if (!this.isDialogActive) {
       this.fnButtons.unshift(
+        {
+          id: 'print',
+          label: 'Print',
+          toolTipMessage: 'Print to printer',
+          disabled: false,
+          icon: 'print',
+          color: MaterialColor.Basic,
+          command: () => {
+            print();
+          }
+        },
+        {
+          id: 'pdf',
+          label: 'Pdf',
+          toolTipMessage: 'Print to pdf',
+          disabled: false,
+          icon: 'picture_as_pdf',
+          color: MaterialColor.Basic,
+          command: () => {
+            const pdfData = {
+              pdfTitle: this.router.url
+                .replace('/', '')
+                .toUpperCase(),
+              pdfHeaders: Object.getOwnPropertyNames(
+                this.modelData[0]
+              ),
+              pdfModel: this.modelData
+            };
+
+            this.pdfService.pdfWindow(pdfData);
+            //this.pdfService.pdfFile(pdfData);
+          }
+        },
         {
           id: 'new',
           label: 'New',

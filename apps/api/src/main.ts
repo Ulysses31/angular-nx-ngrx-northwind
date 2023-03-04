@@ -20,6 +20,7 @@ import shipperRouter from './app/routes/shipper-route';
 import supplierRouter from './app/routes/supplier-route';
 import territoryRouter from './app/routes/territory-route';
 import userRouter from './app/routes/user-route';
+import pdfRouter from './app/routes/pdf-route';
 import * as cors from 'cors';
 
 // import * as mysql from 'mysql';
@@ -114,6 +115,7 @@ app.use('/shipper', shipperRouter);
 app.use('/supplier', supplierRouter);
 app.use('/territory', territoryRouter);
 app.use('/user', userRouter);
+app.use('/pdf', pdfRouter);
 
 const options = {
   definition: {
@@ -144,6 +146,80 @@ const options = {
     ],
     failOnErrors: true,
     paths: {
+      '/pdf': {
+        post: {
+          tags: ['Pdf'],
+          operationId: 'printToPdf',
+          summary: 'Printing to pdf',
+          description: 'Printing to pdf',
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerYear'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/SalesTotalPerYear'
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid status value',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            },
+            '500': {
+              description: 'Bad server request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                },
+                'application/xml': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ErrorSchema'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          security: [{ Authorization: [] }]
+        }
+      },
       '/dashboard/sales-total-per-year': {
         get: {
           tags: ['Dashboard'],
@@ -5962,6 +6038,14 @@ const options = {
       }
     },
     tags: [
+      {
+        name: 'Pdf',
+        description: 'Everything about printing to pdf',
+        externalDocs: {
+          description: 'Find out more',
+          url: 'http://swagger.io'
+        }
+      },
       {
         name: 'Dashboard',
         description: 'Everything about your Dashboard',
