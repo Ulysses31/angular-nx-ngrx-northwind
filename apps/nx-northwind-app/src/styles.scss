@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 /* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
 /* @import "~@angular/material/prebuilt-themes/pink-bluegrey.css"; */
 /* @import "~@angular/material/prebuilt-themes/purple-green.css"; */
@@ -60,4 +60,31 @@ pre {
 
 .mdc-dialog__surface {
   padding: 15px !important;
+}
+
+@media print {
+  body {
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+    font-size: 12px;
+  }
+
+  .toolbar,
+  button.print-hide,
+  .print-hide,
+  .mat-mdc-paginator.ng-star-inserted,
+  .mdc-checkbox {
+    display: none !important;
+  }
+
+  .mdc-data-table__cell,
+  .mdc-data-table__header-cell {
+    border-bottom-style: none !important;
+  }
+
+  .mat-elevation-z4,
+  .mat-elevation-z8 {
+    box-shadow: none !important;
+  }
 }

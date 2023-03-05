@@ -3,7 +3,8 @@
   (openedChange)="openChanged($event)"
   [opened]="opened">
   <div class="main-content">
-    <nx-northwind-mt-toolbar (isOpen)="openChanged($event)">
+    <nx-northwind-mt-toolbar
+      (isOpen)="openChanged($event)">
       <router-outlet></router-outlet>
     </nx-northwind-mt-toolbar>
   </div>

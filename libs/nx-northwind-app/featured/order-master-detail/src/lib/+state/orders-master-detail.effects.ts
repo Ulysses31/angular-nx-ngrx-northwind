@@ -115,8 +115,6 @@ export class OrdersEffects {
     )
   );
 
-  //-----------------------------------------------------------------------------//
-
   // ******** INIT EMPLOYEES *************************************//
   initOrderDetailEmployees$ = createEffect(() =>
     this.actions$.pipe(
@@ -142,7 +140,6 @@ export class OrdersEffects {
       )
     )
   );
-
   //-----------------------------------------------------------------------------//
 
   // ******** INIT ORDERS *************************************//
@@ -157,9 +154,9 @@ export class OrdersEffects {
               item.OrderDate = item.OrderDate
                 ? moment(item.OrderDate).format('DD/MM/YYYY HH:mm')
                 : '';
-              item.RequiredDate = item.RequiredDate
-                ? moment(item.RequiredDate).format('DD/MM/YYYY HH:mm')
-                : '';
+              //item.RequiredDate = item.RequiredDate
+              //  ? moment(item.RequiredDate).format('DD/MM/YYYY HH:mm')
+              //  : '';
               item.ShippedDate = item.ShippedDate
                 ? moment(item.ShippedDate).format('DD/MM/YYYY HH:mm')
                 : '';

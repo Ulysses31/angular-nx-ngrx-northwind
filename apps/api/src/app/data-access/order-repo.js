@@ -8,7 +8,7 @@ class Order {
       this.CustomerID = order.CustomerID;
       this.EmployeeID = order.EmployeeID;
       this.OrderDate = order.OrderDate;
-      this.RequiredDate = order.RequiredDate;
+      // this.RequiredDate = order.RequiredDate;
       this.ShippedDate = order.ShippedDate;
       this.ShipVia = order.ShipVia;
       this.Freight = order.Freight;
@@ -32,12 +32,12 @@ class Order {
       #o.EmployeeID,
       (select concat(lastname, ' ', firstname) from employees e where e.employeeID = o.employeeID) as Employee,
       o.OrderDate,
-      o.RequiredDate,
+      #o.RequiredDate,
       o.ShippedDate,
       #o.ShipVia,
-      (select companyName from shippers s where s.shipperID = o.shipvia) as Shipper,
+      (select companyName from shippers s where s.shipperID = o.shipvia) as Shipper
       #o.Freight,
-      o.ShipName
+      #o.ShipName
       #o.ShipAddress,
       #o.ShipCity,
       #o.ShipRegion,

@@ -860,6 +860,16 @@ export class OrderMasterDetailLoaderComponent extends BaseMasterDetailLoaderComp
             result.ProductID;
           this.orderDetailModel[orderDetailIndex].LU_Product =
             result.ProductName;
+          this.orderDetailModel[orderDetailIndex].UnitPrice =
+            this.orderDetailModel[orderDetailIndex].UnitPrice === 0 ||
+            this.orderDetailModel[
+              orderDetailIndex
+            ].UnitPrice?.toString() === '0' ||
+            this.orderDetailModel[
+              orderDetailIndex
+            ].UnitPrice?.toString().length === 0
+              ? result.UnitPrice
+              : this.orderDetailModel[orderDetailIndex].UnitPrice;
         }
       });
   };

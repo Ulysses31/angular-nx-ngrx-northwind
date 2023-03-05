@@ -7,15 +7,6 @@ router.post('/', async (req, res) => {
   const result = req.body.data;
 
   var docDefinition = {
-    footer: function (currentPage, pageCount) {
-      return [
-        {
-          text: currentPage.toString() + ' of ' + pageCount,
-          alignment: 'right',
-          style: 'footer'
-        }
-      ];
-    },
     // header: function (currentPage, pageCount, pageSize) {
     //   // you can apply any logic and return any valid pdfmake element
 
@@ -41,6 +32,15 @@ router.post('/', async (req, res) => {
       { text: result.pdfTitle, style: 'header' },
       pdfHelper.addTableData(result.pdfHeaders, result.pdfModel)
     ],
+    footer: function (currentPage, pageCount) {
+      return [
+        {
+          text: currentPage.toString() + ' of ' + pageCount,
+          alignment: 'right',
+          style: 'footer'
+        }
+      ];
+    },
     styles: {
       header: {
         fontSize: 15,

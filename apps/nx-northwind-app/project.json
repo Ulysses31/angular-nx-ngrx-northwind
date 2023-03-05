@@ -19,7 +19,9 @@
           "apps/nx-northwind-app/src/favicon.ico",
           "apps/nx-northwind-app/src/assets"
         ],
-        "styles": ["apps/nx-northwind-app/src/styles.scss"],
+        "styles": [
+          "apps/nx-northwind-app/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

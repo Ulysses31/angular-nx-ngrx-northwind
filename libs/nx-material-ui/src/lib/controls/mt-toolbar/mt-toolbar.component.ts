@@ -8,27 +8,28 @@ import { MtStyleManager } from './mt-toolbar-themes';
   selector: 'nx-northwind-mt-toolbar',
   template: `
     <mat-toolbar [color]="color">
-    <button
-				mat-icon-button
-				class="example-icon"
-        (click)="changeIsOpen()"
-				>
-				<mat-icon>menu</mat-icon>
-			</button>
-      <span>{{ title }}</span>
+      <button
+        mat-icon-button
+        class="example-icon print-hide"
+        (click)="changeIsOpen()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="print-hide">{{ title }}</span>
       <span class="example-spacer"></span>
 
       <button
-				mat-icon-button
-				class="example-icon favorite-icon"
-				aria-label="Settings"
-				[matMenuTriggerFor]="menu">
-				<mat-icon>settings</mat-icon>
-			</button>
+        mat-icon-button
+        class="print-hide example-icon favorite-icon"
+        aria-label="Settings"
+        [matMenuTriggerFor]="menu">
+        <mat-icon>settings</mat-icon>
+      </button>
 
       <!-- Main Settings Menu -->
       <mat-menu #menu="matMenu">
-        <button mat-menu-item [matMenuTriggerFor]="matThemeMenu">
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="matThemeMenu">
           <mat-icon>format_color_fill</mat-icon> Theme
         </button>
       </mat-menu>
@@ -76,7 +77,10 @@ import { MtStyleManager } from './mt-toolbar-themes';
       <!-- Theme -->
 
       <!-- User -->
-      <button mat-icon-button class="example-icon" aria-label="User">
+      <button
+        mat-icon-button
+        class="print-hide example-icon"
+        aria-label="User">
         <mat-icon>person</mat-icon>
       </button>
       <!-- User -->
@@ -144,7 +148,7 @@ export class MtToolbarComponent implements OnInit, OnDestroy {
   }
 
   changeIsOpen(): void {
-  	this.isOpen.emit(true);
+    this.isOpen.emit(true);
   }
 
   setMatStyle(option: number): void {
